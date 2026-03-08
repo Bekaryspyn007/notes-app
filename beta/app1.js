@@ -1,11 +1,12 @@
 /* ═══════════════════════════════════════════════════════
    МОИ ЗАМЕТКИ — app.js
-   Supabase backend + i18n (RU / EN)
+   Supabase backend: auth + real-time notes storage
    ═══════════════════════════════════════════════════════ */
 
-// ── SUPABASE ───────────────────────────────────────────
+// ── SUPABASE CONFIG ────────────────────────────────────
 const SUPABASE_URL  = 'https://rgvxlafkmwbmbhcqvray.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJndnhsYWZrbXdibWJoY3F2cmF5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5NjAwODMsImV4cCI6MjA4ODUzNjA4M30.-J4X8J0tSjGEGXHD4S0n9H7on9A7vyPPuOuupJ2AlE8';
+
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_ANON);
 
@@ -13,237 +14,45 @@ const db = createClient(SUPABASE_URL, SUPABASE_ANON);
 let notes     = [];
 let activeId  = null;
 let saveTimer = null;
-let authMode  = 'login';
-
-// ══════════════════════════════════════════════════════
-// I18N — TRANSLATIONS
-// ══════════════════════════════════════════════════════
-
-const translations = {
-  ru: {
-    appName:          'Мои Заметки',
-    appNameHtml:      'Мои <span>Заметки</span>',
-    login:            'Войти',
-    signup:           'Регистрация',
-    email:            'Email',
-    password:         'Пароль',
-    emailPlaceholder: 'you@example.com',
-    passwordPlaceholder: 'Минимум 6 символов',
-    noAccount:        'Нет аккаунта?',
-    register:         'Зарегистрироваться',
-    haveAccount:      'Уже есть аккаунт?',
-    signIn:           'Войти',
-    createAccount:    'Создать аккаунт',
-    newNote:          'Новая заметка',
-    searchPlaceholder:'Поиск заметок…',
-    loading:          'Загрузка…',
-    today:            'Сегодня',
-    earlier:          'Ранее',
-    emptyTitle:       'Нет открытых заметок',
-    emptyDesc:        'Выберите заметку или создайте новую.',
-    titlePlaceholder: 'Заголовок…',
-    bodyPlaceholder:  'Начните писать…\n\nЭто ваше пространство для мыслей, идей и планов.',
-    addTag:           '+ Тег',
-    addTagTitle:      'Добавить тег',
-    tagPlaceholder:   'Например: работа, личное, идеи…',
-    cancel:           'Отмена',
-    add:              'Добавить',
-    words:            'слов',
-    saved:            '● Сохранено',
-    saving:           '○ Сохранение…',
-    deleted:          'Заметка удалена',
-    errorLoad:        'Ошибка загрузки заметок',
-    errorSave:        'Ошибка сохранения',
-    errorDelete:      'Ошибка удаления',
-    errorCreate:      'Ошибка создания заметки',
-    confirmDelete:    'Удалить эту заметку?',
-    modified:         'Изменено',
-    noResults:        'Ничего не найдено по запросу',
-    noNotes:          'Нет заметок. Создайте первую!',
-    fillFields:       'Заполните все поля',
-    minPassword:      'Пароль минимум 6 символов',
-    errInvalidCreds:  'Неверный email или пароль',
-    errAlreadyReg:    'Этот email уже зарегистрирован',
-    errNotConfirmed:  'Подтвердите email (проверьте почту)',
-    untitled:         'Без названия',
-    empty:            'Пустая заметка',
-  },
-  en: {
-    appName:          'My Notes',
-    appNameHtml:      'My <span>Notes</span>',
-    login:            'Sign In',
-    signup:           'Sign Up',
-    email:            'Email',
-    password:         'Password',
-    emailPlaceholder: 'you@example.com',
-    passwordPlaceholder: 'At least 6 characters',
-    noAccount:        'No account?',
-    register:         'Sign up',
-    haveAccount:      'Already have an account?',
-    signIn:           'Sign In',
-    createAccount:    'Create Account',
-    newNote:          'New Note',
-    searchPlaceholder:'Search notes…',
-    loading:          'Loading…',
-    today:            'Today',
-    earlier:          'Earlier',
-    emptyTitle:       'No note selected',
-    emptyDesc:        'Choose a note from the list or create a new one.',
-    titlePlaceholder: 'Title…',
-    bodyPlaceholder:  'Start writing…\n\nThis is your space for thoughts, ideas and plans.',
-    addTag:           '+ Tag',
-    addTagTitle:      'Add tag',
-    tagPlaceholder:   'e.g. work, personal, ideas…',
-    cancel:           'Cancel',
-    add:              'Add',
-    words:            'words',
-    saved:            '● Saved',
-    saving:           '○ Saving…',
-    deleted:          'Note deleted',
-    errorLoad:        'Failed to load notes',
-    errorSave:        'Failed to save',
-    errorDelete:      'Failed to delete',
-    errorCreate:      'Failed to create note',
-    confirmDelete:    'Delete this note?',
-    modified:         'Modified',
-    noResults:        'No results for',
-    noNotes:          'No notes yet. Create the first one!',
-    fillFields:       'Please fill in all fields',
-    minPassword:      'Password must be at least 6 characters',
-    errInvalidCreds:  'Invalid email or password',
-    errAlreadyReg:    'This email is already registered',
-    errNotConfirmed:  'Please confirm your email (check your inbox)',
-    untitled:         'Untitled',
-    empty:            'Empty note',
-  }
-};
-
-// ── LANGUAGE STATE ─────────────────────────────────────
-let lang = localStorage.getItem('lang') || 'ru';
-
-function t(key) {
-  return translations[lang][key] || translations['ru'][key] || key;
-}
-
-/** Apply all translations to the DOM */
-function applyTranslations() {
-  document.documentElement.setAttribute('data-lang', lang);
-  document.documentElement.setAttribute('lang', lang);
-
-  // Update page title
-  document.title = t('appName');
-
-  // Logo text (special HTML)
-  document.querySelectorAll('#sidebarLogoText').forEach(el => {
-    el.innerHTML = t('appNameHtml');
-  });
-
-  // data-i18n elements
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (key === 'appName') {
-      el.innerHTML = t('appNameHtml');
-    } else {
-      el.textContent = t(key);
-    }
-  });
-
-  // data-i18n-placeholder elements
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
-  });
-
-  // Language button labels
-  const nextLang = lang === 'ru' ? 'EN' : 'RU';
-  document.querySelectorAll('#langLabel, #authLangLabel').forEach(el => {
-    el.textContent = nextLang;
-  });
-
-  // Auth hint
-  updateAuthHint();
-
-  // Auth submit button
-  const submitBtn = document.getElementById('authSubmit');
-  if (submitBtn) {
-    submitBtn.textContent = authMode === 'login' ? t('login') : t('createAccount');
-  }
-
-  // Save status
-  const saveStatus = document.getElementById('saveStatus');
-  if (saveStatus && saveStatus.textContent) {
-    const isSaving = saveStatus.textContent.includes('○') || saveStatus.textContent.includes('Saving');
-    saveStatus.textContent = isSaving ? t('saving') : t('saved');
-  }
-
-  // Re-render note list to update group labels
-  if (notes.length > 0) {
-    renderList(document.getElementById('searchInput')?.value || '');
-  }
-}
-
-function toggleLang() {
-  lang = lang === 'ru' ? 'en' : 'ru';
-  localStorage.setItem('lang', lang);
-  applyTranslations();
-}
-
-// Lang buttons
-document.getElementById('langBtn').addEventListener('click', toggleLang);
-document.getElementById('authLangBtn').addEventListener('click', toggleLang);
-
-
-// ══════════════════════════════════════════════════════
-// THEME
-// ══════════════════════════════════════════════════════
-const html = document.documentElement;
-html.setAttribute('data-theme', localStorage.getItem('theme') || 'light');
-
-document.getElementById('themeToggle').addEventListener('click', () => {
-  const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-  html.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
-});
-
+let authMode  = 'login'; // 'login' | 'signup'
 
 // ══════════════════════════════════════════════════════
 // UTILITIES
 // ══════════════════════════════════════════════════════
 
 function formatDate(ts) {
-  const locale = lang === 'ru' ? 'ru-RU' : 'en-US';
   const d = new Date(ts);
   return (
-    d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' }) +
+    d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }) +
     ' · ' +
-    d.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })
+    d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
   );
 }
 
 function formatShort(ts) {
-  const locale = lang === 'ru' ? 'ru-RU' : 'en-US';
   const d = new Date(ts), now = new Date();
   if (d.toDateString() === now.toDateString())
-    return d.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
+    return d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
   if (now - d < 7 * 86400000)
-    return d.toLocaleDateString(locale, { weekday: 'short' });
-  return d.toLocaleDateString(locale, { day: '2-digit', month: '2-digit' });
+    return d.toLocaleDateString('ru-RU', { weekday: 'short' });
+  return d.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
 }
 
 function showToast(msg, type = 'default') {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = `toast show ${type}`;
-  setTimeout(() => el.classList.remove('show'), 2600);
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast show ${type}`;
+  setTimeout(() => t.classList.remove('show'), 2600);
 }
 
 function setSaveStatus(status) {
   const el = document.getElementById('saveStatus');
   if (!el) return;
   if (status === 'saving') {
-    el.textContent = t('saving');
+    el.textContent = '○ Сохранение…';
     el.style.color = 'var(--text-muted)';
   } else {
-    el.textContent = t('saved');
+    el.textContent = '● Сохранено';
     el.style.color = 'var(--accent)';
   }
 }
@@ -253,20 +62,22 @@ function autoResize(el) {
   el.style.height = el.scrollHeight + 'px';
 }
 
+// ══════════════════════════════════════════════════════
+// THEME
+// ══════════════════════════════════════════════════════
+
+const html = document.documentElement;
+html.setAttribute('data-theme', localStorage.getItem('theme') || 'light');
+
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+});
 
 // ══════════════════════════════════════════════════════
 // AUTH
 // ══════════════════════════════════════════════════════
-
-function updateAuthHint() {
-  const hint = document.getElementById('authHint');
-  if (!hint) return;
-  if (authMode === 'login') {
-    hint.innerHTML = `${t('noAccount')} <a href="#" onclick="switchTab('signup')">${t('register')}</a>`;
-  } else {
-    hint.innerHTML = `${t('haveAccount')} <a href="#" onclick="switchTab('login')">${t('signIn')}</a>`;
-  }
-}
 
 function switchTab(mode) {
   authMode = mode;
@@ -274,8 +85,11 @@ function switchTab(mode) {
 
   document.getElementById('tabLogin') .classList.toggle('active',  isLogin);
   document.getElementById('tabSignup').classList.toggle('active', !isLogin);
-  document.getElementById('authSubmit').textContent = isLogin ? t('login') : t('createAccount');
-  updateAuthHint();
+  document.getElementById('authSubmit').textContent = isLogin ? 'Войти' : 'Создать аккаунт';
+  document.getElementById('authHint').innerHTML = isLogin
+    ? `Нет аккаунта? <a href="#" onclick="switchTab('signup')">Зарегистрироваться</a>`
+    : `Уже есть аккаунт? <a href="#" onclick="switchTab('login')">Войти</a>`;
+
   hideAuthError();
 }
 
@@ -294,14 +108,15 @@ async function handleAuth() {
   const password = document.getElementById('authPassword').value;
   const btn      = document.getElementById('authSubmit');
 
-  if (!email || !password) { showAuthError(t('fillFields')); return; }
-  if (password.length < 6) { showAuthError(t('minPassword')); return; }
+  if (!email || !password) { showAuthError('Заполните все поля'); return; }
+  if (password.length < 6) { showAuthError('Пароль минимум 6 символов'); return; }
 
   btn.textContent = '…';
   btn.disabled = true;
   hideAuthError();
 
   let error;
+
   if (authMode === 'login') {
     ({ error } = await db.auth.signInWithPassword({ email, password }));
   } else {
@@ -309,29 +124,33 @@ async function handleAuth() {
   }
 
   btn.disabled = false;
-  btn.textContent = authMode === 'login' ? t('login') : t('createAccount');
+  btn.textContent = authMode === 'login' ? 'Войти' : 'Создать аккаунт';
 
   if (error) {
-    const errMap = {
-      'Invalid login credentials':          t('errInvalidCreds'),
-      'User already registered':            t('errAlreadyReg'),
-      'Email not confirmed':                t('errNotConfirmed'),
-      'Password should be at least 6 characters': t('minPassword'),
+    const msgs = {
+      'Invalid login credentials':        'Неверный email или пароль',
+      'User already registered':          'Этот email уже зарегистрирован',
+      'Email not confirmed':              'Подтвердите email (проверьте почту)',
+      'Password should be at least 6 characters': 'Пароль минимум 6 символов',
     };
-    showAuthError(errMap[error.message] || error.message);
+    showAuthError(msgs[error.message] || error.message);
   }
+  // On success, onAuthStateChange fires → showApp()
 }
 
+// Enter key in auth inputs
 ['authEmail', 'authPassword'].forEach(id => {
   document.getElementById(id).addEventListener('keydown', e => {
     if (e.key === 'Enter') handleAuth();
   });
 });
 
+// Logout
 document.getElementById('logoutBtn').addEventListener('click', async () => {
   await db.auth.signOut();
 });
 
+// Auth state listener — single source of truth
 db.auth.onAuthStateChange((_event, session) => {
   if (session?.user) {
     showApp(session.user);
@@ -343,36 +162,40 @@ db.auth.onAuthStateChange((_event, session) => {
 function showApp(user) {
   document.getElementById('authScreen').style.display = 'none';
   document.getElementById('appWrapper').style.display = 'flex';
-  document.getElementById('userBadge').textContent    = user.email;
+
+  // Show user email in sidebar
+  document.getElementById('userBadge').textContent = user.email;
+
   loadNotes();
 }
 
 function showAuth() {
   document.getElementById('authScreen').style.display = 'flex';
   document.getElementById('appWrapper').style.display = 'none';
-  notes = []; activeId = null;
+  notes    = [];
+  activeId = null;
 }
 
-
 // ══════════════════════════════════════════════════════
-// NOTES — CRUD
+// NOTES — CRUD with Supabase
 // ══════════════════════════════════════════════════════
 
+/** Load all notes for the current user */
 async function loadNotes() {
-  document.getElementById('noteList').innerHTML =
-    `<div class="loading-state">${t('loading')}</div>`;
+  document.getElementById('noteList').innerHTML = '<div class="loading-state">Загрузка…</div>';
 
   const { data, error } = await db
     .from('notes')
     .select('*')
     .order('updated_at', { ascending: false });
 
-  if (error) { showToast(t('errorLoad'), 'error'); return; }
+  if (error) { showToast('Ошибка загрузки заметок', 'error'); return; }
 
   notes = (data || []).map(normalise);
   renderList();
 }
 
+/** Map Supabase snake_case → camelCase */
 function normalise(row) {
   return {
     id:        row.id,
@@ -384,6 +207,7 @@ function normalise(row) {
   };
 }
 
+/** Create a new blank note in Supabase */
 async function createNote() {
   const { data: { user } } = await db.auth.getUser();
 
@@ -393,7 +217,7 @@ async function createNote() {
     .select()
     .single();
 
-  if (error) { showToast(t('errorCreate'), 'error'); return; }
+  if (error) { showToast('Ошибка создания заметки', 'error'); return; }
 
   const note = normalise(data);
   notes.unshift(note);
@@ -402,6 +226,7 @@ async function createNote() {
   setTimeout(() => document.getElementById('noteTitle').focus(), 50);
 }
 
+/** Save the active note to Supabase */
 async function saveNote() {
   if (!activeId) return;
   const note = notes.find(n => n.id === activeId);
@@ -418,21 +243,25 @@ async function saveNote() {
     .update({ title: note.title, body: note.body, tags: note.tags, updated_at: note.updatedAt })
     .eq('id', note.id);
 
-  if (error) { showToast(t('errorSave'), 'error'); return; }
+  if (error) {
+    showToast('Ошибка сохранения', 'error');
+    return;
+  }
 
   setSaveStatus('saved');
   document.getElementById('noteDate').innerHTML =
-    `<strong>${t('modified')}:</strong> ${formatDate(note.updatedAt)}`;
+    `<strong>Изменено:</strong> ${formatDate(note.updatedAt)}`;
 
   notes.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
   renderList(document.getElementById('searchInput').value);
 }
 
+/** Delete a note */
 async function deleteNote(id) {
-  if (!confirm(t('confirmDelete'))) return;
+  if (!confirm('Удалить эту заметку?')) return;
 
   const { error } = await db.from('notes').delete().eq('id', id);
-  if (error) { showToast(t('errorDelete'), 'error'); return; }
+  if (error) { showToast('Ошибка удаления', 'error'); return; }
 
   notes = notes.filter(n => n.id !== id);
 
@@ -444,12 +273,11 @@ async function deleteNote(id) {
   }
 
   renderList();
-  showToast(t('deleted'));
+  showToast('Заметка удалена');
 }
 
-
 // ══════════════════════════════════════════════════════
-// RENDER LIST
+// RENDER NOTE LIST
 // ══════════════════════════════════════════════════════
 
 function renderList(filter = '') {
@@ -462,7 +290,7 @@ function renderList(filter = '') {
 
   if (filtered.length === 0) {
     list.innerHTML = `<div class="no-results">
-      ${q ? `${t('noResults')} <b>"${filter}"</b>` : t('noNotes')}
+      ${q ? `По запросу <b>"${filter}"</b> ничего не найдено.` : 'Нет заметок. Создайте первую!'}
     </div>`;
     return;
   }
@@ -473,11 +301,11 @@ function renderList(filter = '') {
 
   let html2 = '';
   if (todayNotes.length) {
-    html2 += `<div class="note-group-label">${t('today')}</div>`;
+    html2 += `<div class="note-group-label">Сегодня</div>`;
     html2 += todayNotes.map(buildNoteCard).join('');
   }
   if (olderNotes.length) {
-    html2 += `<div class="note-group-label">${t('earlier')}</div>`;
+    html2 += `<div class="note-group-label">Ранее</div>`;
     html2 += olderNotes.map(buildNoteCard).join('');
   }
   list.innerHTML = html2;
@@ -495,27 +323,26 @@ function renderList(filter = '') {
 }
 
 function buildNoteCard(n) {
-  const preview = n.body.replace(/\n+/g, ' ').slice(0, 60) || t('empty');
-  const tags    = (n.tags || []).map(tag => `<span class="note-tag">${tag}</span>`).join('');
+  const preview = n.body.replace(/\n+/g, ' ').slice(0, 60) || 'Пустая заметка';
+  const tags    = (n.tags || []).map(t => `<span class="note-tag">${t}</span>`).join('');
   return `
     <div class="note-card ${n.id === activeId ? 'active' : ''}" data-id="${n.id}">
-      <div class="note-card-title">${n.title || t('untitled')}</div>
+      <div class="note-card-title">${n.title || 'Без названия'}</div>
       <div class="note-card-preview">${preview}</div>
       <div class="note-card-meta">
         <span class="note-card-date">${formatShort(n.updatedAt)}</span>
         ${tags}
       </div>
       <div class="note-card-actions">
-        <button class="icon-btn danger del-btn" data-id="${n.id}">
+        <button class="icon-btn danger del-btn" data-id="${n.id}" title="Удалить">
           <svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
         </button>
       </div>
     </div>`;
 }
 
-
 // ══════════════════════════════════════════════════════
-// OPEN NOTE
+// OPEN NOTE IN EDITOR
 // ══════════════════════════════════════════════════════
 
 function openNote(id) {
@@ -532,12 +359,8 @@ function openNote(id) {
   titleEl.value = note.title;
   bodyEl.value  = note.body;
 
-  // Apply translated placeholders
-  titleEl.placeholder = t('titlePlaceholder');
-  bodyEl.placeholder  = t('bodyPlaceholder');
-
   document.getElementById('noteDate').innerHTML =
-    `<strong>${t('modified')}:</strong> ${formatDate(note.updatedAt)}`;
+    `<strong>Изменено:</strong> ${formatDate(note.updatedAt)}`;
 
   renderTags(note.tags || []);
   updateWordCount(note.body);
@@ -548,7 +371,6 @@ function openNote(id) {
   if (window.innerWidth <= 720)
     document.getElementById('sidebar').classList.remove('open');
 }
-
 
 // ══════════════════════════════════════════════════════
 // AUTO-SAVE
@@ -566,13 +388,14 @@ function updateWordCount(text) {
 }
 
 document.getElementById('noteTitle').addEventListener('input', function () {
-  autoResize(this); scheduleAutosave();
+  autoResize(this);
+  scheduleAutosave();
 });
 
 document.getElementById('noteBody').addEventListener('input', function () {
-  updateWordCount(this.value); scheduleAutosave();
+  updateWordCount(this.value);
+  scheduleAutosave();
 });
-
 
 // ══════════════════════════════════════════════════════
 // TAGS
@@ -580,19 +403,19 @@ document.getElementById('noteBody').addEventListener('input', function () {
 
 function renderTags(tags) {
   const wrap = document.getElementById('tagWrap');
-  const chips = tags.map(tag => `
-    <span class="tag-chip" data-tag="${tag}">
-      ${tag}
+  const chips = tags.map(t => `
+    <span class="tag-chip" data-tag="${t}">
+      ${t}
       <svg viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
     </span>`).join('');
 
-  wrap.innerHTML = chips + `<button class="tag-add-btn" id="tagAddBtn">${t('addTag')}</button>`;
+  wrap.innerHTML = chips + `<button class="tag-add-btn" id="tagAddBtn">+ Тег</button>`;
 
   wrap.querySelectorAll('.tag-chip').forEach(chip => {
     chip.addEventListener('click', async () => {
       const note = notes.find(n => n.id === activeId);
       if (!note) return;
-      note.tags = note.tags.filter(tag => tag !== chip.dataset.tag);
+      note.tags = note.tags.filter(t => t !== chip.dataset.tag);
       renderTags(note.tags);
       await saveNote();
     });
@@ -602,12 +425,6 @@ function renderTags(tags) {
 }
 
 function openTagModal() {
-  // Update modal translations
-  document.querySelector('#tagModal h3').textContent        = t('addTagTitle');
-  document.getElementById('tagInput').placeholder           = t('tagPlaceholder');
-  document.getElementById('tagCancelBtn').textContent       = t('cancel');
-  document.getElementById('tagConfirmBtn').textContent      = t('add');
-
   document.getElementById('tagModal').classList.add('open');
   document.getElementById('tagInput').value = '';
   setTimeout(() => document.getElementById('tagInput').focus(), 50);
@@ -640,15 +457,14 @@ document.getElementById('tagInput').addEventListener('keydown', e => {
   if (e.key === 'Escape') closeTagModal();
 });
 
-
 // ══════════════════════════════════════════════════════
-// FORMATTING
+// TEXT FORMATTING
 // ══════════════════════════════════════════════════════
 
 function fmt(type) {
-  const ta     = document.getElementById('noteBody');
-  const start  = ta.selectionStart;
-  const end    = ta.selectionEnd;
+  const ta    = document.getElementById('noteBody');
+  const start = ta.selectionStart;
+  const end   = ta.selectionEnd;
   const sel    = ta.value.substring(start, end);
   const before = ta.value.substring(0, start);
   const after  = ta.value.substring(end);
@@ -669,7 +485,6 @@ function fmt(type) {
   scheduleAutosave();
 }
 
-
 // ══════════════════════════════════════════════════════
 // KEYBOARD SHORTCUTS
 // ══════════════════════════════════════════════════════
@@ -681,23 +496,20 @@ document.addEventListener('keydown', e => {
   if (mod && e.key === 'i') { e.preventDefault(); fmt('italic'); }
 });
 
-
 // ══════════════════════════════════════════════════════
-// SEARCH / NEW NOTE / MOBILE
+// SEARCH
 // ══════════════════════════════════════════════════════
 
 document.getElementById('searchInput').addEventListener('input', function () {
   renderList(this.value);
 });
 
+// ══════════════════════════════════════════════════════
+// NEW NOTE BUTTON + MOBILE SIDEBAR
+// ══════════════════════════════════════════════════════
+
 document.getElementById('newNoteBtn').addEventListener('click', createNote);
 
 document.getElementById('mobileToggle').addEventListener('click', () => {
   document.getElementById('sidebar').classList.toggle('open');
 });
-
-
-// ══════════════════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════════════════
-applyTranslations();
