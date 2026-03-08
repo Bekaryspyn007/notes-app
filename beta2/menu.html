@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Non stop</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --black:#0A0A08;
+  --dark:#111110;
+  --card:#161614;
+  --border:rgba(255,255,255,0.06);
+  --yellow:#F5C518;
+  --orange:#FF6B2B;
+  --red:#E63946;
+  --text:#F0EDE6;
+  --muted:#6B6860;
+  --radius:16px;
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:'Manrope',sans-serif;
+  background:var(--black);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── NOISE TEXTURE ── */
+body::before{
+  content:'';
+  position:fixed;inset:0;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+
+/* ── HERO ── */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:40px 24px;
+  overflow:hidden;
+}
+
+.hero-glow{
+  position:absolute;
+  width:600px;height:600px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(245,197,24,0.15) 0%, transparent 70%);
+  top:50%;left:50%;
+  transform:translate(-50%,-60%);
+  pointer-events:none;
+}
+
+.hero-glow2{
+  position:absolute;
+  width:400px;height:400px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,107,43,0.1) 0%, transparent 70%);
+  bottom:-100px;right:-100px;
+  pointer-events:none;
+}
+
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 16px;
+  border:1px solid rgba(245,197,24,0.3);
+  border-radius:50px;
+  font-size:12px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--yellow);
+  margin-bottom:28px;
+  animation:fadeUp 0.6s ease both;
+}
+
+.badge::before{
+  content:'';
+  width:6px;height:6px;border-radius:50%;
+  background:var(--yellow);
+  animation:blink 1.5s infinite;
+}
+
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+
+.hero-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(80px,18vw,180px);
+  line-height:0.9;
+  letter-spacing:4px;
+  background:linear-gradient(180deg, #FFFFFF 0%, #A09880 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:fadeUp 0.6s 0.1s ease both;
+}
+
+.hero-title span{
+  display:block;
+  background:linear-gradient(135deg, var(--yellow) 0%, var(--orange) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.hero-sub{
+  font-size:16px;color:var(--muted);
+  margin-top:20px;letter-spacing:0.5px;
+  animation:fadeUp 0.6s 0.2s ease both;
+}
+
+.hero-cta{
+  display:flex;gap:12px;margin-top:36px;flex-wrap:wrap;justify-content:center;
+  animation:fadeUp 0.6s 0.3s ease both;
+}
+
+.btn-primary{
+  padding:14px 32px;
+  background:var(--yellow);color:#000;
+  border:none;border-radius:50px;
+  font-family:'Manrope',sans-serif;
+  font-size:14px;font-weight:700;
+  letter-spacing:0.5px;
+  cursor:pointer;
+  text-decoration:none;
+  transition:all 0.2s;
+  box-shadow:0 0 30px rgba(245,197,24,0.3);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(245,197,24,0.5)}
+
+.btn-ghost{
+  padding:14px 32px;
+  background:transparent;color:var(--text);
+  border:1px solid var(--border);border-radius:50px;
+  font-family:'Manrope',sans-serif;
+  font-size:14px;font-weight:600;
+  cursor:pointer;
+  text-decoration:none;
+  transition:all 0.2s;
+}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.2);background:rgba(255,255,255,0.04)}
+
+.scroll-hint{
+  position:absolute;bottom:32px;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:var(--muted);font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  animation:fadeUp 0.6s 0.5s ease both;
+}
+.scroll-line{
+  width:1px;height:40px;
+  background:linear-gradient(to bottom, var(--muted), transparent);
+  animation:scrollAnim 1.8s ease infinite;
+}
+@keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ── STATS BAR ── */
+.stats-bar{
+  display:flex;justify-content:center;gap:0;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  background:var(--dark);
+  position:relative;z-index:1;
+}
+.stat{
+  flex:1;max-width:200px;
+  padding:24px 20px;
+  text-align:center;
+  border-right:1px solid var(--border);
+}
+.stat:last-child{border-right:none}
+.stat-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:36px;color:var(--yellow);
+  line-height:1;
+}
+.stat-label{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+
+/* ── MENU SECTION ── */
+.menu-section{
+  max-width:1100px;margin:0 auto;
+  padding:80px 24px;
+  position:relative;z-index:1;
+}
+
+.section-header{
+  text-align:center;margin-bottom:56px;
+}
+.section-label{
+  font-size:11px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--yellow);
+  margin-bottom:12px;display:block;
+}
+.section-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(48px,8vw,80px);
+  line-height:0.95;letter-spacing:2px;
+  color:var(--text);
+}
+
+/* ── CATEGORY TABS ── */
+.cat-tabs{
+  display:flex;gap:8px;
+  justify-content:center;flex-wrap:wrap;
+  margin-bottom:48px;
+}
+.cat-tab{
+  padding:10px 22px;
+  border:1px solid var(--border);border-radius:50px;
+  background:transparent;color:var(--muted);
+  font-family:'Manrope',sans-serif;font-size:13px;font-weight:600;
+  cursor:pointer;transition:all 0.2s;
+  white-space:nowrap;
+}
+.cat-tab:hover{border-color:rgba(255,255,255,0.15);color:var(--text)}
+.cat-tab.active{
+  background:var(--yellow);color:#000;
+  border-color:var(--yellow);
+  box-shadow:0 0 20px rgba(245,197,24,0.25);
+}
+
+/* ── MENU GRID ── */
+.menu-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:16px;
+}
+
+.menu-item{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  transition:all 0.25s;
+  animation:fadeUp 0.4s ease both;
+  cursor:pointer;
+}
+.menu-item:hover{
+  transform:translateY(-4px);
+  border-color:rgba(245,197,24,0.2);
+  box-shadow:0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(245,197,24,0.1);
+}
+
+.item-img{
+  width:100%;height:200px;
+  object-fit:cover;
+  display:flex;align-items:center;justify-content:center;
+  font-size:80px;
+  background:linear-gradient(135deg, #1A1A18 0%, #222220 100%);
+  position:relative;overflow:hidden;
+}
+.item-img::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.6) 100%);
+}
+
+.item-badge{
+  position:absolute;top:12px;right:12px;
+  padding:4px 10px;border-radius:50px;
+  font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  z-index:1;
+}
+.item-badge.hot{background:var(--red);color:#fff}
+.item-badge.new{background:var(--yellow);color:#000}
+.item-badge.popular{background:var(--orange);color:#fff}
+
+.item-body{padding:18px 20px 20px}
+
+.item-name{
+  font-size:17px;font-weight:700;
+  color:var(--text);margin-bottom:6px;
+  line-height:1.3;
+}
+.item-desc{
+  font-size:13px;color:var(--muted);
+  line-height:1.6;margin-bottom:16px;
+}
+.item-footer{
+  display:flex;align-items:center;justify-content:space-between;
+}
+.item-price{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:28px;color:var(--yellow);
+  letter-spacing:1px;
+}
+.item-price span{font-size:14px;color:var(--muted);font-family:'Manrope',sans-serif;font-weight:500}
+
+.add-btn{
+  width:40px;height:40px;
+  border-radius:50%;border:none;
+  background:var(--yellow);color:#000;
+  font-size:20px;font-weight:700;
+  cursor:pointer;transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(245,197,24,0.3);
+}
+.add-btn:hover{transform:scale(1.15);box-shadow:0 6px 24px rgba(245,197,24,0.5)}
+.add-btn:active{transform:scale(0.95)}
+
+/* ── SPECIALS BANNER ── */
+.specials-banner{
+  margin:0 24px 80px;
+  max-width:1100px;margin-left:auto;margin-right:auto;
+  background:linear-gradient(135deg, #1A1810 0%, #201C10 100%);
+  border:1px solid rgba(245,197,24,0.2);
+  border-radius:24px;
+  padding:48px 40px;
+  display:flex;align-items:center;justify-content:space-between;gap:32px;
+  flex-wrap:wrap;
+  position:relative;overflow:hidden;
+  z-index:1;
+}
+.specials-banner::before{
+  content:'';
+  position:absolute;right:-80px;top:-80px;
+  width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle, rgba(245,197,24,0.08) 0%, transparent 70%);
+}
+.specials-text{}
+.specials-label{
+  font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  color:var(--yellow);margin-bottom:10px;display:block;
+}
+.specials-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(36px,6vw,56px);
+  line-height:1;color:var(--text);
+  margin-bottom:10px;
+}
+.specials-desc{font-size:15px;color:var(--muted);max-width:420px;line-height:1.6}
+.specials-price{text-align:center;flex-shrink:0}
+.specials-old{font-size:18px;color:var(--muted);text-decoration:line-through;margin-bottom:4px}
+.specials-new{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:64px;color:var(--yellow);line-height:1;
+}
+.specials-new span{font-size:24px}
+
+/* ── QR SECTION ── */
+.qr-section{
+  max-width:1100px;margin:0 auto;
+  padding:0 24px 80px;
+  display:flex;gap:48px;align-items:center;flex-wrap:wrap;
+  position:relative;z-index:1;
+}
+.qr-text{flex:1;min-width:260px}
+.qr-label{
+  font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  color:var(--orange);margin-bottom:12px;display:block;
+}
+.qr-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(40px,6vw,64px);
+  line-height:1;color:var(--text);margin-bottom:16px;
+}
+.qr-desc{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:28px}
+.qr-steps{display:flex;flex-direction:column;gap:14px}
+.qr-step{display:flex;align-items:center;gap:14px}
+.step-num{
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  background:rgba(255,107,43,0.15);border:1px solid rgba(255,107,43,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:var(--orange);
+}
+.step-text{font-size:14px;color:var(--muted)}
+
+.qr-box{
+  flex-shrink:0;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:32px;
+  text-align:center;
+}
+.qr-code-wrap{
+  width:200px;height:200px;
+  background:#fff;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 16px;
+  padding:12px;
+}
+.qr-code-wrap svg{width:100%;height:100%}
+.qr-url{font-size:12px;color:var(--muted);font-family:monospace}
+.qr-download{
+  margin-top:16px;
+  padding:10px 24px;
+  background:transparent;
+  border:1px solid var(--border);
+  border-radius:50px;
+  color:var(--text);font-family:'Manrope',sans-serif;
+  font-size:13px;font-weight:600;
+  cursor:pointer;transition:all 0.2s;
+  width:100%;
+}
+.qr-download:hover{border-color:rgba(255,255,255,0.2);background:rgba(255,255,255,0.04)}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:40px 24px;
+  text-align:center;
+  color:var(--muted);font-size:13px;
+  position:relative;z-index:1;
+}
+footer strong{color:var(--yellow)}
+
+/* ── MODAL ── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:100;
+  background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);
+  display:none;align-items:center;justify-content:center;
+  padding:20px;
+}
+.modal-overlay.open{display:flex;animation:fadeIn 0.2s ease}
+.modal{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:24px;
+  max-width:480px;width:100%;
+  overflow:hidden;
+  animation:scaleIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.modal-img{
+  width:100%;height:240px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:100px;
+  background:linear-gradient(135deg, #1A1A18, #222220);
+}
+.modal-body{padding:28px}
+.modal-name{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:1px;margin-bottom:8px}
+.modal-desc{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:20px}
+.modal-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.modal-tag{
+  padding:4px 12px;border-radius:50px;
+  background:rgba(255,255,255,0.06);
+  font-size:11px;color:var(--muted);font-weight:600;
+  letter-spacing:0.5px;
+}
+.modal-footer{display:flex;align-items:center;justify-content:space-between}
+.modal-price{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--yellow)}
+.modal-close{
+  position:absolute;top:16px;right:16px;z-index:10;
+  width:36px;height:36px;border-radius:50%;border:none;
+  background:rgba(0,0,0,0.5);color:#fff;
+  font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;
+}
+.modal-close:hover{background:rgba(255,255,255,0.1)}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--yellow);color:#000;
+  padding:12px 24px;border-radius:50px;
+  font-size:14px;font-weight:700;
+  box-shadow:0 8px 32px rgba(245,197,24,0.4);
+  z-index:200;opacity:0;
+  transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
+
+/* ── SCROLLBAR ── */
+*{scrollbar-width:thin;scrollbar-color:rgba(245,197,24,0.2) transparent}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .stats-bar{flex-wrap:wrap}
+  .stat{min-width:50%;border-bottom:1px solid var(--border)}
+  .specials-banner{text-align:center;justify-content:center}
+  .specials-price{width:100%}
+  .qr-section{flex-direction:column;align-items:center}
+  .qr-text{text-align:center}
+  .qr-steps{align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- ── HERO ─────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+
+  <div class="badge">🔥 Открыто до 23:00</div>
+
+  <h1 class="hero-title">
+    NON
+    <span>STOP</span>
+  </h1>
+  <p class="hero-sub">Настоящие бургеры. Настоящий вкус. Никакого компромисса.</p>
+
+  <div class="hero-cta">
+    <a href="#menu" class="btn-primary">Смотреть меню</a>
+    <a href="#qr" class="btn-ghost">Получить QR-код</a>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Листай</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ── STATS ─────────────────────────────────────────── -->
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">24</div><div class="stat-label">Позиции</div></div>
+  <div class="stat"><div class="stat-num">4.9</div><div class="stat-label">Рейтинг</div></div>
+  <div class="stat"><div class="stat-num">15</div><div class="stat-label">Мин. готовка</div></div>
+  <div class="stat"><div class="stat-num">2к+</div><div class="stat-label">Гостей в месяц</div></div>
+</div>
+
+<!-- ── MENU ──────────────────────────────────────────── -->
+<section class="menu-section" id="menu">
+  <div class="section-header">
+    <span class="section-label">Наше меню</span>
+    <h2 class="section-title">ЧТО<br/>ПРИГОТОВИТЬ?</h2>
+  </div>
+
+  <div class="cat-tabs" id="catTabs">
+    <button class="cat-tab active" data-cat="all">Всё меню</button>
+    <button class="cat-tab" data-cat="burgers">🍔 Бургеры</button>
+    <button class="cat-tab" data-cat="sides">🍟 Закуски</button>
+    <button class="cat-tab" data-cat="drinks">🥤 Напитки</button>
+    <button class="cat-tab" data-cat="desserts">🍦 Десерты</button>
+  </div>
+
+  <div class="menu-grid" id="menuGrid"></div>
+</section>
+
+<!-- ── SPECIALS ───────────────────────────────────────── -->
+<div class="specials-banner">
+  <div class="specials-text">
+    <span class="specials-label">🎯 Предложение дня</span>
+    <h3 class="specials-title">ДВОЙНОЙ<br/>BURNR SET</h3>
+    <p class="specials-desc">2 фирменных бургера + большая картошка фри + 2 напитка на выбор. Только сегодня!</p>
+    <a href="tel:+77001234567" class="btn-primary" style="margin-top:24px;display:inline-block">Заказать по телефону</a>
+  </div>
+  <div class="specials-price">
+    <div class="specials-old">4 200 ₸</div>
+    <div class="specials-new"><span>от</span> 2 990 <span>₸</span></div>
+  </div>
+</div>
+
+<!-- ── QR ─────────────────────────────────────────────── -->
+<section class="qr-section" id="qr">
+  <div class="qr-text">
+    <span class="qr-label">📱 Без бумаги</span>
+    <h3 class="qr-title">СКАНИРУЙ<br/>И ЗАКАЗЫВАЙ</h3>
+    <p class="qr-desc">Распечатайте или покажите QR-код на экране. Гости сканируют и сразу видят всё меню — никаких грязных ламинированных листов.</p>
+    <div class="qr-steps">
+      <div class="qr-step"><div class="step-num">1</div><div class="step-text">Распечатай и поставь на стол</div></div>
+      <div class="qr-step"><div class="step-num">2</div><div class="step-text">Гость сканирует телефоном</div></div>
+      <div class="qr-step"><div class="step-num">3</div><div class="step-text">Сразу видит полное меню с ценами</div></div>
+    </div>
+  </div>
+
+  <div class="qr-box">
+    <div class="qr-code-wrap">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="qrSvg">
+        <!-- QR placeholder — красивый паттерн -->
+        <rect width="100" height="100" fill="white"/>
+        <!-- Corner squares -->
+        <rect x="5" y="5" width="28" height="28" fill="black" rx="3"/>
+        <rect x="8" y="8" width="22" height="22" fill="white" rx="2"/>
+        <rect x="11" y="11" width="16" height="16" fill="black" rx="1"/>
+        <rect x="67" y="5" width="28" height="28" fill="black" rx="3"/>
+        <rect x="70" y="8" width="22" height="22" fill="white" rx="2"/>
+        <rect x="73" y="11" width="16" height="16" fill="black" rx="1"/>
+        <rect x="5" y="67" width="28" height="28" fill="black" rx="3"/>
+        <rect x="8" y="70" width="22" height="22" fill="white" rx="2"/>
+        <rect x="11" y="73" width="16" height="16" fill="black" rx="1"/>
+        <!-- Data dots -->
+        <rect x="40" y="5" width="6" height="6" fill="black"/>
+        <rect x="50" y="5" width="6" height="6" fill="black"/>
+        <rect x="40" y="15" width="6" height="6" fill="black"/>
+        <rect x="55" y="15" width="6" height="6" fill="black"/>
+        <rect x="40" y="25" width="6" height="6" fill="black"/>
+        <rect x="50" y="25" width="6" height="6" fill="black"/>
+        <rect x="5" y="40" width="6" height="6" fill="black"/>
+        <rect x="15" y="40" width="6" height="6" fill="black"/>
+        <rect x="25" y="40" width="6" height="6" fill="black"/>
+        <rect x="5" y="50" width="6" height="6" fill="black"/>
+        <rect x="25" y="50" width="6" height="6" fill="black"/>
+        <rect x="5" y="60" width="6" height="6" fill="black"/>
+        <rect x="15" y="60" width="6" height="6" fill="black"/>
+        <rect x="40" y="40" width="6" height="6" fill="black"/>
+        <rect x="50" y="40" width="6" height="6" fill="black"/>
+        <rect x="60" y="40" width="6" height="6" fill="black"/>
+        <rect x="70" y="40" width="6" height="6" fill="black"/>
+        <rect x="80" y="40" width="6" height="6" fill="black"/>
+        <rect x="90" y="40" width="6" height="6" fill="black"/>
+        <rect x="40" y="50" width="6" height="6" fill="black"/>
+        <rect x="60" y="50" width="6" height="6" fill="black"/>
+        <rect x="80" y="50" width="6" height="6" fill="black"/>
+        <rect x="40" y="60" width="6" height="6" fill="black"/>
+        <rect x="50" y="60" width="6" height="6" fill="black"/>
+        <rect x="70" y="60" width="6" height="6" fill="black"/>
+        <rect x="90" y="60" width="6" height="6" fill="black"/>
+        <rect x="40" y="70" width="6" height="6" fill="black"/>
+        <rect x="60" y="70" width="6" height="6" fill="black"/>
+        <rect x="80" y="70" width="6" height="6" fill="black"/>
+        <rect x="90" y="70" width="6" height="6" fill="black"/>
+        <rect x="40" y="80" width="6" height="6" fill="black"/>
+        <rect x="50" y="80" width="6" height="6" fill="black"/>
+        <rect x="60" y="80" width="6" height="6" fill="black"/>
+        <rect x="40" y="90" width="6" height="6" fill="black"/>
+        <rect x="70" y="90" width="6" height="6" fill="black"/>
+        <rect x="90" y="90" width="6" height="6" fill="black"/>
+      </svg>
+    </div>
+    <div class="qr-url" id="qrUrl">burnr-menu.vercel.app</div>
+    <button class="qr-download" onclick="downloadQR()">⬇ Скачать QR-код</button>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────── -->
+<footer>
+  <p>© 2025 <strong>BURNR Burgers</strong> · Сделано с 🔥 · Все права защищены</p>
+  <p style="margin-top:8px">📍 ул. Примерная, 42 &nbsp;·&nbsp; 📞 +7 700 123-45-67 &nbsp;·&nbsp; 🕐 Пн–Вс 11:00–23:00</p>
+</footer>
+
+<!-- ── MODAL ──────────────────────────────────────────── -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-img" id="modalImg"></div>
+    <div class="modal-body">
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-tags" id="modalTags"></div>
+      <div class="modal-footer">
+        <div class="modal-price" id="modalPrice"></div>
+        <button class="btn-primary" onclick="addToOrder()">Добавить в заказ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST ──────────────────────────────────────────── -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── MENU DATA ───────────────────────────────────────────
+const menuData = [
+  // BURGERS
+  { id:1, cat:'burgers', img:'burger.jpg', name:'BURNR Classic', price:1490, badge:'popular',
+    desc:'Говяжья котлета 180г, чеддер, хрустящий лук, маринованный огурец, фирменный соус BURNR.',
+    tags:['Говядина','Хит продаж','Острый'] },
+  { id:2, cat:'burgers', emoji:'🍔', name:'Double Smash', price:1890, badge:'hot',
+    desc:'Две котлеты смэш 120г каждая, американский чеддер, карамелизированный лук, трюфельный майонез.',
+    tags:['Двойной','Говядина','Трюфель'] },
+  { id:3, cat:'burgers', emoji:'🍔', name:'Crispy Chicken', price:1390, badge:'new',
+    desc:'Хрустящая куриная котлета, острый соус, айсберг, маринованные халапеньо, сметанный соус.',
+    tags:['Курица','Острый','Хрустящий'] },
+  { id:4, cat:'burgers', emoji:'🌱', name:'Green Beast', price:1290, badge:null,
+    desc:'Растительная котлета Beyond Meat, авокадо, томаты, шпинат, соус песто. 100% вегетарианский.',
+    tags:['Вегетарианский','Авокадо','Healthy'] },
+  { id:5, cat:'burgers', emoji:'🍔', name:'BBQ Bacon King', price:1990, badge:'hot',
+    desc:'Котлета 200г, три ломтика бекона, сыр Гауда, BBQ соус, хрустящие кольца лука.',
+    tags:['Бекон','BBQ','Говядина'] },
+  { id:6, cat:'burgers', emoji:'🍔', name:'Truffle Mushroom', price:1750, badge:null,
+    desc:'Котлета 180г, грибной соус, трюфельное масло, руккола, пармезан, бриошь.',
+    tags:['Трюфель','Грибы','Пармезан'] },
+  // SIDES
+  { id:7, cat:'sides', emoji:'🍟', name:'Картофель фри', price:490, badge:'popular',
+    desc:'Хрустящий картофель фри из свежего картофеля, морская соль, соус на выбор.',
+    tags:['Классика','Хрустящий'] },
+  { id:8, cat:'sides', emoji:'🧅', name:'Луковые кольца', price:590, badge:null,
+    desc:'Кольца лука в хрустящей панировке, соус ранч для подачи.',
+    tags:['Хрустящий','Лук'] },
+  { id:9, cat:'sides', emoji:'🧀', name:'Чеддер наггетсы', price:650, badge:'new',
+    desc:'6 штук. Хрустящие снаружи, тянущийся чеддер внутри. С острым соусом.',
+    tags:['Сыр','Острый','6 шт'] },
+  { id:10, cat:'sides', emoji:'🥗', name:'Коул Слоу', price:390, badge:null,
+    desc:'Свежая капуста, морковь, сливочная заправка. Лёгкий и хрустящий.',
+    tags:['Свежий','Лёгкий'] },
+  // DRINKS
+  { id:11, cat:'drinks', emoji:'🥤', name:'Лимонад Дом.', price:490, badge:'popular',
+    desc:'Домашний лимонад: лимон, мята, имбирь. Три вкуса: классик, клубника, маракуйя.',
+    tags:['Домашний','Свежий','0.5л'] },
+  { id:12, cat:'drinks', emoji:'🍺', name:'Крафт Пиво', price:690, badge:null,
+    desc:'Местная крафтовая пивоварня. Светлое, тёмное, IPA. Уточняйте наличие у официанта.',
+    tags:['Крафт','0.5л','Местное'] },
+  { id:13, cat:'drinks', emoji:'🧋', name:'Молочный шейк', price:590, badge:'new',
+    desc:'Густой шейк: ваниль, шоколад или клубника. Настоящее мороженое, 400мл.',
+    tags:['Мороженое','Густой','400мл'] },
+  { id:14, cat:'drinks', emoji:'☕', name:'Спешиалти кофе', price:450, badge:null,
+    desc:'Зерно из Эфиопии и Колумбии. Эспрессо, флэт уайт, капучино, фильтр.',
+    tags:['Спешиалти','Свежий','Горячий'] },
+  // DESSERTS
+  { id:15, cat:'desserts', emoji:'🍦', name:'Мороженое Soft', price:390, badge:'popular',
+    desc:'Мягкое мороженое на вафельном рожке. Ваниль, шоколад или миксто.',
+    tags:['Мягкое','Рожок','Классика'] },
+  { id:16, cat:'desserts', emoji:'🍫', name:'Брауни', price:490, badge:'new',
+    desc:'Тёплый шоколадный брауни с шариком ванильного мороженого и карамельным соусом.',
+    tags:['Шоколад','Тёплый','Карамель'] },
+];
+
+// ── RENDER MENU ─────────────────────────────────────────
+let activeCat = 'all';
+
+function renderMenu(){
+  const grid = document.getElementById('menuGrid');
+  const items = activeCat === 'all'
+    ? menuData
+    : menuData.filter(i => i.cat === activeCat);
+
+  grid.innerHTML = items.map((item, idx) => `
+    <div class="menu-item" style="animation-delay:${idx * 0.05}s"
+         onclick="openModal(${item.id})">
+      <div class="item-img" style="position:relative">
+        ${item.img
+          ? `<img src="${item.img}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"/>`
+          : `<span>${item.emoji}</span>`
+        }
+        ${item.badge ? `<span class="item-badge ${item.badge}">${
+          item.badge==='hot'?'🔥 Острое':item.badge==='new'?'✨ Новинка':'⭐ Хит'
+        }</span>` : ''}
+      </div>
+      <div class="item-body">
+        <div class="item-name">${item.name}</div>
+        <div class="item-desc">${item.desc.slice(0,80)}…</div>
+        <div class="item-footer">
+          <div class="item-price">${item.price.toLocaleString()} <span>₸</span></div>
+          <button class="add-btn" onclick="event.stopPropagation();quickAdd('${item.name}')">+</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── CATEGORY TABS ───────────────────────────────────────
+document.getElementById('catTabs').addEventListener('click', e => {
+  const tab = e.target.closest('.cat-tab');
+  if (!tab) return;
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  activeCat = tab.dataset.cat;
+  renderMenu();
+});
+
+// ── MODAL ───────────────────────────────────────────────
+let currentItem = null;
+
+function openModal(id){
+  const item = menuData.find(i => i.id === id);
+  if (!item) return;
+  currentItem = item;
+
+  document.getElementById('modalImg').textContent  = item.emoji;
+  document.getElementById('modalName').textContent = item.name;
+  document.getElementById('modalDesc').textContent = item.desc;
+  document.getElementById('modalPrice').textContent= item.price.toLocaleString() + ' ₸';
+  document.getElementById('modalTags').innerHTML   =
+    item.tags.map(t => `<span class="modal-tag">${t}</span>`).join('');
+
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+});
+
+function addToOrder(){
+  if (!currentItem) return;
+  showToast(`🛒 ${currentItem.name} добавлен!`);
+  closeModal();
+}
+
+// ── QUICK ADD ───────────────────────────────────────────
+function quickAdd(name){
+  showToast(`🛒 ${name} добавлен!`);
+}
+
+// ── TOAST ───────────────────────────────────────────────
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── QR DOWNLOAD ─────────────────────────────────────────
+function downloadQR(){
+  const svg    = document.getElementById('qrSvg');
+  const data   = new XMLSerializer().serializeToString(svg);
+  const blob   = new Blob([data], {type:'image/svg+xml'});
+  const url    = URL.createObjectURL(blob);
+  const a      = document.createElement('a');
+  a.href = url; a.download = 'burnr-qr.svg'; a.click();
+  URL.revokeObjectURL(url);
+  showToast('✅ QR-код скачан!');
+}
+
+// ── INIT ────────────────────────────────────────────────
+renderMenu();
+</script>
+</body>
+</html>
