@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Мои Заметки</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- Mobile toggle -->
+  <button class="mobile-toggle" id="mobileToggle" title="Меню">
+    <svg viewBox="0 0 24 24"><rect y="4" width="24" height="2" rx="1"/><rect y="11" width="24" height="2" rx="1"/><rect y="18" width="24" height="2" rx="1"/></svg>
+  </button>
+
+  <!-- ── SIDEBAR ──────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="app-logo">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        </div>
+        <span class="logo-text">Мои <span>Заметки</span></span>
+      </div>
+
+      <button class="theme-btn" id="themeToggle" title="Сменить тему">
+        <svg class="icon-sun" viewBox="0 0 24 24"><path d="M12 17a5 5 0 100-10 5 5 0 000 10zm0-13a1 1 0 011 1V3a1 1 0 11-2 0v2a1 1 0 011-1zm0 16a1 1 0 011 1v-2a1 1 0 11-2 0v2a1 1 0 011-1zM4.22 5.64a1 1 0 011.41 0l1.42 1.41a1 1 0 11-1.41 1.41L4.22 7.05a1 1 0 010-1.41zm12.72 12.72a1 1 0 011.41 0l1.41 1.41a1 1 0 01-1.41 1.41l-1.41-1.41a1 1 0 010-1.41zM1 12a1 1 0 011-1h2a1 1 0 110 2H2a1 1 0 01-1-1zm18 0a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1zM4.22 18.36a1 1 0 010-1.41l1.42-1.42a1 1 0 111.41 1.42L5.63 18.36a1 1 0 01-1.41 0zM16.94 5.64a1 1 0 010-1.41l1.41-1.42a1 1 0 011.41 1.42l-1.41 1.41a1 1 0 01-1.41 0z"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/></svg>
+      </button>
+
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        <input class="search-input" id="searchInput" type="text" placeholder="Поиск заметок…"/>
+      </div>
+    </div>
+
+    <div class="note-list" id="noteList"></div>
+
+    <button class="new-note-btn" id="newNoteBtn">
+      <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+      Новая заметка
+    </button>
+  </aside>
+
+  <!-- ── EDITOR ───────────────────────────────────────── -->
+  <main class="editor-area">
+
+    <!-- Toolbar -->
+    <div class="editor-toolbar" id="editorToolbar" style="display:none">
+      <div class="toolbar-group">
+        <button class="tool-btn" title="Жирный (Ctrl+B)" onclick="fmt('bold')"><b>B</b></button>
+        <button class="tool-btn" title="Курсив (Ctrl+I)"  onclick="fmt('italic')"><i>I</i></button>
+        <button class="tool-btn" title="Подчёркнутый"     onclick="fmt('underline')"><u>U</u></button>
+      </div>
+      <div class="toolbar-sep"></div>
+      <div class="toolbar-group">
+        <button class="tool-btn" title="H1" onclick="fmt('h1')">H1</button>
+        <button class="tool-btn" title="H2" onclick="fmt('h2')">H2</button>
+      </div>
+      <div class="toolbar-sep"></div>
+      <div class="toolbar-group">
+        <button class="tool-btn" title="Список" onclick="fmt('ul')">
+          <svg viewBox="0 0 24 24"><path d="M9 6h13M9 12h13M9 18h13M4 6h.01M4 12h.01M4 18h.01" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        </button>
+        <button class="tool-btn" title="Нумерованный" onclick="fmt('ol')">
+          <svg viewBox="0 0 24 24"><path d="M10 6h11M10 12h11M10 18h11" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        </button>
+        <button class="tool-btn" title="Цитата" onclick="fmt('quote')">
+          <svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1zm12 0c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" fill="currentColor"/></svg>
+        </button>
+      </div>
+      <div class="word-count" id="wordCount"><span id="wc">0</span> слов</div>
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-2 12H8v-2h4v2zm4-4H8V8h8v2z"/></svg>
+      </div>
+      <h2>Нет открытых заметок</h2>
+      <p>Выберите заметку из списка или создайте новую.</p>
+    </div>
+
+    <!-- Note editor content -->
+    <div id="editorContent" style="display:none; flex:1; overflow:hidden; flex-direction:column;">
+      <div class="editor-main">
+        <textarea class="note-title-input" id="noteTitle" rows="1" placeholder="Заголовок…"></textarea>
+        <div class="note-meta-row">
+          <div class="note-date-display" id="noteDate"></div>
+          <div class="tag-input-wrap" id="tagWrap">
+            <button class="tag-add-btn" id="tagAddBtn">+ Тег</button>
+          </div>
+        </div>
+        <textarea class="note-body-input" id="noteBody"
+          placeholder="Начните писать…&#10;&#10;Это ваше пространство для мыслей, идей и планов."></textarea>
+      </div>
+    </div>
+  </main>
+
+  <!-- ── TAG MODAL ────────────────────────────────────── -->
+  <div class="modal-overlay" id="tagModal">
+    <div class="modal">
+      <h3>Добавить тег</h3>
+      <input id="tagInput" type="text" placeholder="Например: работа, личное, идеи…" maxlength="20"/>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="tagCancelBtn">Отмена</button>
+        <button class="btn btn-primary" id="tagConfirmBtn">Добавить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TOAST ─────────────────────────────────────────── -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
