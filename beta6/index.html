@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LUMIÈRE — Салон красоты</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:      #FDFAF6;
+  --bg2:     #F8F4EE;
+  --surface: #FFFFFF;
+  --dark:    #1A1410;
+  --dark2:   #2C2018;
+  --gold:    #B8922A;
+  --gold2:   #D4AE50;
+  --gold3:   #F0D090;
+  --rose:    #C8848A;
+  --rose2:   #E8B0B4;
+  --text:    #2C2018;
+  --muted:   #9A8A78;
+  --border:  rgba(184,146,42,0.15);
+  --border2: rgba(200,132,138,0.15);
+}
+
+html{scroll-behavior:smooth}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:flex;
+  position:relative;overflow:hidden;
+}
+.hero-left{
+  flex:1;display:flex;flex-direction:column;
+  justify-content:center;padding:80px 60px 80px 80px;
+  position:relative;z-index:1;
+}
+.hero-right{
+  width:45%;
+  background:linear-gradient(160deg,#F0E8D8 0%,#E8D8C0 100%);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;flex-shrink:0;
+}
+.hero-right-pattern{
+  position:absolute;inset:0;opacity:0.08;
+  background-image:repeating-linear-gradient(0deg,var(--gold) 0,var(--gold) 1px,transparent 1px,transparent 32px),
+    repeating-linear-gradient(90deg,var(--gold) 0,var(--gold) 1px,transparent 1px,transparent 32px);
+}
+.hero-right-emoji{font-size:120px;position:relative;z-index:1;filter:drop-shadow(0 20px 40px rgba(0,0,0,0.15))}
+
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 18px;border:1px solid var(--border);
+  border-radius:50px;background:rgba(255,255,255,0.7);
+  font-size:11px;font-weight:600;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:28px;width:fit-content;
+  animation:fadeUp 0.7s ease both;
+}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(52px,7vw,88px);
+  font-weight:300;line-height:1;
+  color:var(--dark);letter-spacing:2px;
+  margin-bottom:8px;
+  animation:fadeUp 0.7s 0.1s ease both;
+}
+.hero-title strong{
+  display:block;font-weight:600;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+.hero-divider{
+  display:flex;align-items:center;gap:12px;margin:24px 0;
+  animation:fadeUp 0.7s 0.2s ease both;
+}
+.hdiv-line{width:40px;height:1px;background:linear-gradient(to right,var(--gold),transparent)}
+.hdiv-diamond{width:6px;height:6px;background:var(--rose);transform:rotate(45deg)}
+
+.hero-desc{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-style:italic;color:var(--muted);
+  line-height:1.8;max-width:420px;margin-bottom:36px;
+  animation:fadeUp 0.7s 0.3s ease both;
+}
+
+.hero-btns{
+  display:flex;gap:12px;flex-wrap:wrap;
+  animation:fadeUp 0.7s 0.4s ease both;
+}
+.btn-primary{
+  padding:15px 36px;
+  background:linear-gradient(135deg,var(--dark),var(--dark2));
+  color:#F8F0E0;border:none;border-radius:2px;
+  font-family:'Manrope',sans-serif;font-size:12px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;cursor:pointer;text-decoration:none;
+  transition:all 0.25s;box-shadow:0 8px 24px rgba(26,20,16,0.2);
+}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(26,20,16,0.3)}
+.btn-secondary{
+  padding:15px 36px;background:transparent;
+  border:1px solid var(--border);color:var(--gold);border-radius:2px;
+  font-family:'Manrope',sans-serif;font-size:12px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;cursor:pointer;text-decoration:none;
+  transition:all 0.25s;
+}
+.btn-secondary:hover{background:rgba(184,146,42,0.06);transform:translateY(-3px)}
+
+.hero-stats{
+  display:flex;gap:32px;margin-top:48px;padding-top:32px;
+  border-top:1px solid var(--border);
+  animation:fadeUp 0.7s 0.5s ease both;
+}
+.hstat-n{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:var(--gold);line-height:1}
+.hstat-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px}
+
+@media(max-width:768px){
+  .hero{flex-direction:column}
+  .hero-left{padding:60px 24px;order:2}
+  .hero-right{width:100%;height:300px;order:1}
+  .hero-right-emoji{font-size:80px}
+}
+
+/* ── SECTION ── */
+section{padding:90px 24px;position:relative;z-index:1}
+.wrap{max-width:1060px;margin:0 auto}
+.wrap-sm{max-width:780px;margin:0 auto}
+
+.ornament{display:flex;align-items:center;gap:14px;margin:0 auto 16px;width:fit-content}
+.orn-l{width:48px;height:1px;background:linear-gradient(to right,transparent,var(--gold))}
+.orn-l2{width:48px;height:1px;background:linear-gradient(to left,transparent,var(--gold))}
+.orn-r{width:8px;height:8px;background:var(--gold3);transform:rotate(45deg);border:1px solid var(--gold)}
+
+.sec-label{display:block;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--rose);margin-bottom:10px;text-align:center}
+.sec-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(40px,6vw,68px);font-weight:300;
+  line-height:1.05;text-align:center;color:var(--dark);margin-bottom:8px;
+}
+.sec-title em{font-style:italic;color:var(--gold)}
+.sec-sub{text-align:center;color:var(--muted);font-size:14px;margin-bottom:52px;line-height:1.7}
+
+/* ── SERVICES ── */
+.services-section{background:var(--bg2)}
+.services-tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.stab{
+  padding:9px 22px;border:1px solid var(--border);border-radius:50px;
+  background:transparent;color:var(--muted);
+  font-family:'Manrope',sans-serif;font-size:12px;font-weight:600;
+  cursor:pointer;transition:all 0.2s;letter-spacing:1px;
+}
+.stab:hover{border-color:var(--gold);color:var(--gold)}
+.stab.active{background:var(--dark);color:#F8F0E0;border-color:var(--dark)}
+
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.service-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:2px;padding:28px;transition:all 0.25s;
+  position:relative;overflow:hidden;
+}
+.service-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(to right,var(--rose2),var(--gold2));
+  transform:scaleX(0);transform-origin:left;transition:transform 0.3s;
+}
+.service-card:hover::after{transform:scaleX(1)}
+.service-card:hover{box-shadow:0 8px 32px rgba(184,146,42,0.1);transform:translateY(-4px)}
+.svc-icon{font-size:32px;margin-bottom:14px;display:block}
+.svc-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--dark);margin-bottom:8px}
+.svc-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:16px}
+.svc-footer{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid var(--border2)}
+.svc-price{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--gold)}
+.svc-time{font-size:11px;color:var(--muted);letter-spacing:1px}
+
+/* ── MASTERS ── */
+.masters-section{background:var(--bg)}
+.masters-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+.master-card{
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:2px;overflow:hidden;transition:all 0.25s;text-align:center;
+}
+.master-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(200,132,138,0.15)}
+.master-photo{
+  height:220px;
+  background:linear-gradient(160deg,#F5ECD8,#EDD8C0);
+  display:flex;align-items:center;justify-content:center;
+  font-size:72px;position:relative;
+}
+.master-photo::after{content:'';position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to top,var(--surface),transparent)}
+.master-body{padding:20px}
+.master-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--dark);margin-bottom:4px}
+.master-spec{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--rose);margin-bottom:12px}
+.master-skills{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.mskill{font-size:10px;padding:3px 10px;background:var(--bg2);border:1px solid var(--border);color:var(--muted);border-radius:50px}
+
+/* ── BOOKING ── */
+.booking-section{
+  background:linear-gradient(160deg,var(--dark) 0%,var(--dark2) 100%);
+  position:relative;overflow:hidden;
+}
+.booking-section::before{
+  content:'';position:absolute;inset:0;opacity:0.04;
+  background-image:repeating-linear-gradient(45deg,var(--gold) 0,var(--gold) 1px,transparent 1px,transparent 48px),
+    repeating-linear-gradient(-45deg,var(--gold) 0,var(--gold) 1px,transparent 1px,transparent 48px);
+}
+.booking-section .sec-title{color:#F8F0E0}
+.booking-section .sec-sub{color:rgba(154,138,120,0.7)}
+.booking-section .sec-label{color:var(--gold2)}
+.booking-section .ornament .orn-l{background:linear-gradient(to right,transparent,rgba(184,146,42,0.5))}
+.booking-section .ornament .orn-l2{background:linear-gradient(to left,transparent,rgba(184,146,42,0.5))}
+
+.booking-card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(184,146,42,0.2);
+  border-radius:4px;padding:48px;
+  max-width:680px;margin:0 auto;
+  position:relative;
+}
+.booking-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(to right,transparent,var(--gold2),var(--rose2),var(--gold2),transparent);
+}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:560px){.form-grid{grid-template-columns:1fr}}
+
+.fg{display:flex;flex-direction:column;gap:7px;margin-bottom:0}
+.fg-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(154,138,120,0.8)}
+.fg-input,.fg-select{
+  padding:13px 16px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(184,146,42,0.2);
+  border-radius:2px;color:#F8F0E0;
+  font-family:'Manrope',sans-serif;font-size:14px;
+  outline:none;transition:all 0.2s;
+}
+.fg-input::placeholder{color:rgba(154,138,120,0.5)}
+.fg-input:focus,.fg-select:focus{
+  border-color:var(--gold2);
+  background:rgba(255,255,255,0.08);
+  box-shadow:0 0 0 3px rgba(184,146,42,0.1);
+}
+.fg-select option{background:#2C2018;color:#F8F0E0}
+
+.book-btn{
+  width:100%;padding:16px;margin-top:24px;
+  background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 100%);
+  color:var(--dark);border:none;border-radius:2px;
+  font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;
+  cursor:pointer;transition:all 0.25s;
+  box-shadow:0 8px 24px rgba(184,146,42,0.3);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.book-btn:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(184,146,42,0.5)}
+
+.wa-note{
+  margin-top:16px;text-align:center;
+  font-size:12px;color:rgba(154,138,120,0.6);
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+
+/* ── REVIEWS ── */
+.reviews-section{background:var(--bg2)}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.review-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:2px;padding:28px;transition:all 0.2s;
+}
+.review-card:hover{box-shadow:0 8px 32px rgba(184,146,42,0.08);transform:translateY(-3px)}
+.review-stars{color:var(--gold2);font-size:16px;margin-bottom:12px;letter-spacing:2px}
+.review-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:17px;font-style:italic;color:var(--dark);
+  line-height:1.7;margin-bottom:16px;
+}
+.review-author{display:flex;align-items:center;gap:12px}
+.review-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--rose2),var(--gold3));
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.review-name{font-size:13px;font-weight:600;color:var(--dark)}
+.review-date{font-size:11px;color:var(--muted)}
+
+/* ── GALLERY ── */
+.gallery-section{background:var(--bg)}
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:auto;
+  gap:4px;
+}
+.g-item{
+  background:linear-gradient(135deg,#F5ECD8,#EDD8C0);
+  display:flex;align-items:center;justify-content:center;
+  font-size:clamp(32px,5vw,60px);aspect-ratio:1;
+  position:relative;overflow:hidden;cursor:pointer;transition:all 0.3s;
+}
+.g-item:first-child{grid-column:span 2;aspect-ratio:2/1}
+.g-item::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(184,146,42,0);transition:background 0.3s;
+}
+.g-item:hover::after{background:rgba(184,146,42,0.15)}
+.g-item:hover{transform:scale(0.99)}
+@media(max-width:600px){.gallery-grid{grid-template-columns:repeat(2,1fr)}.g-item:first-child{grid-column:span 2}}
+
+/* ── CONTACTS ── */
+.contacts-section{background:var(--bg2);border-top:1px solid var(--border)}
+.contacts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:700px;margin:0 auto}
+@media(max-width:560px){.contacts-grid{grid-template-columns:1fr}}
+.c-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:2px;padding:28px;transition:all 0.2s;text-decoration:none;display:block;
+}
+.c-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(184,146,42,0.1);border-color:rgba(184,146,42,0.3)}
+.c-icon{font-size:28px;margin-bottom:12px;display:block}
+.c-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--rose);margin-bottom:6px}
+.c-value{font-size:15px;font-weight:500;color:var(--dark)}
+.c-sub{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--dark);padding:52px 24px;text-align:center;
+  position:relative;overflow:hidden;
+}
+footer::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(to right,transparent,var(--gold2),var(--rose2),var(--gold2),transparent);
+}
+.footer-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:48px;font-weight:300;letter-spacing:8px;
+  color:#F8F0E0;margin-bottom:6px;
+}
+.footer-logo span{color:var(--gold2);font-style:italic}
+.footer-tag{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(154,138,120,0.5);margin-bottom:16px}
+.footer-copy{font-size:12px;color:rgba(154,138,120,0.3)}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:24px;right:24px;z-index:400;
+  background:linear-gradient(135deg,var(--dark),var(--dark2));
+  color:#F8F0E0;padding:14px 24px;border-radius:2px;
+  font-size:13px;font-weight:600;letter-spacing:1px;
+  box-shadow:0 8px 32px rgba(26,20,16,0.4);
+  transform:translateY(80px);opacity:0;border-left:3px solid var(--gold);
+  transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;
+  max-width:300px;
+}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+*{scrollbar-width:thin;scrollbar-color:rgba(184,146,42,0.2) transparent}
+@media(max-width:600px){section{padding:60px 20px}.booking-card{padding:28px 20px}}
+</style>
+</head>
+<body>
+
+<!-- ── HERO ──────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">✨ Премиум Салон · Алматы</div>
+    <h1 class="hero-title">
+      LUMIÈRE
+      <strong>Beauty Studio</strong>
+    </h1>
+    <div class="hero-divider">
+      <div class="hdiv-line"></div>
+      <div class="hdiv-diamond"></div>
+    </div>
+    <p class="hero-desc">Место где рождается красота. Профессиональный уход, стиль и забота о вас.</p>
+    <div class="hero-btns">
+      <a href="#booking" class="btn-primary">Записаться онлайн</a>
+      <a href="#services" class="btn-secondary">Наши услуги</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="hstat-n">8+</div><div class="hstat-l">Мастеров</div></div>
+      <div><div class="hstat-n">4.9</div><div class="hstat-l">Рейтинг</div></div>
+      <div><div class="hstat-n">5к+</div><div class="hstat-l">Клиентов</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-right-pattern"></div>
+    <div class="hero-right-emoji">💅</div>
+  </div>
+</section>
+
+<!-- ── SERVICES ──────────────────────────────────────── -->
+<section class="services-section" id="services">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="ornament"><div class="orn-l"></div><div class="orn-r"></div><div class="orn-l2"></div></div>
+      <span class="sec-label">Прайс лист</span>
+      <h2 class="sec-title">Наши <em>услуги</em></h2>
+      <p class="sec-sub">Всё для вашей красоты в одном месте</p>
+    </div>
+    <div class="services-tabs reveal" id="sTabs">
+      <button class="stab active" data-cat="all">Все услуги</button>
+      <button class="stab" data-cat="nails">💅 Ногти</button>
+      <button class="stab" data-cat="hair">💇‍♀️ Волосы</button>
+      <button class="stab" data-cat="face">✨ Лицо</button>
+      <button class="stab" data-cat="brows">👁️ Брови</button>
+    </div>
+    <div class="services-grid" id="sGrid"></div>
+  </div>
+</section>
+
+<!-- ── MASTERS ────────────────────────────────────────── -->
+<section class="masters-section" id="masters">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="ornament"><div class="orn-l"></div><div class="orn-r"></div><div class="orn-l2"></div></div>
+      <span class="sec-label">Команда</span>
+      <h2 class="sec-title">Наши <em>мастера</em></h2>
+      <p class="sec-sub">Профессионалы с многолетним опытом и любовью к своему делу</p>
+    </div>
+    <div class="masters-grid reveal">
+      <div class="master-card">
+        <div class="master-photo">👩‍🦱</div>
+        <div class="master-body">
+          <div class="master-name">Дана С.</div>
+          <div class="master-spec">Мастер маникюра</div>
+          <div class="master-skills"><span class="mskill">Гель</span><span class="mskill">Дизайн</span><span class="mskill">Педикюр</span></div>
+        </div>
+      </div>
+      <div class="master-card">
+        <div class="master-photo">👩‍🦰</div>
+        <div class="master-body">
+          <div class="master-name">Айгерим К.</div>
+          <div class="master-spec">Стилист-колорист</div>
+          <div class="master-skills"><span class="mskill">Окрашивание</span><span class="mskill">Балаяж</span><span class="mskill">Стрижка</span></div>
+        </div>
+      </div>
+      <div class="master-card">
+        <div class="master-photo">👩‍🦳</div>
+        <div class="master-body">
+          <div class="master-name">Мадина Р.</div>
+          <div class="master-spec">Бровист / Визажист</div>
+          <div class="master-skills"><span class="mskill">Брови</span><span class="mskill">Макияж</span><span class="mskill">Ламинирование</span></div>
+        </div>
+      </div>
+      <div class="master-card">
+        <div class="master-photo">👩</div>
+        <div class="master-body">
+          <div class="master-name">Зарина Т.</div>
+          <div class="master-spec">Косметолог</div>
+          <div class="master-skills"><span class="mskill">Чистка</span><span class="mskill">Пилинг</span><span class="mskill">Уходы</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BOOKING ────────────────────────────────────────── -->
+<section class="booking-section" id="booking">
+  <div class="wrap-sm">
+    <div class="reveal">
+      <div class="ornament"><div class="orn-l"></div><div class="orn-r"></div><div class="orn-l2"></div></div>
+      <span class="sec-label">Онлайн запись</span>
+      <h2 class="sec-title" style="color:#F8F0E0">Записаться <em>к нам</em></h2>
+      <p class="sec-sub">Нажмите кнопку — откроется WhatsApp с вашей заявкой</p>
+    </div>
+    <div class="booking-card reveal">
+      <div class="form-grid">
+        <div class="fg">
+          <label class="fg-label">Ваше имя</label>
+          <input class="fg-input" id="bName" type="text" placeholder="Имя и фамилия"/>
+        </div>
+        <div class="fg">
+          <label class="fg-label">Телефон</label>
+          <input class="fg-input" id="bPhone" type="tel" placeholder="+7 777 000 00 00"/>
+        </div>
+        <div class="fg">
+          <label class="fg-label">Мастер</label>
+          <select class="fg-select" id="bMaster">
+            <option value="">Выберите мастера</option>
+            <option>Дана С. — Маникюр</option>
+            <option>Айгерим К. — Волосы</option>
+            <option>Мадина Р. — Брови</option>
+            <option>Зарина Т. — Косметолог</option>
+            <option>Любой свободный</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label class="fg-label">Услуга</label>
+          <select class="fg-select" id="bService">
+            <option value="">Выберите услугу</option>
+            <option>Маникюр с покрытием</option>
+            <option>Педикюр с покрытием</option>
+            <option>Наращивание ногтей</option>
+            <option>Стрижка и укладка</option>
+            <option>Окрашивание / Балаяж</option>
+            <option>Оформление бровей</option>
+            <option>Ламинирование бровей</option>
+            <option>Макияж</option>
+            <option>Чистка лица</option>
+            <option>Другое</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label class="fg-label">Дата</label>
+          <input class="fg-input" id="bDate" type="date"/>
+        </div>
+        <div class="fg">
+          <label class="fg-label">Время</label>
+          <select class="fg-select" id="bTime">
+            <option value="">Выберите время</option>
+            <option>09:00</option><option>10:00</option><option>11:00</option>
+            <option>12:00</option><option>13:00</option><option>14:00</option>
+            <option>15:00</option><option>16:00</option><option>17:00</option>
+            <option>18:00</option><option>19:00</option><option>20:00</option>
+          </select>
+        </div>
+      </div>
+      <button class="book-btn" onclick="bookWhatsApp()">
+        💬 Записаться через WhatsApp
+      </button>
+      <div class="wa-note">
+        📱 Откроется WhatsApp с готовым сообщением
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── REVIEWS ────────────────────────────────────────── -->
+<section class="reviews-section">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="ornament"><div class="orn-l"></div><div class="orn-r"></div><div class="orn-l2"></div></div>
+      <span class="sec-label">Отзывы</span>
+      <h2 class="sec-title">Что говорят <em>клиенты</em></h2>
+      <p class="sec-sub">Более 500 довольных клиентов за этот год</p>
+    </div>
+    <div class="reviews-grid reveal">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Обожаю этот салон! Дана делает невероятный маникюр — держится три недели без сколов."</div>
+        <div class="review-author">
+          <div class="review-avatar">👩</div>
+          <div><div class="review-name">Алия М.</div><div class="review-date">Февраль 2025</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Айгерим — волшебница! Сделала балаяж именно так как я хотела. Теперь только сюда!"</div>
+        <div class="review-author">
+          <div class="review-avatar">👱‍♀️</div>
+          <div><div class="review-name">Камила Д.</div><div class="review-date">Март 2025</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Мадина — лучший бровист в Алматы. Форма бровей изменила всё лицо. Рекомендую!"</div>
+        <div class="review-author">
+          <div class="review-avatar">👩‍🦰</div>
+          <div><div class="review-name">Назерке А.</div><div class="review-date">Апрель 2025</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GALLERY ────────────────────────────────────────── -->
+<section class="gallery-section">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="ornament"><div class="orn-l"></div><div class="orn-r"></div><div class="orn-l2"></div></div>
+      <span class="sec-label">Портфолио</span>
+      <h2 class="sec-title">Наши <em>работы</em></h2>
+      <p class="sec-sub">Следите за нами в Instagram @lumiere_beauty</p>
+    </div>
+    <div class="gallery-grid reveal">
+      <div class="g-item">💅</div>
+      <div class="g-item">✂️</div>
+      <div class="g-item">👁️</div>
+      <div class="g-item">💇‍♀️</div>
+      <div class="g-item">✨</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACTS ───────────────────────────────────────── -->
+<section class="contacts-section" id="contacts">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="ornament"><div class="orn-l"></div><div class="orn-r"></div><div class="orn-l2"></div></div>
+      <span class="sec-label">Контакты</span>
+      <h2 class="sec-title">Найти <em>нас</em></h2>
+      <p class="sec-sub">Алматы — работаем ежедневно</p>
+    </div>
+    <div class="contacts-grid reveal">
+      <a class="c-card" href="https://2gis.kz/almaty" target="_blank">
+        <span class="c-icon">📍</span>
+        <div class="c-label">Адрес</div>
+        <div class="c-value">ул. Достык, 52</div>
+        <div class="c-sub">Алматы · Открыть в 2GIS</div>
+      </a>
+      <div class="c-card">
+        <span class="c-icon">🕐</span>
+        <div class="c-label">Режим работы</div>
+        <div class="c-value">9:00 — 21:00</div>
+        <div class="c-sub">Пн — Вс, без выходных</div>
+      </div>
+      <a class="c-card" href="https://wa.me/77017098195" target="_blank">
+        <span class="c-icon">💬</span>
+        <div class="c-label">WhatsApp</div>
+        <div class="c-value">+7 701 709 8195</div>
+        <div class="c-sub">Ответим в течение 5 минут</div>
+      </a>
+      <a class="c-card" href="https://instagram.com/lumiere_beauty" target="_blank">
+        <span class="c-icon">📸</span>
+        <div class="c-label">Instagram</div>
+        <div class="c-value">@lumiere_beauty</div>
+        <div class="c-sub">Наши работы и акции</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────── -->
+<footer>
+  <div class="footer-logo">LUM<span>IÈ</span>RE</div>
+  <div class="footer-tag">Beauty Studio · Алматы</div>
+  <div class="footer-copy">© 2025 LUMIÈRE Beauty Studio · Все права защищены</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── SERVICES DATA ───────────────────────────────────────
+const services = [
+  {cat:'nails',icon:'💅',name:'Маникюр с покрытием',desc:'Гель-лак, снятие, уход за кутикулой. Держится до 3 недель.',price:'5 000 ₸',time:'60 мин'},
+  {cat:'nails',icon:'🦶',name:'Педикюр с покрытием',desc:'Полный уход за стопами, гель-лак на ваш выбор.',price:'6 000 ₸',time:'75 мин'},
+  {cat:'nails',icon:'💎',name:'Наращивание ногтей',desc:'Акрил или гель. Крепкие, красивые, долговечные.',price:'от 8 000 ₸',time:'120 мин'},
+  {cat:'nails',icon:'🎨',name:'Nail Art дизайн',desc:'Роспись, втирки, фольга, стразы. Любой дизайн.',price:'от 1 500 ₸',time:'30+ мин'},
+  {cat:'hair',icon:'✂️',name:'Стрижка + укладка',desc:'Любая длина. Мытьё, стрижка, профессиональная укладка.',price:'6 000 ₸',time:'60 мин'},
+  {cat:'hair',icon:'🎨',name:'Окрашивание / Балаяж',desc:'Однотонное или техника балаяж. Профессиональные краски.',price:'от 12 000 ₸',time:'120+ мин'},
+  {cat:'hair',icon:'✨',name:'Ламинирование волос',desc:'Восстановление, блеск, защита. Эффект до 4 недель.',price:'8 000 ₸',time:'90 мин'},
+  {cat:'hair',icon:'💆‍♀️',name:'Кератиновое выпрямление',desc:'Разглаживание, восстановление структуры волос.',price:'от 15 000 ₸',time:'150 мин'},
+  {cat:'face',icon:'🧖‍♀️',name:'Чистка лица',desc:'Ультразвуковая или механическая. Глубокое очищение.',price:'7 000 ₸',time:'60 мин'},
+  {cat:'face',icon:'💆',name:'Пилинг лица',desc:'Химический пилинг, выравнивание тона, омоложение.',price:'6 000 ₸',time:'45 мин'},
+  {cat:'brows',icon:'👁️',name:'Оформление бровей',desc:'Коррекция формы, окрашивание хной или краской.',price:'2 500 ₸',time:'30 мин'},
+  {cat:'brows',icon:'✨',name:'Ламинирование бровей',desc:'Укладка, ботокс, эффект держится до 6 недель.',price:'4 500 ₸',time:'60 мин'},
+];
+
+let activeCat = 'all';
+
+function renderServices(){
+  const list = activeCat==='all' ? services : services.filter(s=>s.cat===activeCat);
+  document.getElementById('sGrid').innerHTML = list.map((s,i)=>`
+    <div class="service-card reveal" style="transition-delay:${i*0.05}s">
+      <span class="svc-icon">${s.icon}</span>
+      <div class="svc-name">${s.name}</div>
+      <div class="svc-desc">${s.desc}</div>
+      <div class="svc-footer">
+        <div class="svc-price">${s.price}</div>
+        <div class="svc-time">⏱ ${s.time}</div>
+      </div>
+    </div>
+  `).join('');
+  // Re-observe new cards
+  document.querySelectorAll('.service-card.reveal').forEach(el=>obs.observe(el));
+}
+
+document.getElementById('sTabs').addEventListener('click',e=>{
+  const tab = e.target.closest('.stab');
+  if(!tab) return;
+  document.querySelectorAll('.stab').forEach(t=>t.classList.remove('active'));
+  tab.classList.add('active');
+  activeCat = tab.dataset.cat;
+  renderServices();
+});
+
+// ── WHATSAPP BOOKING ────────────────────────────────────
+function bookWhatsApp(){
+  const name    = document.getElementById('bName').value.trim();
+  const phone   = document.getElementById('bPhone').value.trim();
+  const master  = document.getElementById('bMaster').value;
+  const service = document.getElementById('bService').value;
+  const date    = document.getElementById('bDate').value;
+  const time    = document.getElementById('bTime').value;
+
+  if(!name)   { showToast('✏️ Введите ваше имя'); return; }
+  if(!phone)  { showToast('📞 Введите телефон'); return; }
+  if(!service){ showToast('💅 Выберите услугу'); return; }
+  if(!date)   { showToast('📅 Выберите дату'); return; }
+  if(!time)   { showToast('🕐 Выберите время'); return; }
+
+  const dateFormatted = new Date(date).toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'});
+
+  const msg = `Здравствуйте! Хочу записаться 💅
+
+👤 Имя: ${name}
+📞 Телефон: ${phone}
+💅 Услуга: ${service}
+👩 Мастер: ${master || 'Любой свободный'}
+📅 Дата: ${dateFormatted}
+🕐 Время: ${time}
+
+Прошу подтвердить запись 🙏`;
+
+  const url = `https://wa.me/77017098195?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+  showToast('✅ Открываем WhatsApp...');
+}
+
+// ── SCROLL REVEAL ───────────────────────────────────────
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting) e.target.classList.add('visible')});
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ── TOAST ───────────────────────────────────────────────
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ── INIT ────────────────────────────────────────────────
+renderServices();
+</script>
+</body>
+</html>
