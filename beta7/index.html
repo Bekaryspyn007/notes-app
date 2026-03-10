@@ -649,7 +649,7 @@ function bookWA(){
   if(!time)  {showToast('Выберите время');return}
   const d=new Date(date).toLocaleDateString('ru-RU',{day:'numeric',month:'long'});
   const msg=`Здравствуйте! Хочу записаться\n\n👤 ${name}\n📞 ${phone}\n💅 ${service}\n👩 ${master||'Любой свободный'}\n📅 ${d}\n🕐 ${time}\n\nПрошу подтвердить 🙏`;
-  window.open(`https://wa.me/77017098195?text=${encodeURIComponent(msg)}`,'_blank');
+  window.open(`https://wa.me/77083090492?text=${encodeURIComponent(msg)}`,'_blank');
   showToast('Открываем WhatsApp...');
 }
 
