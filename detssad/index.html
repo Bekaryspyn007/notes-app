@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title> Хотейка — Балабақша</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --sky:    #4A9EDB;
+  --sky2:   #62B8F5;
+  --sun:    #F5A623;
+  --sun2:   #FFB94A;
+  --green:  #4CAF7D;
+  --green2: #62D492;
+  --pink:   #F06292;
+  --purple: #9B59B6;
+  --cream:  #FFFDF7;
+  --white:  #FFFFFF;
+  --dark:   #2C3E50;
+  --text:   #3D4F5C;
+  --muted:  #8FA3B1;
+  --border: rgba(74,158,219,0.15);
+  --card:   #F7FBFF;
+}
+
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{
+  font-family:'Nunito Sans',sans-serif;
+  background:var(--cream);color:var(--text);
+  overflow-x:hidden;
+}
+
+/* ── LANG SWITCH ── */
+.lang-bar{
+  background:var(--sky);padding:8px 24px;
+  display:flex;justify-content:flex-end;align-items:center;gap:8px;
+}
+.lang-btn{
+  padding:4px 14px;border:1px solid rgba(255,255,255,0.4);
+  background:transparent;color:rgba(255,255,255,0.7);
+  font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:1px;cursor:pointer;border-radius:20px;transition:all .2s;
+}
+.lang-btn.active{background:white;color:var(--sky);border-color:white}
+.lang-btn:hover{background:rgba(255,255,255,0.2);color:white}
+
+/* ── NAV ── */
+.nav{
+  background:white;
+  box-shadow:0 2px 20px rgba(74,158,219,0.1);
+  position:sticky;top:0;z-index:100;
+  padding:0 24px;
+}
+.nav-inner{
+  max-width:900px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  height:64px;
+}
+.nav-logo{
+  font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;
+  color:var(--sky);text-decoration:none;letter-spacing:-0.5px;
+}
+.nav-logo span{color:var(--sun)}
+.nav-tabs{display:flex;gap:4px}
+.nav-tab{
+  padding:8px 14px;background:transparent;border:none;
+  font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;
+  color:var(--muted);cursor:pointer;border-radius:8px;transition:all .2s;
+  white-space:nowrap;
+}
+.nav-tab.active,.nav-tab:hover{background:rgba(74,158,219,0.1);color:var(--sky)}
+.nav-tab.active{color:var(--sky)}
+
+/* Mobile nav */
+.burger{
+  display:none;flex-direction:column;gap:5px;cursor:pointer;
+  background:none;border:none;padding:6px;
+}
+.burger span{width:24px;height:2px;background:var(--sky);border-radius:2px;transition:all .3s}
+
+.mobile-menu{
+  display:none;position:fixed;inset:0;z-index:200;
+  background:white;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+}
+.mobile-menu.open{display:flex}
+.mobile-menu .close-btn{
+  position:absolute;top:20px;right:24px;
+  font-size:28px;background:none;border:none;color:var(--muted);cursor:pointer;
+}
+.mobile-tab{
+  padding:14px 40px;background:transparent;border:2px solid var(--border);
+  font-family:'Nunito',sans-serif;font-size:16px;font-weight:700;
+  color:var(--text);cursor:pointer;border-radius:12px;transition:all .2s;
+  width:240px;text-align:center;
+}
+.mobile-tab.active,.mobile-tab:hover{background:var(--sky);color:white;border-color:var(--sky)}
+
+/* handled by responsive fixes above */
+
+/* ── PAGES ── */
+.page{display:none;animation:pageIn .4s ease}
+.page.active{display:block}
+@keyframes pageIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── HERO PAGE ── */
+.hero{
+  background:linear-gradient(135deg,#E8F4FF 0%,#FFF8E8 50%,#F0FFF4 100%);
+  min-height:calc(100vh - 96px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:60px 24px;
+  position:relative;overflow:hidden;
+}
+
+/* Floating shapes */
+.shape{position:absolute;border-radius:50%;opacity:0.15;animation:float var(--d) ease-in-out infinite alternate}
+@keyframes float{from{transform:translateY(0) rotate(0)}to{transform:translateY(-20px) rotate(10deg)}}
+
+.hero-emoji{font-size:clamp(60px,15vw,100px);margin-bottom:16px;animation:bounce 2s ease infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+.hero-title{
+  font-family:'Nunito',sans-serif;
+  font-size:clamp(36px,8vw,72px);font-weight:900;
+  color:var(--dark);line-height:1.1;margin-bottom:12px;
+  letter-spacing:-1px;
+}
+.hero-title span{color:var(--sky)}
+.hero-sub{
+  font-size:clamp(14px,3vw,18px);font-weight:400;
+  color:var(--muted);max-width:500px;line-height:1.7;margin-bottom:36px;
+}
+
+.hero-stats{
+  display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;
+}
+.hstat{
+  background:white;border-radius:16px;padding:16px 24px;
+  box-shadow:0 4px 20px rgba(74,158,219,0.1);
+  min-width:120px;
+}
+.hstat-n{font-family:'Nunito',sans-serif;font-size:28px;font-weight:900;color:var(--sky)}
+.hstat-l{font-size:12px;color:var(--muted);margin-top:2px}
+
+.hero-btn{
+  padding:16px 48px;background:var(--sky);color:white;border:none;
+  font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;
+  border-radius:50px;cursor:pointer;text-decoration:none;
+  box-shadow:0 8px 24px rgba(74,158,219,0.35);transition:all .25s;
+  display:inline-block;
+}
+.hero-btn:hover{background:var(--sky2);transform:translateY(-3px);box-shadow:0 12px 32px rgba(74,158,219,0.4)}
+
+/* ── ABOUT PAGE ── */
+.about-page{padding:60px 24px}
+.page-wrap{max-width:800px;margin:0 auto;width:100%}
+.page-header{text-align:center;margin-bottom:48px}
+.page-icon{font-size:48px;margin-bottom:12px}
+.page-title{
+  font-family:'Nunito',sans-serif;font-size:clamp(28px,6vw,44px);
+  font-weight:900;color:var(--dark);margin-bottom:8px;
+}
+.page-title span{color:var(--sky)}
+.page-desc{font-size:15px;color:var(--muted);line-height:1.7;max-width:500px;margin:0 auto}
+
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+@media(max-width:600px){.about-grid{grid-template-columns:1fr}}
+
+.about-card{
+  background:white;border-radius:20px;padding:28px 24px;
+  box-shadow:0 4px 20px rgba(74,158,219,0.08);
+  border:1px solid var(--border);transition:transform .2s;
+}
+.about-card:hover{transform:translateY(-4px)}
+.ac-icon{font-size:36px;margin-bottom:12px}
+.ac-title{font-family:'Nunito',sans-serif;font-size:17px;font-weight:800;color:var(--dark);margin-bottom:6px}
+.ac-text{font-size:14px;color:var(--muted);line-height:1.6}
+
+.about-mission{
+  background:linear-gradient(135deg,var(--sky),var(--sky2));
+  border-radius:24px;padding:36px;text-align:center;color:white;margin-top:8px;
+}
+.am-title{font-family:'Nunito',sans-serif;font-size:20px;font-weight:800;margin-bottom:10px}
+.am-text{font-size:15px;opacity:.85;line-height:1.7}
+
+/* Teachers accordion */
+.teachers-section{margin-top:48px}
+.sec-title{font-family:'Nunito',sans-serif;font-size:22px;font-weight:800;color:var(--dark);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+
+.teacher-item{
+  background:white;border-radius:16px;margin-bottom:10px;
+  border:1px solid var(--border);overflow:hidden;
+  box-shadow:0 2px 10px rgba(74,158,219,0.06);
+}
+.teacher-header{
+  display:flex;align-items:center;gap:16px;padding:18px 20px;cursor:pointer;transition:background .2s;
+}
+.teacher-header:hover{background:rgba(74,158,219,0.04)}
+.teacher-avatar{
+  width:52px;height:52px;border-radius:50%;object-fit:cover;flex-shrink:0;
+  background:linear-gradient(135deg,var(--sky),var(--green));
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+}
+.teacher-info{flex:1}
+.teacher-name{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:var(--dark)}
+.teacher-role{font-size:12px;color:var(--sky);font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.teacher-arrow{font-size:18px;color:var(--muted);transition:transform .3s}
+.teacher-item.open .teacher-arrow{transform:rotate(180deg)}
+.teacher-body{
+  max-height:0;overflow:hidden;transition:max-height .3s ease;
+  padding:0 20px;
+}
+.teacher-item.open .teacher-body{max-height:200px;padding:0 20px 20px}
+.teacher-exp{font-size:13px;color:var(--muted);line-height:1.6}
+.teacher-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.ttag{
+  padding:4px 12px;background:rgba(74,158,219,0.08);
+  border-radius:20px;font-size:11px;font-weight:700;color:var(--sky);
+  border:1px solid var(--border);
+}
+
+/* ── GROUPS PAGE ── */
+.groups-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px}
+.group-item{
+  background:white;border-radius:20px;overflow:hidden;
+  border:1px solid var(--border);
+  box-shadow:0 4px 16px rgba(74,158,219,0.08);
+}
+.group-header{
+  display:grid;grid-template-columns:auto 1fr auto;
+  align-items:center;gap:16px;padding:20px 24px;cursor:pointer;
+  transition:background .2s;
+}
+.group-header:hover{background:rgba(74,158,219,0.03)}
+.group-badge{
+  width:52px;height:52px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;flex-shrink:0;
+}
+.group-info{}
+.group-name{font-family:'Nunito',sans-serif;font-size:18px;font-weight:800;color:var(--dark)}
+.group-age{font-size:13px;font-weight:600;margin-top:2px}
+.group-count{
+  font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;
+  color:var(--muted);text-align:right;white-space:nowrap;
+}
+.group-arrow{font-size:16px;color:var(--muted);transition:transform .3s;margin-left:8px}
+.group-item.open .group-arrow{transform:rotate(180deg)}
+.group-body{
+  max-height:0;overflow:hidden;transition:max-height .4s ease;
+  border-top:1px solid transparent;
+}
+.group-item.open .group-body{max-height:400px;border-top-color:var(--border)}
+.group-content{padding:20px 24px}
+.group-schedule{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.gs-row{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--card);border-radius:10px}
+.gs-label{font-size:13px;font-weight:600;color:var(--text)}
+.gs-val{font-size:13px;color:var(--muted)}
+.group-subjects{margin-top:4px}
+.gs-title{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.subject-tags{display:flex;gap:6px;flex-wrap:wrap}
+.stag{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;background:var(--card);border:1px solid var(--border);color:var(--text)}
+
+/* ── PRICES PAGE ── */
+.prices-tabs{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap}
+.ptab{
+  padding:8px 20px;background:white;border:1px solid var(--border);
+  border-radius:20px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;
+  color:var(--muted);cursor:pointer;transition:all .2s;
+}
+.ptab.active,.ptab:hover{background:var(--sky);color:white;border-color:var(--sky)}
+
+.price-panel{display:none}
+.price-panel.active{display:block}
+
+.price-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.price-card{
+  background:white;border-radius:20px;padding:28px 24px;
+  border:2px solid var(--border);text-align:center;
+  transition:all .25s;position:relative;overflow:hidden;
+}
+.price-card.popular{border-color:var(--sky)}
+.price-card.popular::before{
+  content:attr(data-label);position:absolute;top:12px;right:-8px;
+  background:var(--sky);color:white;font-family:'Nunito',sans-serif;
+  font-size:10px;font-weight:800;padding:4px 20px 4px 12px;letter-spacing:1px;
+}
+.price-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(74,158,219,0.15)}
+.pc-icon{font-size:40px;margin-bottom:12px}
+.pc-name{font-family:'Nunito',sans-serif;font-size:18px;font-weight:800;color:var(--dark);margin-bottom:4px}
+.pc-desc{font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.pc-price{font-family:'Nunito',sans-serif;font-size:32px;font-weight:900;color:var(--sky)}
+.pc-period{font-size:12px;color:var(--muted)}
+.pc-features{text-align:left;margin-top:20px;display:flex;flex-direction:column;gap:8px}
+.pcf{font-size:13px;color:var(--text);display:flex;align-items:center;gap:8px}
+.pcf::before{content:'✓';color:var(--green);font-weight:800;flex-shrink:0}
+
+.price-note{
+  margin-top:24px;padding:16px 20px;background:rgba(245,166,35,0.08);
+  border-radius:14px;border-left:3px solid var(--sun);
+  font-size:13px;color:var(--text);line-height:1.6;
+}
+
+/* ── GALLERY PAGE ── */
+.gallery-cats{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.gcat{
+  padding:7px 18px;background:white;border:1px solid var(--border);
+  border-radius:20px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;
+  color:var(--muted);cursor:pointer;transition:all .2s;
+}
+.gcat.active,.gcat:hover{background:var(--green);color:white;border-color:var(--green)}
+
+.gallery-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+}
+@media(max-width:500px){.gallery-grid{grid-template-columns:repeat(2,1fr)}}
+.g-item{
+  aspect-ratio:1;border-radius:14px;overflow:hidden;
+  background:linear-gradient(135deg,var(--sky),var(--green));
+  display:flex;align-items:center;justify-content:center;
+  font-size:40px;cursor:pointer;transition:transform .25s;
+  position:relative;
+}
+.g-item:hover{transform:scale(1.04)}
+.g-item img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.g-item:first-child{grid-column:span 2;aspect-ratio:2/1}
+
+/* ── CONTACTS PAGE ── */
+.contacts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+@media(max-width:600px){.contacts-grid{grid-template-columns:1fr}}
+.c-card{
+  background:white;border-radius:20px;padding:24px;
+  border:1px solid var(--border);text-align:center;
+  box-shadow:0 4px 16px rgba(74,158,219,0.06);
+  text-decoration:none;transition:all .2s;display:block;
+}
+.c-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(74,158,219,0.12);border-color:var(--sky)}
+.c-icon{font-size:36px;margin-bottom:10px}
+.c-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.c-value{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:var(--dark)}
+
+/* Form */
+.form-box{
+  background:white;border-radius:24px;padding:32px;
+  border:1px solid var(--border);
+  box-shadow:0 4px 20px rgba(74,158,219,0.08);
+}
+.form-title{font-family:'Nunito',sans-serif;font-size:20px;font-weight:800;color:var(--dark);margin-bottom:4px;text-align:center}
+.form-sub{font-size:13px;color:var(--muted);text-align:center;margin-bottom:24px}
+.fg{margin-bottom:14px}
+.fg-l{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--sky);margin-bottom:6px;display:block;font-weight:700}
+.fg-i,.fg-s{
+  width:100%;padding:13px 16px;background:var(--card);
+  border:1px solid var(--border);border-radius:12px;
+  color:var(--text);font-family:'Nunito Sans',sans-serif;
+  font-size:15px;outline:none;transition:all .2s;-webkit-appearance:none;
+}
+.fg-i::placeholder{color:var(--muted)}
+.fg-i:focus,.fg-s:focus{border-color:var(--sky);background:white;box-shadow:0 0 0 3px rgba(74,158,219,0.1)}
+.fg-s option{background:white}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.fg-row{grid-template-columns:1fr}}
+.submit-btn{
+  width:100%;padding:16px;background:var(--sky);color:white;border:none;
+  border-radius:14px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;
+  cursor:pointer;transition:all .25s;margin-top:4px;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.submit-btn:hover{background:var(--sky2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(74,158,219,0.3)}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:24px;left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:var(--green);color:white;
+  padding:12px 28px;border-radius:50px;
+  font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;
+  z-index:500;opacity:0;
+  transition:all .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--dark);color:rgba(255,255,255,0.5);
+  text-align:center;padding:24px;font-size:12px;
+}
+footer span{color:var(--sky)}
+
+
+/* ── BOTTOM NAV (mobile) ── */
+.bottom-nav{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;z-index:200;
+  background:white;
+  border-top:1px solid rgba(74,158,219,0.15);
+  box-shadow:0 -4px 20px rgba(74,158,219,0.1);
+  padding:8px 0 max(8px,env(safe-area-inset-bottom));
+}
+.bn-grid{display:grid;grid-template-columns:repeat(6,1fr)}
+.bn-item{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:6px 4px;border:none;background:transparent;cursor:pointer;
+  transition:all .2s;-webkit-tap-highlight-color:transparent;
+}
+.bn-icon{width:22px;height:22px;line-height:1;color:var(--muted);transition:color .2s}
+.bn-item.active .bn-icon{color:var(--sky)}
+.bn-label{font-family:'Nunito',sans-serif;font-size:9px;font-weight:700;color:var(--muted);letter-spacing:0.3px;text-align:center}
+.bn-item.active .bn-label{color:var(--sky)}
+.bn-item.active .bn-icon{transform:translateY(-2px)}
+.bn-dot{width:4px;height:4px;border-radius:50%;background:var(--sky);margin:0 auto;opacity:0;transition:opacity .2s}
+.bn-item.active .bn-dot{opacity:1}
+
+@media(max-width:700px){
+  .bottom-nav{display:block}
+  .nav-tabs{display:none}
+  .burger{display:none}
+  body{padding-bottom:72px}
+}
+
+
+/* ── RESPONSIVE FIXES ── */
+
+/* Desktop: hide bottom nav, show top tabs */
+@media(min-width:701px){
+  .bottom-nav{display:none !important}
+  .nav-tabs{display:flex !important}
+  .burger{display:none !important}
+  body{padding-bottom:0 !important}
+}
+
+/* Mobile: everything fits */
+@media(max-width:700px){
+  .lang-bar{padding:6px 16px}
+  .nav-inner{padding:0}
+  .nav{padding:0 16px}
+  .nav.scrolled{padding:0 16px}
+  
+  .hero{padding:0 20px 80px}
+  .hero-stats{gap:10px}
+  .hstat{padding:12px 16px;min-width:90px}
+  .hstat-n{font-size:22px}
+  .hero-btns{flex-direction:column;gap:10px}
+  .btn-primary,.btn-sec{min-width:unset;width:100%;padding:15px}
+
+  .about-page{padding:40px 16px}
+  .page-header{margin-bottom:32px}
+  
+  .about-grid{grid-template-columns:1fr}
+  .about-card{padding:20px 18px}
+  .about-mission{padding:24px 20px}
+  
+  .svc-row{padding:16px}
+  .svc-row:hover{padding-left:16px}
+  
+  .contacts-grid{grid-template-columns:1fr 1fr}
+  .form-box{padding:24px 16px}
+  
+  .price-cards{grid-template-columns:1fr}
+  .prices-tabs{gap:6px}
+  .ptab{padding:7px 14px;font-size:12px}
+  
+  .group-header{padding:16px 14px;gap:12px}
+  .group-content{padding:16px 14px}
+  .group-badge{width:42px;height:42px;font-size:20px}
+  
+  .teacher-header{padding:14px 16px;gap:12px}
+  .teacher-avatar{width:44px;height:44px;font-size:18px}
+  
+  .gallery-grid{grid-template-columns:repeat(2,1fr)}
+  .g-item:first-child{grid-column:span 2}
+  
+  .bn-label{font-size:8px}
+  .page-title{letter-spacing:-0.5px}
+  .stitle span{display:inline}
+  
+  .section-num{font-size:80px}
+  .fg-row{grid-template-columns:1fr}
+}
+
+/* Small phones */
+@media(max-width:380px){
+  .hero-title{font-size:52px}
+  .hstat-n{font-size:18px}
+  .hstat{min-width:80px;padding:10px 12px}
+  .bn-label{font-size:7px;letter-spacing:0}
+  .bn-grid{gap:0}
+}
+
+/* Tablet */
+@media(min-width:701px) and (max-width:900px){
+  .nav-tab{padding:6px 10px;font-size:12px}
+  .price-cards{grid-template-columns:repeat(2,1fr)}
+  .about-grid{grid-template-columns:1fr 1fr}
+  .hero-title{font-size:52px}
+}
+
+/* Fix nav overflow on medium screens */
+@media(min-width:701px){
+  .nav-inner{gap:8px}
+  .nav-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .nav-tabs::-webkit-scrollbar{display:none}
+}
+
+*{scrollbar-width:thin;scrollbar-color:rgba(74,158,219,0.3) transparent}
+</style>
+</head>
+<body>
+
+<!-- LANG BAR -->
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('ru')">РУС</button>
+  <button class="lang-btn" onclick="setLang('kz')">ҚАЗ</button>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo" id="logo">Хотей<span>ка</span></a>
+    <div class="nav-tabs" id="navTabs">
+      <button class="nav-tab active" onclick="showPage('home',this)" data-ru="Главная" data-kz="Басты">Главная</button>
+      <button class="nav-tab" onclick="showPage('about',this)" data-ru="О садике" data-kz="Бақша туралы">О садике</button>
+      <button class="nav-tab" onclick="showPage('groups',this)" data-ru="Группы" data-kz="Топтар">Группы</button>
+      <button class="nav-tab" onclick="showPage('prices',this)" data-ru="Цены" data-kz="Бағалар">Цены</button>
+      <button class="nav-tab" onclick="showPage('gallery',this)" data-ru="Галерея" data-kz="Галерея">Галерея</button>
+      <button class="nav-tab" onclick="showPage('contacts',this)" data-ru="Контакты" data-kz="Байланыс">Контакты</button>
+    </div>
+    <button class="burger" id="burger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-btn" onclick="toggleMenu()">✕</button>
+  <button class="mobile-tab active" onclick="showPage('home',this,true)" data-ru="Главная" data-kz="Басты">Главная</button>
+  <button class="mobile-tab" onclick="showPage('about',this,true)" data-ru="О садике" data-kz="Бақша туралы">О садике</button>
+  <button class="mobile-tab" onclick="showPage('groups',this,true)" data-ru="Группы" data-kz="Топтар">Группы</button>
+  <button class="mobile-tab" onclick="showPage('prices',this,true)" data-ru="Цены" data-kz="Бағалар">Цены</button>
+  <button class="mobile-tab" onclick="showPage('gallery',this,true)" data-ru="Галерея" data-kz="Галерея">Галерея</button>
+  <button class="mobile-tab" onclick="showPage('contacts',this,true)" data-ru="Контакты" data-kz="Байланыс">Контакты</button>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE: HOME
+══════════════════════════════════ -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="shape" style="width:200px;height:200px;background:var(--sky);top:-60px;left:-60px;--d:5s"></div>
+    <div class="shape" style="width:150px;height:150px;background:var(--sun);bottom:-40px;right:-40px;--d:7s"></div>
+    <div class="shape" style="width:100px;height:100px;background:var(--green);top:40%;right:5%;--d:6s"></div>
+
+    <div class="hero-emoji">🌟</div>
+    <!-- ИЗМЕНИ: название садика -->
+    <h1 class="hero-title" id="hero-title">Добро пожаловать в<br/><span>Хотейка!</span></h1>
+    <!-- ИЗМЕНИ: слоган/описание -->
+    <p class="hero-sub" id="hero-sub">Место где каждый ребёнок раскрывает свой потенциал. Забота, развитие и радость каждый день.</p>
+
+    <div class="hero-stats">
+      <!-- ИЗМЕНИ: цифры -->
+      <div class="hstat"><div class="hstat-n" id="stat1-n">120+</div><div class="hstat-l" id="stat1-l">Воспитанников</div></div>
+      <div class="hstat"><div class="hstat-n" id="stat2-n">15</div><div class="hstat-l" id="stat2-l">Педагогов</div></div>
+      <div class="hstat"><div class="hstat-n" id="stat3-n">10</div><div class="hstat-l" id="stat3-l">Лет опыта</div></div>
+    </div>
+    <a href="#" onclick="showPage('contacts',document.querySelector('.nav-tab:last-child'))" class="hero-btn" id="hero-btn">Записать ребёнка</a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE: ABOUT
+══════════════════════════════════ -->
+<div id="page-about" class="page">
+  <div class="about-page">
+    <div class="page-wrap">
+      <div class="page-header">
+        <div class="page-icon">🏡</div>
+        <h2 class="page-title" id="about-title">О нашем <span>садике</span></h2>
+        <!-- ИЗМЕНИ: описание садика -->
+        <p class="page-desc" id="about-desc">Мы создали пространство где дети чувствуют себя в безопасности, растут и развиваются с удовольствием.</p>
+      </div>
+
+      <div class="about-grid">
+        <!-- ИЗМЕНИ: преимущества -->
+        <div class="about-card">
+          <div class="ac-icon">🎓</div>
+          <div class="ac-title" id="adv1-title">Опытные педагоги</div>
+          <div class="ac-text" id="adv1-text">Все воспитатели с высшим педагогическим образованием и опытом работы от 5 лет.</div>
+        </div>
+        <div class="about-card">
+          <div class="ac-icon">🍎</div>
+          <div class="ac-title" id="adv2-title">Здоровое питание</div>
+          <div class="ac-text" id="adv2-text">5-разовое сбалансированное питание. Меню составлено диетологом.</div>
+        </div>
+        <div class="about-card">
+          <div class="ac-icon">🎨</div>
+          <div class="ac-title" id="adv3-title">Развивающие занятия</div>
+          <div class="ac-text" id="adv3-text">Творчество, музыка, спорт, английский язык — всё включено в программу.</div>
+        </div>
+        <div class="about-card">
+          <div class="ac-icon">🛡️</div>
+          <div class="ac-title" id="adv4-title">Безопасность</div>
+          <div class="ac-text" id="adv4-text">Видеонаблюдение 24/7, охрана, современная детская площадка.</div>
+        </div>
+      </div>
+
+      <!-- ИЗМЕНИ: миссия -->
+      <div class="about-mission">
+        <div class="am-title" id="mission-title">Наша миссия</div>
+        <div class="am-text" id="mission-text">Создать среду где каждый ребёнок чувствует себя любимым, уважаемым и готовым к большому миру. Мы не просто садик — мы вторая семья.</div>
+      </div>
+
+      <!-- ПЕДАГОГИ — добавляй/убирай блоки -->
+      <div class="teachers-section">
+        <div class="sec-title">👩‍🏫 <span id="teachers-title">Наши педагоги</span></div>
+
+        <!-- ПЕДАГОГ 1 — ИЗМЕНИ -->
+        <div class="teacher-item" onclick="toggleAccordion(this)">
+          <div class="teacher-header">
+            <div class="teacher-avatar">👩</div>
+            <div class="teacher-info">
+              <div class="teacher-name">Бахыт Оразбековна</div>
+              <div class="teacher-role">Старший воспитатель</div>
+            </div>
+            <div class="teacher-arrow">▾</div>
+          </div>
+          <div class="teacher-body">
+            <div class="teacher-exp">Опыт работы 8 лет. Специализация: раннее развитие, подготовка к школе. Любимое занятие с детьми — театральные постановки.</div>
+            <div class="teacher-tags">
+              <span class="ttag">Развитие речи</span>
+              <span class="ttag">Математика</span>
+              <span class="ttag">Творчество</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ПЕДАГОГ 2 — ИЗМЕНИ -->
+        <div class="teacher-item" onclick="toggleAccordion(this)">
+          <div class="teacher-header">
+            <div class="teacher-avatar">👩‍🦱</div>
+            <div class="teacher-info">
+              <div class="teacher-name">Гулим Жамалиевна</div>
+              <div class="teacher-role">Воспитатель средней группы</div>
+            </div>
+            <div class="teacher-arrow">▾</div>
+          </div>
+          <div class="teacher-body">
+            <div class="teacher-exp">Опыт работы 6 лет. Специализируется на развитии казахского языка у детей в игровой форме.</div>
+            <div class="teacher-tags">
+              <span class="ttag">Казахский язык</span>
+              <span class="ttag">Фольклор</span>
+              <span class="ttag">Игры</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ПЕДАГОГ 3 — ИЗМЕНИ -->
+        <div class="teacher-item" onclick="toggleAccordion(this)">
+          <div class="teacher-header">
+            <div class="teacher-avatar">👨</div>
+            <div class="teacher-info">
+              <div class="teacher-name">Балжан Ильясовна</div>
+              <div class="teacher-role">Воспитатель младшей группы</div>
+            </div>
+            <div class="teacher-arrow">▾</div>
+          </div>
+          <div class="teacher-body">
+            <div class="teacher-exp">Опыт работы 6 лет. Мастер спорта по гимнастике. Занятия физкультурой проводит в игровой форме.</div>
+            <div class="teacher-tags">
+              <span class="ttag">Физкультура</span>
+              <span class="ttag">Гимнастика</span>
+              <span class="ttag">Подвижные игры</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE: GROUPS
+══════════════════════════════════ -->
+<div id="page-groups" class="page">
+  <div class="about-page">
+    <div class="page-wrap">
+      <div class="page-header">
+        <div class="page-icon">👶</div>
+        <h2 class="page-title" id="groups-title">Наши <span>группы</span></h2>
+        <p class="page-desc" id="groups-desc">Каждая группа разработана с учётом возраста и потребностей ребёнка.</p>
+      </div>
+
+      <div class="groups-grid">
+
+        <!-- ГРУППА 1 — ИЗМЕНИ -->
+          <div class="group-body">
+            <div class="group-content">
+              <div class="group-schedule">
+                <div class="gs-row"><span class="gs-label" id="g1-s1l">Время работы</span><span class="gs-val" id="g1-s1v">07:30 — 19:00</span></div>
+                <div class="gs-row"><span class="gs-label" id="g1-s2l">Воспитатель</span><span class="gs-val" id="g1-s2v">Иванова М.С.</span></div>
+                <div class="gs-row"><span class="gs-label" id="g1-s3l">Количество мест</span><span class="gs-val" id="g1-s3v">3 свободных</span></div>
+              </div>
+              <div class="group-subjects">
+                <div class="gs-title">Занятия</div>
+                <div class="subject-tags">
+                  <span class="stag">Сенсорика</span><span class="stag">Лепка</span>
+                  <span class="stag">Музыка</span><span class="stag">Прогулки</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ГРУППА 2 — ИЗМЕНИ -->
+        <div class="group-item" onclick="toggleAccordion(this)">
+          <div class="group-header">
+            <div class="group-badge" style="background:linear-gradient(135deg,#B2EBF2,#80DEEA)">🌱</div>
+            <div class="group-info">
+              <div class="group-name" id="g2-name">Младшая группа</div>
+              <div class="group-age" style="color:var(--sky)" id="g2-age">2 — 3 года</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:4px">
+              <div class="group-count" id="g2-count">до 15 детей</div>
+              <div class="group-arrow">▾</div>
+            </div>
+          </div>
+          <div class="group-body">
+            <div class="group-content">
+              <div class="group-schedule">
+                <div class="gs-row"><span class="gs-label">Время работы</span><span class="gs-val">07:30 — 19:00</span></div>
+                <div class="gs-row"><span class="gs-label">Воспитатель</span><span class="gs-val">Сейткали А.Б.</span></div>
+                <div class="gs-row"><span class="gs-label">Количество мест</span><span class="gs-val">5 свободных</span></div>
+              </div>
+              <div class="group-subjects">
+                <div class="gs-title">Занятия</div>
+                <div class="subject-tags">
+                  <span class="stag">Рисование</span><span class="stag">Речь</span>
+                  <span class="stag">Физкультура</span><span class="stag">Казахский</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ГРУППА 3 — ИЗМЕНИ -->
+        <div class="group-item" onclick="toggleAccordion(this)">
+          <div class="group-header">
+            <div class="group-badge" style="background:linear-gradient(135deg,#C8E6C9,#A5D6A7)">🌿</div>
+            <div class="group-info">
+              <div class="group-name" id="g3-name">Средняя группа</div>
+              <div class="group-age" style="color:var(--green)" id="g3-age">3 — 5 лет</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:4px">
+              <div class="group-count" id="g3-count">до 20 детей</div>
+              <div class="group-arrow">▾</div>
+            </div>
+          </div>
+          <div class="group-body">
+            <div class="group-content">
+              <div class="group-schedule">
+                <div class="gs-row"><span class="gs-label">Время работы</span><span class="gs-val">07:30 — 19:00</span></div>
+                <div class="gs-row"><span class="gs-label">Воспитатель</span><span class="gs-val">Петров А.Н.</span></div>
+                <div class="gs-row"><span class="gs-label">Количество мест</span><span class="gs-val">2 свободных</span></div>
+              </div>
+              <div class="group-subjects">
+                <div class="gs-title">Занятия</div>
+                <div class="subject-tags">
+                  <span class="stag">Математика</span><span class="stag">Английский</span>
+                  <span class="stag">Аппликация</span><span class="stag">Танцы</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ГРУППА 4 — ИЗМЕНИ -->
+        <div class="group-item" onclick="toggleAccordion(this)">
+          <div class="group-header">
+            <div class="group-badge" style="background:linear-gradient(135deg,#E1BEE7,#CE93D8)">🌟</div>
+            <div class="group-info">
+              <div class="group-name" id="g4-name">Подготовительная группа</div>
+              <div class="group-age" style="color:var(--purple)" id="g4-age">5 — 7 лет</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:4px">
+              <div class="group-count" id="g4-count">до 20 детей</div>
+              <div class="group-arrow">▾</div>
+            </div>
+          </div>
+          <div class="group-body">
+            <div class="group-content">
+              <div class="group-schedule">
+                <div class="gs-row"><span class="gs-label">Время работы</span><span class="gs-val">07:30 — 19:00</span></div>
+                <div class="gs-row"><span class="gs-label">Воспитатель</span><span class="gs-val">Иванова М.С.</span></div>
+                <div class="gs-row"><span class="gs-label">Количество мест</span><span class="gs-val">мест нет</span></div>
+              </div>
+              <div class="group-subjects">
+                <div class="gs-title">Занятия</div>
+                <div class="subject-tags">
+                  <span class="stag">Чтение</span><span class="stag">Письмо</span>
+                  <span class="stag">Логика</span><span class="stag">Английский</span><span class="stag">Шахматы</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE: PRICES
+══════════════════════════════════ -->
+<div id="page-prices" class="page">
+  <div class="about-page">
+    <div class="page-wrap">
+      <div class="page-header">
+        <div class="page-icon">💰</div>
+        <h2 class="page-title" id="prices-title">Наши <span>тарифы</span></h2>
+        <p class="page-desc" id="prices-desc">Выберите подходящий формат для вашего ребёнка.</p>
+      </div>
+
+      <!-- Вкладки тарифов -->
+      <div class="prices-tabs">
+        <button class="ptab active" onclick="showPriceTab('full',this)" id="pt1">Полный день</button>
+        <button class="ptab" onclick="showPriceTab('half',this)" id="pt2">Полдня</button>
+        <button class="ptab" onclick="showPriceTab('extra',this)" id="pt3">Доп. услуги</button>
+      </div>
+
+      <!-- ПОЛНЫЙ ДЕНЬ — ИЗМЕНИ ЦЕНЫ -->
+      <div class="price-panel active" id="panel-full">
+        <div class="price-cards">
+          <div class="price-card">
+            <div class="pc-icon">🌱</div>
+            <div class="pc-name" id="p1-name">Стандарт</div>
+            <div class="pc-desc" id="p1-desc">Ясельная и младшая группа</div>
+            <div class="pc-price" id="p1-price">45 000 ₸</div>
+            <div class="pc-period">/месяц</div>
+            <div class="pc-features">
+              <div class="pcf">5-разовое питание</div>
+              <div class="pcf">Развивающие занятия</div>
+              <div class="pcf">Прогулки на свежем воздухе</div>
+              <div class="pcf">07:30 — 19:00</div>
+            </div>
+          </div>
+          <div class="price-card popular" data-label="Популярный">
+            <div class="pc-icon">🌟</div>
+            <div class="pc-name" id="p2-name">Комфорт</div>
+            <div class="pc-desc" id="p2-desc">Средняя и старшая группа</div>
+            <div class="pc-price" id="p2-price">55 000 ₸</div>
+            <div class="pc-period">/месяц</div>
+            <div class="pc-features">
+              <div class="pcf">5-разовое питание</div>
+              <div class="pcf">Английский язык</div>
+              <div class="pcf">Казахский язык</div>
+              <div class="pcf">Музыка и танцы</div>
+              <div class="pcf">07:30 — 19:00</div>
+            </div>
+          </div>
+          <div class="price-card">
+            <div class="pc-icon">🎓</div>
+            <div class="pc-name" id="p3-name">Подготовка</div>
+            <div class="pc-desc" id="p3-desc">Подготовительная группа</div>
+            <div class="pc-price" id="p3-price">65 000 ₸</div>
+            <div class="pc-period">/месяц</div>
+            <div class="pc-features">
+              <div class="pcf">Всё из Комфорт</div>
+              <div class="pcf">Подготовка к школе</div>
+              <div class="pcf">Шахматы</div>
+              <div class="pcf">Логопед</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ПОЛДНЯ — ИЗМЕНИ -->
+      <div class="price-panel" id="panel-half">
+        <div class="price-cards">
+          <div class="price-card">
+            <div class="pc-icon">🌅</div>
+            <div class="pc-name">Утренний</div>
+            <div class="pc-desc">07:30 — 13:00</div>
+            <div class="pc-price">28 000 ₸</div>
+            <div class="pc-period">/месяц</div>
+            <div class="pc-features">
+              <div class="pcf">Завтрак и обед</div>
+              <div class="pcf">Все занятия</div>
+              <div class="pcf">Прогулка</div>
+            </div>
+          </div>
+          <div class="price-card popular" data-label="Популярный">
+            <div class="pc-icon">🌇</div>
+            <div class="pc-name">Вечерний</div>
+            <div class="pc-desc">13:00 — 19:00</div>
+            <div class="pc-price">25 000 ₸</div>
+            <div class="pc-period">/месяц</div>
+            <div class="pc-features">
+              <div class="pcf">Обед и полдник</div>
+              <div class="pcf">Занятия после обеда</div>
+              <div class="pcf">Прогулка</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ДОППУСЛУГИ — ИЗМЕНИ -->
+      <div class="price-panel" id="panel-extra">
+        <div class="price-cards">
+          <div class="price-card">
+            <div class="pc-icon">🎵</div>
+            <div class="pc-name">Музыкальная школа</div>
+            <div class="pc-desc">Фортепиано, пение</div>
+            <div class="pc-price">8 000 ₸</div>
+            <div class="pc-period">/месяц</div>
+            <div class="pc-features">
+              <div class="pcf">2 раза в неделю</div>
+              <div class="pcf">Профессиональный педагог</div>
+            </div>
+          </div>
+          <div class="price-card">
+            <div class="pc-icon">🏊</div>
+            <div class="pc-name">Плавание</div>
+            <div class="pc-desc">Бассейн в садике</div>
+            <div class="pc-price">10 000 ₸</div>
+            <div class="pc-period">/месяц</div>
+            <div class="pc-features">
+              <div class="pcf">2 раза в неделю</div>
+              <div class="pcf">Тренер по плаванию</div>
+            </div>
+          </div>
+          <div class="price-card">
+            <div class="pc-icon">🧠</div>
+            <div class="pc-name">Логопед</div>
+            <div class="pc-desc">Индивидуальные занятия</div>
+            <div class="pc-price">5 000 ₸</div>
+            <div class="pc-period">/занятие</div>
+            <div class="pc-features">
+              <div class="pcf">По записи</div>
+              <div class="pcf">Опытный логопед</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="price-note">
+        💡 <strong>Скидки:</strong> При оплате за 3 месяца — скидка 5%. Второй ребёнок из семьи — скидка 10%. Точные цены уточняйте при записи.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE: GALLERY
+══════════════════════════════════ -->
+<div id="page-gallery" class="page">
+  <div class="about-page">
+    <div class="page-wrap">
+      <div class="page-header">
+        <div class="page-icon">📸</div>
+        <h2 class="page-title" id="gallery-title">Наша <span>галерея</span></h2>
+        <p class="page-desc">Замените emoji на реальные фото — просто замените содержимое .g-item на img тег</p>
+      </div>
+
+      <div class="gallery-cats">
+        <button class="gcat active" onclick="filterGallery('all',this)">Все</button>
+        <button class="gcat" onclick="filterGallery('class',this)">Занятия</button>
+        <button class="gcat" onclick="filterGallery('walk',this)">Прогулки</button>
+        <button class="gcat" onclick="filterGallery('food',this)">Питание</button>
+        <button class="gcat" onclick="filterGallery('event',this)">Праздники</button>
+      </div>
+
+      <!-- ЗАМЕНИ emoji на <img src="photo.jpg"/> -->
+      <div class="gallery-grid" id="galleryGrid">
+        <div class="g-item" data-cat="class">🎨</div>
+        <div class="g-item" data-cat="walk">🌳</div>
+        <div class="g-item" data-cat="event">🎉</div>
+        <div class="g-item" data-cat="class">📚</div>
+        <div class="g-item" data-cat="food">🍱</div>
+        <div class="g-item" data-cat="walk">🏃</div>
+        <div class="g-item" data-cat="event">🎈</div>
+        <div class="g-item" data-cat="class">🎵</div>
+        <div class="g-item" data-cat="food">🥗</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE: CONTACTS
+══════════════════════════════════ -->
+<div id="page-contacts" class="page">
+  <div class="about-page">
+    <div class="page-wrap">
+      <div class="page-header">
+        <div class="page-icon">📞</div>
+        <h2 class="page-title" id="contacts-title">Свяжитесь <span>с нами</span></h2>
+        <p class="page-desc">Запишитесь на экскурсию или задайте любой вопрос.</p>
+      </div>
+
+      <!-- ИЗМЕНИ контакты -->
+      <div class="contacts-grid">
+        <a class="c-card" href="https://2gis.kz/almaty/gallery/firm/70000001039192127" target="_blank">
+          <div class="c-icon">📍</div>
+          <div class="c-label">Адрес</div>
+          <div class="c-value" id="c-address">ул. Мамыр 4, 204</div>
+        </a>
+        <a class="c-card" href="tel:+77078406338">
+          <div class="c-icon">📞</div>
+          <div class="c-label">Телефон</div>
+          <div class="c-value" id="c-phone">+7 707 840 63 38</div>
+        </a>
+        <a class="c-card" href="https://wa.me/77078406338" target="_blank">
+          <div class="c-icon">💬</div>
+          <div class="c-label">WhatsApp</div>
+          <div class="c-value">Написать нам</div>
+        </a>
+        <div class="c-card">
+          <div class="c-icon">🕐</div>
+          <div class="c-label">Режим работы</div>
+          <div class="c-value" id="c-hours">08:00 — 18:30</div>
+        </div>
+      </div>
+
+      <!-- ФОРМА ЗАПИСИ -->
+      <div class="form-box">
+        <div class="form-title" id="form-title">Записать ребёнка</div>
+        <div class="form-sub" id="form-sub">Заполните форму — мы свяжемся с вами в WhatsApp в течение 15 минут</div>
+        <div class="fg-row">
+          <div class="fg"><label class="fg-l" id="fl-parent">Имя родителя</label><input class="fg-i" id="fParent" type="text" placeholder="Ваше имя"/></div>
+          <div class="fg"><label class="fg-l" id="fl-phone">Телефон</label><input class="fg-i" id="fPhone" type="tel" placeholder="+7 777 000 00 00"/></div>
+        </div>
+        <div class="fg-row">
+          <div class="fg"><label class="fg-l" id="fl-child">Имя ребёнка</label><input class="fg-i" id="fChild" type="text" placeholder="Имя ребёнка"/></div>
+          <div class="fg">
+            <label class="fg-l" id="fl-age">Возраст</label>
+            <select class="fg-s" id="fAge">
+              <option value="">Выберите возраст</option>
+              <option>2 — 3 года (Младшая)</option>
+              <option>3 — 5 лет (Средняя)</option>
+              <option>5 — 7 лет (Подготовительная)</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg">
+          <label class="fg-l" id="fl-format">Формат посещения</label>
+          <select class="fg-s" id="fFormat">
+            <option value="">Выберите формат</option>
+            <option>Полный день</option>
+            <option>Утренний (07:30-13:00)</option>
+            <option>Вечерний (13:00-19:00)</option>
+          </select>
+        </div>
+        <button class="submit-btn" onclick="sendWA()">
+          💬 <span id="btn-send">Записаться через WhatsApp</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <!-- ИЗМЕНИ -->
+  © 2025 <span>Хотейка</span> — Детский сад · Алматы
+</footer>
+
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav" id="bottomNav">
+  <div class="bn-grid">
+    <button class="bn-item active" onclick="showPage('home',this)" data-page="home">
+      <div class="bn-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <div class="bn-label" data-ru="Главная" data-kz="Басты">Главная</div>
+      <div class="bn-dot"></div>
+    </button>
+    <button class="bn-item" onclick="showPage('about',this)" data-page="about">
+      <div class="bn-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><circle cx="12" cy="13" r="3"/></svg></div>
+      <div class="bn-label" data-ru="О садике" data-kz="Бақша">О садике</div>
+      <div class="bn-dot"></div>
+    </button>
+    <button class="bn-item" onclick="showPage('groups',this)" data-page="groups">
+      <div class="bn-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+      <div class="bn-label" data-ru="Группы" data-kz="Топтар">Группы</div>
+      <div class="bn-dot"></div>
+    </button>
+    <button class="bn-item" onclick="showPage('prices',this)" data-page="prices">
+      <div class="bn-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+      <div class="bn-label" data-ru="Цены" data-kz="Бағалар">Цены</div>
+      <div class="bn-dot"></div>
+    </button>
+    <button class="bn-item" onclick="showPage('gallery',this)" data-page="gallery">
+      <div class="bn-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+      <div class="bn-label" data-ru="Галерея" data-kz="Галерея">Галерея</div>
+      <div class="bn-dot"></div>
+    </button>
+    <button class="bn-item" onclick="showPage('contacts',this)" data-page="contacts">
+      <div class="bn-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.22 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg></div>
+      <div class="bn-label" data-ru="Контакты" data-kz="Байланыс">Контакты</div>
+      <div class="bn-dot"></div>
+    </button>
+  </div>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── LANGUAGE ───────────────────────────────────────
+const translations = {
+  ru: {
+    logo: 'Хотей<span>ка</span>',
+    nav: ['Главная','О садике','Группы','Цены','Галерея','Контакты'],
+    'hero-title': 'Добро пожаловать в<br/><span>Хотейка!</span>',
+    'hero-sub': 'Место где каждый ребёнок раскрывает свой потенциал. Забота, развитие и радость каждый день.',
+    'stat1-l':'Воспитанников','stat2-l':'Педагогов','stat3-l':'Лет опыта',
+    'hero-btn':'Записать ребёнка',
+    'about-title':'О нашем <span>садике</span>',
+    'about-desc':'Мы создали пространство где дети чувствуют себя в безопасности, растут и развиваются с удовольствием.',
+    'adv1-title':'Опытные педагоги','adv1-text':'Все воспитатели с высшим педагогическим образованием и опытом работы от 5 лет.',
+    'adv2-title':'Здоровое питание','adv2-text':'5-разовое сбалансированное питание. Меню составлено диетологом.',
+    'adv3-title':'Развивающие занятия','adv3-text':'Творчество, музыка, спорт, английский язык — всё включено в программу.',
+    'adv4-title':'Безопасность','adv4-text':'Видеонаблюдение 24/7, охрана, современная детская площадка.',
+    'mission-title':'Наша миссия',
+    'mission-text':'Создать среду где каждый ребёнок чувствует себя любимым, уважаемым и готовым к большому миру.',
+    'teachers-title':'Наши педагоги',
+    'groups-title':'Наши <span>группы</span>',
+    'groups-desc':'Каждая группа разработана с учётом возраста и потребностей ребёнка.',
+    'g2-name':'Младшая группа','g2-age':'2 — 3 года',
+    'g3-name':'Средняя группа','g3-age':'3 — 5 лет',
+    'g4-name':'Подготовительная группа','g4-age':'5 — 7 лет',
+    'prices-title':'Наши <span>тарифы</span>',
+    'prices-desc':'Выберите подходящий формат для вашего ребёнка.',
+    'pt1':'Полный день','pt2':'Полдня','pt3':'Доп. услуги',
+    'gallery-title':'Наша <span>галерея</span>',
+    'contacts-title':'Свяжитесь <span>с нами</span>',
+    'form-title':'Записать ребёнка',
+    'form-sub':'Заполните форму — мы свяжемся в WhatsApp в течение 15 минут',
+    'fl-parent':'Имя родителя','fl-phone':'Телефон','fl-child':'Имя ребёнка',
+    'fl-age':'Возраст','fl-format':'Формат посещения',
+    'btn-send':'Записаться через WhatsApp',
+  },
+  kz: {
+    logo: 'Хотей<span>ка</span>',
+    nav: ['Басты бет','Бақша туралы','Топтар','Бағалар','Галерея','Байланыс'],
+    'hero-title': 'Қош келдіңіз<br/><span>Хотейкаға!</span>',
+    'hero-sub': 'Әр бала өз мүмкіндіктерін ашатын орын. Күнде қамқорлық, даму және қуаныш.',
+    'stat1-l':'Тәрбиеленуші','stat2-l':'Педагог','stat3-l':'Жыл тәжірибе',
+    'hero-btn':'Баланы тіркеу',
+    'about-title':'Біздің <span>бақша</span> туралы',
+    'about-desc':'Балалар қауіпсіз сезінетін, өсіп-дамитын кеңістік жасадық.',
+    'adv1-title':'Тәжірибелі педагогтар','adv1-text':'Барлық тәрбиешілер жоғары педагогикалық білімі бар, 5 жылдан астам тәжірибесі бар.',
+    'adv2-title':'Дұрыс тамақтану','adv2-text':'5 мезгілді теңдестірілген тамақ. Мәзір диетологпен жасалған.',
+    'adv3-title':'Дамыту сабақтары','adv3-text':'Шығармашылық, музыка, спорт, ағылшын тілі — бәрі бағдарламаға кіреді.',
+    'adv4-title':'Қауіпсіздік','adv4-text':'24/7 бейнебақылау, күзет, заманауи ойын алаңы.',
+    'mission-title':'Біздің миссия',
+    'mission-text':'Әр бала сүйілген, құрметтелген және үлкен дүниеге дайын сезінетін орта жасау.',
+    'teachers-title':'Біздің педагогтар',
+    'groups-title':'Біздің <span>топтар</span>',
+    'groups-desc':'Әр топ баланың жасы мен қажеттіліктерін ескере отырып жасалған.',
+    'g1-name':'Бесік тобы','g1-age':'1 — 2 жас',
+    'g2-name':'Кіші топ','g2-age':'2 — 3 жас',
+    'g3-name':'Орта топ','g3-age':'3 — 5 жас',
+    'g4-name':'Дайындық тобы','g4-age':'5 — 7 жас',
+    'prices-title':'Біздің <span>тарифтер</span>',
+    'prices-desc':'Балаңызға қолайлы форматты таңдаңыз.',
+    'pt1':'Толық күн','pt2':'Жарты күн','pt3':'Қосымша қызмет',
+    'gallery-title':'Біздің <span>галерея</span>',
+    'contacts-title':'Бізбен <span>байланысыңыз</span>',
+    'form-title':'Баланы тіркеу',
+    'form-sub':'Форманы толтырыңыз — 15 минут ішінде WhatsApp-та хабарласамыз',
+    'fl-parent':'Ата-ана аты','fl-phone':'Телефон','fl-child':'Бала аты',
+    'fl-age':'Жасы','fl-format':'Бару форматы',
+    'btn-send':'WhatsApp арқылы тіркелу',
+  }
+};
+
+let currentLang = 'ru';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase().includes(lang === 'ru' ? 'рус' : 'қаз')));
+  const t = translations[lang];
+  document.getElementById('logo').innerHTML = t.logo;
+
+  // Nav tabs
+  const tabs = document.querySelectorAll('.nav-tab');
+  const mobileTabs = document.querySelectorAll('.mobile-tab');
+  t.nav.forEach((label, i) => {
+    if(tabs[i]) tabs[i].textContent = label;
+    if(mobileTabs[i]) mobileTabs[i].textContent = label;
+  });
+
+  // All text ids
+  Object.keys(t).forEach(id => {
+    if(['logo','nav','pt1','pt2','pt3'].includes(id)) return;
+    const el = document.getElementById(id);
+    if(el) el.innerHTML = t[id];
+  });
+
+  // Price tabs
+  ['pt1','pt2','pt3'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.textContent = t[id];
+  });
+}
+
+// ── PAGES ─────────────────────────────────────────
+function showPage(name, btn, fromMobile=false) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  // Sync all tabs
+  const allTabs = [...document.querySelectorAll('.nav-tab'), ...document.querySelectorAll('.mobile-tab'), ...document.querySelectorAll('.bn-item')];
+  allTabs.forEach(t => {
+    const oc = t.getAttribute('onclick') || '';
+    t.classList.toggle('active', oc.includes("'"+name+"'"));
+  });
+  if(fromMobile) toggleMenu();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ── MOBILE MENU ───────────────────────────────────
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ── ACCORDION ─────────────────────────────────────
+function toggleAccordion(el) {
+  el.classList.toggle('open');
+}
+
+// ── PRICE TABS ────────────────────────────────────
+function showPriceTab(name, btn) {
+  document.querySelectorAll('.price-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── GALLERY FILTER ────────────────────────────────
+function filterGallery(cat, btn) {
+  document.querySelectorAll('.gcat').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.g-item').forEach(item => {
+    item.style.display = (cat === 'all' || item.dataset.cat === cat) ? 'flex' : 'none';
+  });
+}
+
+// ── WHATSAPP ──────────────────────────────────────
+function sendWA() {
+  const parent = document.getElementById('fParent').value.trim();
+  const phone  = document.getElementById('fPhone').value.trim();
+  const child  = document.getElementById('fChild').value.trim();
+  const age    = document.getElementById('fAge').value;
+  const format = document.getElementById('fFormat').value;
+
+  if(!parent){showToast('Введите имя родителя');return}
+  if(!phone) {showToast('Введите телефон');return}
+  if(!child) {showToast('Введите имя ребёнка');return}
+  if(!age)   {showToast('Выберите возраст');return}
+
+  const msg = `Здравствуйте! Хочу записать ребёнка 👶\n\n👤 Родитель: ${parent}\n📞 Телефон: ${phone}\n🧒 Ребёнок: ${child}\n🎂 Возраст: ${age}\n📋 Формат: ${format||'не указан'}\n\nЖду ответа 🙏`;
+  // ИЗМЕНИ: номер телефона садика
+  window.open('https://wa.me/70000000000?text='+encodeURIComponent(msg),'_blank');
+  showToast('Открываем WhatsApp...');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
