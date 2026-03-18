@@ -354,20 +354,21 @@ function resetBox(boxId,inputId){
 // DASHBOARD
 function renderDashboard(){
   const today=todayStr(),tm=today.slice(0,7);
-  const tS=sales.filter(s=>s.sale_date===today);
-  const mS=sales.filter(s=>s.sale_date&&s.sale_date.startsWith(tm));
+  const tS=sales.filter(s=>s.sale_date===today&&!s.is_return);
+  const mS=sales.filter(s=>s.sale_date&&s.sale_date.startsWith(tm)&&!s.is_return);
   const tR=tS.filter(s=>!s.is_return).reduce((a,s)=>a+s.total,0),mR=mS.filter(s=>!s.is_return).reduce((a,s)=>a+s.total,0),aR=sales.filter(s=>!s.is_return).reduce((a,s)=>a+s.total,0);
   const stk=products.reduce((a,p)=>a+Object.values(p.sizes||{}).reduce((x,y)=>x+y,0),0);
+  const returnCount=sales.filter(s=>s.is_return).length;
   document.getElementById('dash-stats').innerHTML=`
     <div class="stat-card accent"><div class="stat-label">Сегодня</div><div class="stat-val">${fmt(tR)} ₸</div><div class="stat-sub">${tS.length} продаж</div></div>
     <div class="stat-card green"><div class="stat-label">Этот месяц</div><div class="stat-val">${fmt(mR)} ₸</div><div class="stat-sub">${mS.length} продаж</div></div>
-    <div class="stat-card blue"><div class="stat-label">Всего выручка</div><div class="stat-val">${fmt(aR)} ₸</div><div class="stat-sub">${sales.length} продаж</div></div>
+    <div class="stat-card blue"><div class="stat-label">Всего выручка</div><div class="stat-val">${fmt(aR)} ₸</div><div class="stat-sub">${sales.filter(s=>!s.is_return).length} продаж${returnCount>0?" · "+returnCount+" возвратов":""}</div></div>
     <div class="stat-card purple"><div class="stat-label">Товаров в наличии</div><div class="stat-val">${stk}</div><div class="stat-sub">${products.length} позиций</div></div>`;
   const days=Array.from({length:7},(_,i)=>{const d=new Date();d.setDate(d.getDate()-(6-i));return d.toISOString().slice(0,10);});
-  const vals=days.map(d=>sales.filter(s=>s.sale_date===d).reduce((a,s)=>a+s.total,0));
+  const vals=days.map(d=>sales.filter(s=>s.sale_date===d&&!s.is_return).reduce((a,s)=>a+s.total,0));
   const mx=Math.max(...vals,1);
   document.getElementById('week-chart').innerHTML=days.map((d,i)=>`<div class="bar-col"><div class="bar-val">${vals[i]>0?(vals[i]>=1000?Math.round(vals[i]/1000)+'k':vals[i]):''}</div><div class="bar" style="height:${Math.max(Math.round(vals[i]/mx*100),3)}%"></div><div class="bar-label">${d.slice(5)}</div></div>`).join('');
-  const recent=sales.slice(0,8);
+  const recent=sales.filter(s=>!s.is_return).slice(0,8);
   document.getElementById('dash-recent').innerHTML=recent.length?salesTableHTML(recent,false):'<div class="empty">Продаж ещё нет</div>';
 }
 
