@@ -600,7 +600,7 @@ async function recordSale(){
       price_original:item.price*item.qty,
       phone,address,payment,client_name:clientName,note,manager,
       sale_date:todayStr(),
-      sale_time:now.toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'}),
+      sale_time:new Date(now.getTime()+5*60*60*1000).toISOString().slice(11,16),
       ts:now.getTime(),
       group_id:groupId
     });
@@ -633,7 +633,7 @@ function renderHistory(){
 }
 function clearFilters(){['filter-date-from','filter-date-to','filter-manager'].forEach(id=>document.getElementById(id).value='');renderHistory();}
 function salesTableHTML(list,showMgr){
-  return`<div class="table-wrap"><table><thead><tr><th>Дата</th><th>Товар</th><th>Размер</th><th>Кол-во</th><th>Прайс</th><th>Оплачено</th><th>Клиент</th><th>Телефон</th><th>Адрес</th><th>Оплата</th>${showMgr?'<th>Менеджер</th>':''}<th></th></tr></thead><tbody>`+
+  return`<div class="table-wrap"><table><thead><tr><th>Дата</th><th>Товар</th><th>Размер</th><th>Кол-во</th><th>Прайс</th><th>Оплачено</th><th>Клиент</th><th>Телефон</th><th>Адрес</th><th>Оплата</th><th>Примечание</th>${showMgr?'<th>Менеджер</th>':''}<th></th></tr></thead><tbody>`+
   list.map(s=>{
     const isReturn=s.is_return===true||s.is_return==='true';
     const rowClass=isReturn?'returned-row':'';
@@ -641,7 +641,7 @@ function salesTableHTML(list,showMgr){
     const amountPrefix=isReturn?'−':'';
     const returnBtn=!isReturn&&showMgr?`<button class="btn-return" onclick="confirmReturn('${s.id}')">↩ Возврат</button>`:'';
     const returnLabel=isReturn?`<span class="badge badge-return">возврат</span>`:'';
-    return`<tr class="${rowClass}"><td style="color:var(--text2);white-space:nowrap;">${s.sale_date||''}<br><span style="font-size:11px;color:var(--text3);">${s.sale_time||''}</span></td><td><strong>${s.product_name}</strong></td><td><span style="color:var(--accent);font-weight:600;">${s.size}</span></td><td style="text-align:center;">${s.qty}</td><td style="font-size:12px;color:var(--text3);white-space:nowrap;">${s.price_original?fmt(s.price_original)+' ₸':'—'}</td><td style="font-family:'Unbounded',sans-serif;font-size:13px;color:${amountColor};white-space:nowrap;">${amountPrefix}${fmt(s.total)} ₸</td><td>${s.client_name||'—'}</td><td style="white-space:nowrap;">${s.phone}</td><td style="max-width:150px;font-size:12px;color:var(--text2);">${s.address||'—'}</td><td><span class="badge ${s.payment==='Наличные'?'badge-cash':'badge-card'}">${s.payment}</span>${returnLabel}</td>${showMgr?`<td><span class="tag-manager">${s.manager||'—'}</span></td>`:''}<td>${returnBtn}</td></tr>`;
+    return`<tr class="${rowClass}"><td style="color:var(--text2);white-space:nowrap;">${s.sale_date||''}<br><span style="font-size:11px;color:var(--text3);">${s.sale_time||''}</span></td><td><strong>${s.product_name}</strong></td><td><span style="color:var(--accent);font-weight:600;">${s.size}</span></td><td style="text-align:center;">${s.qty}</td><td style="font-size:12px;color:var(--text3);white-space:nowrap;">${s.price_original?fmt(s.price_original)+' ₸':'—'}</td><td style="font-family:'Unbounded',sans-serif;font-size:13px;color:${amountColor};white-space:nowrap;">${amountPrefix}${fmt(s.total)} ₸</td><td>${s.client_name||'—'}</td><td style="white-space:nowrap;">${s.phone}</td><td style="max-width:150px;font-size:12px;color:var(--text2);">${s.address||'—'}</td><td><span class="badge ${s.payment==='Наличные'?'badge-cash':'badge-card'}">${s.payment}</span>${returnLabel}</td><td style="font-size:12px;color:var(--text2);max-width:140px;">${s.note||'—'}</td>${showMgr?`<td><span class="tag-manager">${s.manager||'—'}</span></td>`:''}<td>${returnBtn}</td></tr>`;
   }).join('')+'</tbody></table></div>';
 }
 
@@ -684,7 +684,12 @@ async function doReturn(saleId){
   showAlert('history-alert','✓ Возврат оформлен! Товар возвращён на склад.','success');
 }
 
-function todayStr(){return new Date().toISOString().slice(0,10);}
+function todayStr(){
+  // Алматы UTC+5
+  const now=new Date();
+  const alm=new Date(now.getTime()+5*60*60*1000);
+  return alm.toISOString().slice(0,10);
+}
 function fmt(n){return Math.round(n).toLocaleString('ru');}
 function showAlert(id,msg,type){const el=document.getElementById(id);el.textContent=msg;el.className='alert show alert-'+type;if(msg)setTimeout(()=>el.classList.remove('show'),4000);}
 
