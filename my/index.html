@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LINKZ — Сайты для бизнеса · Алматы</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b1d2a;
+  --mid:#0f2335;
+  --card:#152d40;
+  --card2:#1a3850;
+  --border:rgba(62,198,224,0.14);
+  --text:#eef2f5;
+  --muted:#7aafc4;
+  --dim:#3a6a80;
+  --blue:#3ec6e0;
+  --blue2:#5ee8d8;
+  --glow:rgba(62,198,224,0.1);
+  --white:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+.blob{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0;}
+.b1{width:700px;height:700px;background:rgba(62,198,224,0.06);top:-250px;right:-250px;animation:fl 12s ease-in-out infinite;}
+.b2{width:500px;height:500px;background:rgba(94,232,216,0.04);bottom:-200px;left:-200px;animation:fl 15s ease-in-out infinite reverse;}
+@keyframes fl{0%,100%{transform:translate(0,0);}50%{transform:translate(25px,-35px);}}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:62px;padding:0 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(11,29,42,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.logo{font-family:'Black Ops One',sans-serif;font-size:24px;letter-spacing:4px;color:var(--white);line-height:1;}
+.logo span{color:var(--blue);}
+.nav-r{display:flex;align-items:center;gap:14px;}
+.lang-btns{display:flex;gap:4px;}
+.lb{background:none;border:1px solid var(--border);color:var(--muted);padding:4px 10px;border-radius:4px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+.lb.on{border-color:var(--blue);color:var(--blue);}
+.nav-wa{display:flex;align-items:center;gap:7px;background:rgba(62,198,224,0.08);border:1px solid var(--border);color:var(--text);padding:8px 16px;border-radius:6px;font-size:13px;font-weight:500;text-decoration:none;transition:all 0.2s;}
+.nav-wa:hover{background:rgba(62,198,224,0.16);border-color:var(--blue);}
+@media(max-width:600px){nav{padding:0 18px;}.nav-wa span{display:none;}}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:100px 40px 80px;text-align:center;position:relative;}
+@media(max-width:600px){.hero{padding:100px 20px 60px;}}
+.hero-inner{position:relative;z-index:1;max-width:780px;width:100%;}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(62,198,224,0.07);border:1px solid rgba(62,198,224,0.22);padding:7px 18px;border-radius:20px;font-size:12px;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:28px;animation:up 0.8s ease both;}
+.hero-pill::before{content:'';width:7px;height:7px;background:var(--blue2);border-radius:50%;flex-shrink:0;animation:bk 2s infinite;}
+@keyframes bk{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(94,232,216,0.5);}50%{opacity:0.3;box-shadow:0 0 0 7px rgba(94,232,216,0);}}
+h1{font-family:'Black Ops One',sans-serif;font-size:clamp(58px,11vw,124px);line-height:0.92;letter-spacing:2px;margin-bottom:26px;animation:up 0.8s 0.1s ease both;}
+h1 .acc{color:var(--blue);display:block;}
+h1 .ghost{-webkit-text-stroke:2px rgba(62,198,224,0.2);color:transparent;display:block;}
+.hero-sub{font-size:17px;color:var(--muted);line-height:1.75;font-weight:300;max-width:460px;margin:0 auto 40px;animation:up 0.8s 0.2s ease both;}
+.hero-btn{display:inline-flex;align-items:center;gap:10px;background:var(--blue);color:#0b1d2a;padding:15px 34px;border-radius:8px;font-weight:700;font-size:15px;text-decoration:none;transition:all 0.25s;animation:up 0.8s 0.3s ease both;}
+.hero-btn:hover{background:var(--blue2);transform:translateY(-3px);box-shadow:0 16px 40px rgba(62,198,224,0.28);}
+.gline{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(62,198,224,0.5),rgba(94,232,216,0.5),transparent);margin-top:64px;animation:up 0.8s 0.4s ease both;}
+@keyframes up{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+/* TABS WRAP */
+.tabs-wrap{padding:60px 40px;max-width:1000px;margin:0 auto;position:relative;z-index:1;}
+@media(max-width:600px){.tabs-wrap{padding:40px 18px;}}
+
+/* ICON TABS — custom SVG icons */
+.icon-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:40px;}
+@media(max-width:480px){.icon-tabs{grid-template-columns:repeat(2,1fr);}}
+.itab{display:flex;flex-direction:column;align-items:center;gap:10px;padding:22px 12px 16px;background:var(--card);border:1px solid var(--border);border-radius:14px;cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden;}
+.itab::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--blue2));transform:scaleX(0);transform-origin:center;transition:transform 0.3s;}
+.itab.on::after,.itab:hover::after{transform:scaleX(1);}
+.itab.on{border-color:rgba(62,198,224,0.3);background:var(--card2);}
+.itab svg{width:28px;height:28px;stroke:var(--muted);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:stroke 0.2s;}
+.itab.on svg,.itab:hover svg{stroke:var(--blue);}
+.itab-label{font-family:'Black Ops One',sans-serif;font-size:11px;letter-spacing:2px;color:var(--muted);text-align:center;transition:color 0.2s;}
+.itab.on .itab-label,.itab:hover .itab-label{color:var(--blue);}
+
+.tab-pane{display:none;}.tab-pane.active{display:block;}
+
+.sh{text-align:center;margin-bottom:32px;}
+.sh-tag{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:10px;font-weight:500;}
+.sh-title{font-family:'Black Ops One',sans-serif;font-size:clamp(28px,4.5vw,42px);letter-spacing:1.5px;}
+
+/* SERVICES */
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:2px;border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.svc{background:var(--card);padding:30px;transition:background 0.3s;position:relative;overflow:hidden;}
+.svc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--blue2));transform:scaleX(0);transform-origin:left;transition:transform 0.35s;}
+.svc:hover::before{transform:scaleX(1);}
+.svc:hover{background:var(--card2);}
+.svc-ico{margin-bottom:16px;}
+.svc-ico svg{width:32px;height:32px;stroke:var(--blue);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;opacity:0.8;}
+.svc-n{font-family:'Black Ops One',sans-serif;font-size:17px;letter-spacing:1px;margin-bottom:10px;}
+.svc-d{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:16px;}
+.svc-p{font-family:'Black Ops One',sans-serif;font-size:20px;color:var(--blue);letter-spacing:1px;}
+
+/* PORTFOLIO */
+.port-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+.pc{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all 0.3s;}
+.pc:hover{transform:translateY(-5px);border-color:rgba(62,198,224,0.35);box-shadow:0 20px 50px rgba(0,0,0,0.4);}
+.pt{height:140px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.pt.c1{background:linear-gradient(135deg,#0b1d2a,#1a3850);}
+.pt.c2{background:linear-gradient(135deg,#0d2233,#163550);}
+.pt.c3{background:linear-gradient(135deg,#0a1c2d,#152f45);}
+.pt.c4{background:linear-gradient(135deg,#0f2030,#1b3c55);}
+.pt.c5{background:linear-gradient(135deg,#091a28,#123040);}
+.pt.c6{background:linear-gradient(135deg,#0c2035,#17384e);}
+.pt-svg{opacity:0.5;}
+.pi{padding:18px;}
+.pt-tag{font-size:11px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;}
+.pt-name{font-family:'Black Ops One',sans-serif;font-size:17px;letter-spacing:1px;margin-bottom:7px;}
+.pt-desc{font-size:13px;color:var(--muted);line-height:1.6;}
+.pt-stack{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;}
+.stk{padding:2px 8px;background:rgba(62,198,224,0.05);border:1px solid var(--border);border-radius:3px;font-size:11px;color:var(--muted);}
+
+/* PROCESS */
+.proc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
+.prc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px;transition:border-color 0.3s;}
+.prc:hover{border-color:rgba(62,198,224,0.3);}
+.prc-n{font-family:'Black Ops One',sans-serif;font-size:54px;color:rgba(62,198,224,0.1);line-height:1;margin-bottom:12px;}
+.prc-name{font-family:'Black Ops One',sans-serif;font-size:16px;letter-spacing:1px;margin-bottom:8px;}
+.prc-d{font-size:13px;color:var(--muted);line-height:1.65;}
+
+/* WHY */
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:540px){.why-grid{grid-template-columns:1fr;}}
+.wc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;display:flex;gap:14px;transition:all 0.3s;}
+.wc:hover{border-color:rgba(62,198,224,0.28);transform:translateY(-2px);}
+.wi{width:44px;height:44px;background:rgba(62,198,224,0.06);border:1px solid rgba(62,198,224,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.wi svg{width:20px;height:20px;stroke:var(--blue);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.wt{font-family:'Black Ops One',sans-serif;font-size:15px;letter-spacing:0.5px;margin-bottom:5px;}
+.wd{font-size:13px;color:var(--muted);line-height:1.65;}
+
+/* DEV */
+.dev-wrap{padding:0 40px 60px;max-width:1000px;margin:0 auto;position:relative;z-index:1;}
+@media(max-width:600px){.dev-wrap{padding:0 18px 50px;}}
+.dev-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:48px 40px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;position:relative;overflow:hidden;}
+@media(max-width:600px){.dev-card{grid-template-columns:1fr;padding:30px 22px;text-align:center;}}
+.dev-card::before{content:'';position:absolute;top:-120px;right:-120px;width:380px;height:380px;background:radial-gradient(circle,rgba(62,198,224,0.06),transparent);border-radius:50%;pointer-events:none;}
+.dev-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(62,198,224,0.07);border:1px solid rgba(62,198,224,0.18);padding:5px 14px;border-radius:20px;font-size:11px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;}
+.dev-title{font-family:'Black Ops One',sans-serif;font-size:clamp(30px,4vw,44px);letter-spacing:1.5px;line-height:1.05;margin-bottom:14px;}
+.dev-title span{color:var(--blue);}
+.dev-desc{font-size:14px;color:var(--muted);line-height:1.75;}
+.skills{display:flex;flex-direction:column;gap:14px;}
+.sk-row{display:flex;flex-direction:column;gap:6px;}
+.sk-top{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);}
+.sk-name{font-weight:600;color:var(--text);font-size:13px;}
+.sk-bar{height:3px;background:rgba(62,198,224,0.1);border-radius:2px;overflow:hidden;}
+.sk-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--blue2));border-radius:2px;animation:fill 1.4s ease both;}
+@keyframes fill{from{width:0}to{width:var(--w)}}
+
+/* STATS */
+.stats-wrap{padding:0 40px 60px;max-width:1000px;margin:0 auto;position:relative;z-index:1;}
+@media(max-width:600px){.stats-wrap{padding:0 18px 50px;}}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.sbox{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:32px;text-align:center;}
+.sn{font-family:'Black Ops One',sans-serif;font-size:50px;color:var(--blue);letter-spacing:3px;line-height:1;}
+.sl{font-size:13px;color:var(--muted);margin-top:6px;}
+
+/* CONTACT */
+.ct-wrap{padding:0 40px 80px;max-width:1000px;margin:0 auto;position:relative;z-index:1;}
+@media(max-width:600px){.ct-wrap{padding:0 18px 60px;}}
+.ct-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:56px 40px;text-align:center;position:relative;overflow:hidden;}
+.ct-box::before{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(62,198,224,0.05),transparent);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+.ct-title{font-family:'Black Ops One',sans-serif;font-size:clamp(34px,6vw,62px);letter-spacing:2px;margin-bottom:12px;position:relative;}
+.ct-title span{color:var(--blue);}
+.ct-sub{color:var(--muted);font-size:15px;margin-bottom:36px;position:relative;max-width:400px;margin-left:auto;margin-right:auto;}
+.ct-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative;}
+.btn-wa{display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#000;padding:15px 30px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;transition:all 0.25s;}
+.btn-wa:hover{background:#1ebe5d;transform:translateY(-3px);box-shadow:0 14px 30px rgba(37,211,102,0.22);}
+.btn-ig{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff;padding:15px 30px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;transition:all 0.25s;}
+.btn-ig:hover{opacity:0.88;transform:translateY(-3px);box-shadow:0 14px 30px rgba(253,29,29,0.18);}
+
+footer{border-top:1px solid var(--border);padding:24px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:relative;z-index:1;}
+@media(max-width:600px){footer{padding:20px 18px;flex-direction:column;text-align:center;}}
+.fl{font-family:'Black Ops One',sans-serif;font-size:18px;letter-spacing:4px;}
+.fl span{color:var(--blue);}
+.fc{font-size:12px;color:var(--dim);}
+
+.fade{opacity:0;transform:translateY(22px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.fade.on{opacity:1;transform:none;}
+
+[data-kz]{display:none;}
+body.kz [data-ru]{display:none;}
+body.kz [data-kz]{display:block;}
+body.kz span[data-kz]{display:inline;}
+body.kz span[data-ru]{display:none;}
+</style>
+</head>
+<body>
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+
+<nav>
+  <div class="logo">LINK<span>Z</span></div>
+  <div class="nav-r">
+    <div class="lang-btns">
+      <button class="lb on" onclick="setLang('ru')">RU</button>
+      <button class="lb" onclick="setLang('kz')">KZ</button>
+    </div>
+    <a href="https://wa.me/77083090492?text=Привет! Хочу заказать сайт" target="_blank" class="nav-wa">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span data-ru>Написать</span><span data-kz>Жазу</span>
+    </a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-pill">
+      <span data-ru>Алматы · Веб-разработка</span>
+      <span data-kz>Алматы · Веб-әзірлеу</span>
+    </div>
+    <h1>
+      <span data-ru>САЙТЫ<span class="acc">КОТОРЫЕ</span><span class="ghost">ПРОДАЮТ</span></span>
+      <span data-kz>САТАТЫН<span class="acc">ЖЫЛДАМ</span><span class="ghost">САЙТТАР</span></span>
+    </h1>
+    <p class="hero-sub" data-ru>Сайты, интернет-магазины и CRM-системы для бизнеса в Алматы. Быстро, красиво, с результатом.</p>
+    <p class="hero-sub" data-kz>Алматыдағы бизнеске сайттар, дүкендер және CRM жүйелері. Жылдам, әдемі, нәтижелі.</p>
+    <a href="https://wa.me/77083090492?text=Привет! Хочу заказать сайт" target="_blank" class="hero-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span data-ru>Заказать сайт</span><span data-kz>Сайт тапсырыс беру</span>
+    </a>
+    <div class="gline"></div>
+  </div>
+</section>
+
+<div class="tabs-wrap" id="main">
+  <!-- ICON TABS — all SVG hand-drawn minimal -->
+  <div class="icon-tabs">
+    <div class="itab on" onclick="showTab('services',this)">
+      <!-- briefcase icon -->
+      <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="12.01"/></svg>
+      <div class="itab-label" data-ru>УСЛУГИ</div>
+      <div class="itab-label" data-kz>ҚЫЗМЕТ</div>
+    </div>
+    <div class="itab" onclick="showTab('portfolio',this)">
+      <!-- grid/portfolio icon -->
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <div class="itab-label" data-ru>РАБОТЫ</div>
+      <div class="itab-label" data-kz>ЖҰМЫС</div>
+    </div>
+    <div class="itab" onclick="showTab('process',this)">
+      <!-- flow/process icon -->
+      <svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="12" cy="19" r="2"/><path d="M7 12h3M14 12h3M12 7v3M12 14v3"/></svg>
+      <div class="itab-label" data-ru>ПРОЦЕСС</div>
+      <div class="itab-label" data-kz>ҮДЕРІС</div>
+    </div>
+    <div class="itab" onclick="showTab('why',this)">
+      <!-- star icon -->
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <div class="itab-label" data-ru>ПОЧЕМУ МЫ</div>
+      <div class="itab-label" data-kz>НЕГЕ БІЗ</div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="tab-pane active" id="tab-services">
+    <div class="sh fade">
+      <div class="sh-tag" data-ru>Что делаем</div><div class="sh-tag" data-kz>Не жасаймыз</div>
+      <div class="sh-title" data-ru>УСЛУГИ И ЦЕНЫ</div><div class="sh-title" data-kz>ҚЫЗМЕТТЕР МЕН БАҒАЛАР</div>
+    </div>
+    <div class="svc-grid fade">
+      <div class="svc">
+        <div class="svc-ico"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <div class="svc-n" data-ru>Сайт-визитка</div><div class="svc-n" data-kz>Визитка сайт</div>
+        <div class="svc-d" data-ru>Красивый одностраничник с услугами, контактами и кнопкой WhatsApp.</div>
+        <div class="svc-d" data-kz>Қызметтер, байланыстар және WhatsApp батырмасы бар бір беттік сайт.</div>
+        <div class="svc-p">от 30 000 ₸</div>
+      </div>
+      <div class="svc">
+        <div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
+        <div class="svc-n" data-ru>Интернет-магазин</div><div class="svc-n" data-kz>Интернет-дүкен</div>
+        <div class="svc-d" data-ru>Каталог с фото, корзина, заказы через WhatsApp. Клиенты выбирают сами.</div>
+        <div class="svc-d" data-kz>Фотолары бар каталог, себет, WhatsApp тапсырыстар.</div>
+        <div class="svc-p">от 80 000 ₸</div>
+      </div>
+      <div class="svc">
+        <div class="svc-ico"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <div class="svc-n" data-ru>CRM / Учёт</div><div class="svc-n" data-kz>CRM / Есеп</div>
+        <div class="svc-d" data-ru>Учёт товаров, продаж и клиентов. Вся команда работает с телефона.</div>
+        <div class="svc-d" data-kz>Тауарлар, сатылымдар, клиенттер есебі. Бүкіл топ телефоннан.</div>
+        <div class="svc-p">от 100 000 ₸</div>
+      </div>
+      <div class="svc">
+        <div class="svc-ico"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <div class="svc-n">Landing page</div>
+        <div class="svc-d" data-ru>Продающая страница под товар или акцию. Люди пишут и звонят.</div>
+        <div class="svc-d" data-kz>Тауар немесе акцияға арналған бет. Адамдар жазады, қоңырау шалады.</div>
+        <div class="svc-p">от 50 000 ₸</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PORTFOLIO -->
+  <div class="tab-pane" id="tab-portfolio">
+    <div class="sh fade">
+      <div class="sh-tag">Portfolio</div>
+      <div class="sh-title" data-ru>НАШИ РАБОТЫ</div><div class="sh-title" data-kz>БІЗДІҢ ЖҰМЫСТАР</div>
+    </div>
+    <div class="port-grid fade">
+
+      <!-- YAMAL CRM -->
+      <div class="pc"><div class="pt c1">
+        <svg class="pt-svg" width="80" height="60" viewBox="0 0 80 60" fill="none" stroke="rgba(62,198,224,0.6)" stroke-width="1.2" stroke-linecap="round">
+          <rect x="8" y="8" width="64" height="44" rx="3"/>
+          <line x1="8" y1="18" x2="72" y2="18"/>
+          <rect x="14" y="24" width="22" height="14" rx="2"/>
+          <line x1="42" y1="26" x2="62" y2="26"/><line x1="42" y1="30" x2="58" y2="30"/><line x1="42" y1="34" x2="54" y2="34"/>
+        </svg>
+      </div><div class="pi"><div class="pt-tag">CRM · Склад</div><div class="pt-name">YAMAL</div><div class="pt-desc" data-ru>Система учёта для магазина одежды. 4 менеджера в реальном времени.</div><div class="pt-desc" data-kz>Киім дүкені үшін есеп жүйесі. 4 менеджер нақты уақытта.</div><div class="pt-stack"><span class="stk">Supabase</span><span class="stk">Vercel</span><span class="stk">JS</span></div></div></div>
+
+      <!-- BARBERSHOP -->
+      <div class="pc"><div class="pt c2">
+        <svg class="pt-svg" width="80" height="60" viewBox="0 0 80 60" fill="none" stroke="rgba(62,198,224,0.6)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="10" y="6" width="60" height="48" rx="3"/>
+          <line x1="10" y1="20" x2="70" y2="20"/>
+          <circle cx="40" cy="38" r="10"/>
+          <path d="M33 31 37 38M47 31 43 38"/><line x1="36" y1="38" x2="44" y2="38"/>
+          <rect x="36" y="10" width="8" height="6" rx="1"/>
+        </svg>
+      </div><div class="pi"><div class="pt-tag" data-ru>Визитка · Запись</div><div class="pt-tag" data-kz>Визитка · Жазылу</div><div class="pt-name">Barbershop</div><div class="pt-desc" data-ru>Сайт барбершопа с услугами, ценами и онлайн-записью через WhatsApp.</div><div class="pt-desc" data-kz>Барбершоп сайты. Қызметтер, бағалар, WhatsApp жазылу.</div><div class="pt-stack"><span class="stk">Визитка</span><span class="stk">WhatsApp</span></div></div></div>
+
+      <!-- BEAUTY SALON -->
+      <div class="pc"><div class="pt c3">
+        <svg class="pt-svg" width="80" height="60" viewBox="0 0 80 60" fill="none" stroke="rgba(62,198,224,0.6)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="10" y="6" width="60" height="48" rx="3"/>
+          <line x1="10" y1="18" x2="70" y2="18"/>
+          <circle cx="40" cy="36" r="12"/>
+          <path d="M32 28 36 36 40 30 44 36 48 28"/>
+          <line x1="40" y1="48" x2="40" y2="54"/>
+          <line x1="34" y1="54" x2="46" y2="54"/>
+        </svg>
+      </div><div class="pi"><div class="pt-tag" data-ru>Визитка · Запись</div><div class="pt-tag" data-kz>Визитка · Жазылу</div><div class="pt-name" data-ru>Салон красоты</div><div class="pt-name" data-kz>Сұлулық салоны</div><div class="pt-desc" data-ru>Портфолио мастера, прайс-лист и запись онлайн. Мобильная версия.</div><div class="pt-desc" data-kz>Шебер портфолиосы, баға тізімі және онлайн жазылу.</div><div class="pt-stack"><span class="stk">Landing</span><span class="stk">Gallery</span></div></div></div>
+
+      <!-- WEDDING -->
+      <div class="pc"><div class="pt c4">
+        <svg class="pt-svg" width="80" height="60" viewBox="0 0 80 60" fill="none" stroke="rgba(62,198,224,0.6)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="14" y="6" width="52" height="48" rx="2"/>
+          <path d="M14 18 40 6 66 18"/>
+          <path d="M32 54 V36 Q40 28 48 36 V54"/>
+          <path d="M34 22 L38 26 L46 18"/>
+          <line x1="24" y1="30" x2="32" y2="30"/>
+          <line x1="48" y1="30" x2="56" y2="30"/>
+        </svg>
+      </div><div class="pi"><div class="pt-tag" data-ru>Приглашение</div><div class="pt-tag" data-kz>Шақыру</div><div class="pt-name" data-ru>Свадебное приглашение</div><div class="pt-name" data-kz>Той шақыруы</div><div class="pt-desc" data-ru>Цифровое приглашение с анимацией, фото и кнопкой RSVP. Отправляется в WhatsApp.</div><div class="pt-desc" data-kz>Анимация, фотосурет және RSVP батырмасы бар цифрлық шақыру.</div><div class="pt-stack"><span class="stk">Анимация</span><span class="stk">RSVP</span></div></div></div>
+
+      <!-- SMALL BIZ -->
+      <div class="pc"><div class="pt c5">
+        <svg class="pt-svg" width="80" height="60" viewBox="0 0 80 60" fill="none" stroke="rgba(62,198,224,0.6)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="8" y="24" width="64" height="30" rx="2"/>
+          <path d="M16 24 V16 Q16 8 24 8 H56 Q64 8 64 16 V24"/>
+          <rect x="30" y="36" width="20" height="18" rx="1"/>
+          <rect x="14" y="32" width="12" height="10" rx="1"/>
+          <rect x="54" y="32" width="12" height="10" rx="1"/>
+          <line x1="8" y1="24" x2="72" y2="24"/>
+        </svg>
+      </div><div class="pi"><div class="pt-tag" data-ru>Малый бизнес</div><div class="pt-tag" data-kz>Шағын бизнес</div><div class="pt-name" data-ru>Сайт для бизнеса</div><div class="pt-name" data-kz>Бизнес сайты</div><div class="pt-desc" data-ru>Сайт-визитка для магазина или кафе с услугами, контактами и картой.</div><div class="pt-desc" data-kz>Дүкен немесе кафеге арналған сайт. Қызметтер, байланыс, карта.</div><div class="pt-stack"><span class="stk">Визитка</span><span class="stk">Google Maps</span></div></div></div>
+
+      <!-- KINDERGARTEN -->
+      <div class="pc"><div class="pt c6">
+        <svg class="pt-svg" width="80" height="60" viewBox="0 0 80 60" fill="none" stroke="rgba(62,198,224,0.6)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 30 Q10 10 40 8 Q70 10 70 30 V54 H10 Z"/>
+          <rect x="22" y="36" width="14" height="18" rx="1"/>
+          <rect x="44" y="30" width="16" height="12" rx="2"/>
+          <circle cx="52" cy="22" r="4"/>
+          <path d="M28 24 Q32 18 36 24"/>
+          <line x1="10" y1="54" x2="70" y2="54"/>
+        </svg>
+      </div><div class="pi"><div class="pt-tag" data-ru>Образование</div><div class="pt-tag" data-kz>Білім</div><div class="pt-name" data-ru>Детский садик</div><div class="pt-name" data-kz>Балабақша</div><div class="pt-desc" data-ru>Сайт садика с программой, фотогалереей, ценами и формой записи.</div><div class="pt-desc" data-kz>Бағдарлама, фотогалерея, бағалар және жазылу формасы бар сайт.</div><div class="pt-stack"><span class="stk">Визитка</span><span class="stk">Галерея</span></div></div></div>
+
+    </div>
+  </div>
+
+  <!-- PROCESS -->
+  <div class="tab-pane" id="tab-process">
+    <div class="sh fade">
+      <div class="sh-tag" data-ru>Процесс</div><div class="sh-tag" data-kz>Үдеріс</div>
+      <div class="sh-title" data-ru>КАК МЫ РАБОТАЕМ</div><div class="sh-title" data-kz>ҚАЛАЙ ЖҰМЫС ЖАСАЙМЫЗ</div>
+    </div>
+    <div class="proc-grid fade">
+      <div class="prc"><div class="prc-n">01</div><div class="prc-name" data-ru>Обсуждение</div><div class="prc-name" data-kz>Талқылау</div><div class="prc-d" data-ru>Пишете в WhatsApp — рассказываете о бизнесе. Обсуждаем и называем цену.</div><div class="prc-d" data-kz>WhatsApp-қа жазасыз. Бизнесті талқылаймыз, баға айтамыз.</div></div>
+      <div class="prc"><div class="prc-n">02</div><div class="prc-name" data-ru>Предоплата 50%</div><div class="prc-name" data-kz>50% алдын ала</div><div class="prc-d" data-ru>Договариваемся по срокам. Оплата 50% — сразу начинаем работу.</div><div class="prc-d" data-kz>Мерзімді келісеміз. 50% төлем — жұмысты бастаймыз.</div></div>
+      <div class="prc"><div class="prc-n">03</div><div class="prc-name" data-ru>Разработка</div><div class="prc-name" data-kz>Әзірлеу</div><div class="prc-d" data-ru>Делаем сайт, показываем каждый день. Вносим правки до идеала.</div><div class="prc-d" data-kz>Сайт жасаймыз, күн сайын көрсетеміз. Мінсіз болғанша түзетеміз.</div></div>
+      <div class="prc"><div class="prc-n">04</div><div class="prc-name" data-ru>Запуск</div><div class="prc-name" data-kz>Іске қосу</div><div class="prc-d" data-ru>Оплата остатка. Размещаем на хостинге — сайт работает. Остаёмся на связи.</div><div class="prc-d" data-kz>Қалдықты төлейсіз. Хостингке орналастырамыз. Байланыста боламыз.</div></div>
+    </div>
+  </div>
+
+  <!-- WHY -->
+  <div class="tab-pane" id="tab-why">
+    <div class="sh fade">
+      <div class="sh-tag" data-ru>Преимущества</div><div class="sh-tag" data-kz>Артықшылықтар</div>
+      <div class="sh-title" data-ru>ПОЧЕМУ ВЫБИРАЮТ НАС</div><div class="sh-title" data-kz>НЕГЕ БІЗДІ ТАҢДАЙДЫ</div>
+    </div>
+    <div class="why-grid fade">
+      <div class="wc"><div class="wi"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div><div class="wt" data-ru>Быстрые сроки</div><div class="wt" data-kz>Жылдам мерзімдер</div><div class="wd" data-ru>Визитку за 2–3 дня. Не ждёте месяцами как в агентствах.</div><div class="wd" data-kz>Визитканы 2–3 күнде. Агенттіктердегідей айлап күтпейсіз.</div></div></div>
+      <div class="wc"><div class="wi"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div><div class="wt" data-ru>Честные цены</div><div class="wt" data-kz>Шынайы бағалар</div><div class="wd" data-ru>В 2–3 раза дешевле агентств. Никаких скрытых доплат.</div><div class="wd" data-kz>Агенттіктерден 2–3 есе арзан. Жасырын төлемдер жоқ.</div></div></div>
+      <div class="wc"><div class="wi"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div><div><div class="wt" data-ru>Мобильная версия</div><div class="wt" data-kz>Мобильді нұсқа</div><div class="wd" data-ru>Все сайты идеально работают на телефоне. 80% заходят с мобильного.</div><div class="wd" data-kz>Барлық сайттар телефонда тамаша. 80% мобильдіден кіреді.</div></div></div>
+      <div class="wc"><div class="wi"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div><div class="wt" data-ru>Поддержка</div><div class="wt" data-kz>Қолдау</div><div class="wd" data-ru>Остаёмся на связи. Любые правки решаем быстро в WhatsApp.</div><div class="wd" data-kz>Байланыста боламыз. Кез-келген сұраққа жылдам жауап.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- DEV -->
+<div class="dev-wrap">
+  <div class="dev-card fade">
+    <div>
+      <div class="dev-pill" data-ru>Опытный программист</div>
+      <div class="dev-pill" data-kz>Тәжірибелі бағдарламашы</div>
+      <div class="dev-title" data-ru>linkz —<br><span>веб-разработчик</span></div>
+      <div class="dev-title" data-kz>linkz —<br><span>веб-әзірлеуші</span></div>
+      <div class="dev-desc" data-ru>Строю сайты с нуля: от дизайна до деплоя. Работаю быстро, показываю прогресс каждый день и довожу до результата. Специализируюсь на реальных бизнес-задачах.</div>
+      <div class="dev-desc" data-kz>Сайттарды нөлден жасаймын: дизайннан деплойға дейін. Жылдам жұмыс, күн сайын нәтиже. Нақты бизнес міндеттеріне маманданамын.</div>
+    </div>
+    <div class="skills">
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">HTML / CSS / JavaScript</span><span>95%</span></div><div class="sk-bar"><div class="sk-fill" style="--w:95%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">База данных · Supabase</span><span>90%</span></div><div class="sk-bar"><div class="sk-fill" style="--w:90%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">UI / UX дизайн</span><span>85%</span></div><div class="sk-bar"><div class="sk-fill" style="--w:85%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">CRM системы</span><span>88%</span></div><div class="sk-bar"><div class="sk-fill" style="--w:88%"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-wrap">
+  <div class="stats-grid fade">
+    <div class="sbox"><div class="sn">10+</div><div class="sl" data-ru>Проектов сдано</div><div class="sl" data-kz>Жобалар орындалды</div></div>
+    <div class="sbox"><div class="sn">24/7</div><div class="sl" data-ru>Поддержка клиентов</div><div class="sl" data-kz>Клиенттерді қолдау</div></div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="ct-wrap" id="contact">
+  <div class="ct-box fade">
+    <div class="ct-title" data-ru>ГОТОВЫ <span>НАЧАТЬ?</span></div>
+    <div class="ct-title" data-kz>БАСТАУҒА <span>ДАЙЫНСЫЗ?</span></div>
+    <p class="ct-sub" data-ru>Напишите — ответим в течение часа и обсудим ваш проект бесплатно</p>
+    <p class="ct-sub" data-kz>Жазыңыз — бір сағат ішінде жауап береміз, жобаңызды тегін талқылаймыз</p>
+    <div class="ct-btns">
+      <a href="https://wa.me/77083090492?text=Привет! Хочу заказать сайт" target="_blank" class="btn-wa">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+      <a href="https://instagram.com/bekarys_abdulkarim" target="_blank" class="btn-ig">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        @bekarys_abdulkarim
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="fl">LINK<span>Z</span></div>
+  <div class="fc">© 2025 LINKZ · Алматы, Казахстан</div>
+</footer>
+
+<script>
+function showTab(id,el){
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.itab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('tab-'+id).classList.add('active');
+  el.classList.add('on');
+  setTimeout(()=>document.querySelectorAll('#tab-'+id+' .fade').forEach(e=>e.classList.add('on')),60);
+}
+function setLang(lang){
+  document.body.classList.toggle('kz',lang==='kz');
+  document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('on',b.textContent===lang.toUpperCase()));
+}
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('on');}),{threshold:0.08});
+document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
+setTimeout(()=>document.querySelectorAll('#tab-services .fade').forEach(e=>e.classList.add('on')),300);
+</script>
+</body>
+</html>
