@@ -1,618 +1,238 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<meta name="description" content="Velour — Ресторан. Живая кухня, настоящие вкусы."/>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="description" content="Velour — ресторан. Живая кухня, красивый сервис и удобная мобильная админка." />
 <title>Velour — Ресторан</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-
-<!--
-==================================================
-  НАСТРОЙКИ TELEGRAM
-  1. @BotFather → /newbot → получи токен
-  2. Напиши своему боту, затем открой:
-     https://api.telegram.org/bot<TOKEN>/getUpdates
-  3. Найди "chat":{"id": XXXXXXX}
-==================================================
-  ПАРОЛЬ АДМИНКИ по умолчанию: velour2025
-  (меняй в JS: ADMIN_PASSWORD)
-==================================================
--->
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-/* ─── RESET & BASE ─────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth;font-size:16px}
+html{scroll-behavior:smooth}
+:root{
+  --bg:#0d0908;
+  --bg2:#15100d;
+  --surface:#1a1411;
+  --card:rgba(32,24,19,.92);
+  --card2:#241b16;
+  --text:#f3eadc;
+  --muted:#ae9b86;
+  --gold:#c89b5a;
+  --gold2:#f0c98d;
+  --wine:#8f2430;
+  --crimson:#be4e58;
+  --line:rgba(240,201,141,.12);
+  --line2:rgba(240,201,141,.22);
+  --ok:#6dc36d;
+  --err:#d86b6b;
+  --shadow:0 20px 50px rgba(0,0,0,.45);
+  --shadow2:0 10px 24px rgba(0,0,0,.25);
+  --r:20px;
+  --r2:14px;
+}
 body{
-  font-family:'Jost',sans-serif;
-  background:var(--bg);color:var(--text);
-  min-height:100dvh;overflow-x:hidden;
-  padding-bottom:72px;
+  font-family:'Manrope',sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at top, rgba(200,155,90,.07), transparent 24%),
+    linear-gradient(180deg, #0c0807 0%, #140f0c 46%, #0e0a09 100%);
+  min-height:100dvh;
+  overflow-x:hidden;
+  padding-bottom:78px;
   -webkit-font-smoothing:antialiased;
 }
-img{display:block;max-width:100%}
-button{font-family:'Jost',sans-serif;border:none;cursor:pointer;background:none}
-input,textarea,select{font-family:'Jost',sans-serif;outline:none}
-a{text-decoration:none;color:inherit}
-
-/* ─── TOKENS ───────────────────────────────────── */
-:root{
-  --bg:       #0f0a08;
-  --surface:  #1a1108;
-  --card:     #1f1409;
-  --card2:    #261808;
-  --burgundy: #7c1d1d;
-  --wine:     #a02828;
-  --crimson:  #c94040;
-  --ember:    #e86540;
-  --gold:     #c8974a;
-  --gold2:    #e4b96a;
-  --cream:    #f0e6d0;
-  --cream2:   #f8f2e4;
-  --text:     #ede0c8;
-  --muted:    #7a6a52;
-  --border:   rgba(200,151,74,0.12);
-  --border2:  rgba(200,151,74,0.22);
-  --shadow:   0 8px 40px rgba(0,0,0,.55);
-  --shadow2:  0 2px 20px rgba(0,0,0,.4);
-  --r:        12px;
-  --r2:       8px;
-}
-
-/* ─── GRAIN OVERLAY ────────────────────────────── */
 body::after{
-  content:'';position:fixed;inset:0;z-index:999;pointer-events:none;
-  opacity:0.025;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  content:'';position:fixed;inset:0;pointer-events:none;opacity:.02;z-index:999;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-
-/* ─── PAGES ────────────────────────────────────── */
-.page{display:none;min-height:calc(100dvh - 72px);animation:fadeIn .3s ease}
+img{display:block;max-width:100%}
+button,input,textarea,select{font:inherit;outline:none}
+button{border:none;background:none;cursor:pointer}
+a{text-decoration:none;color:inherit}
+.page{display:none;min-height:calc(100dvh - 78px);animation:fade .28s ease}
 .page.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-
-/* ─── BOTTOM NAV ────────────────────────────────── */
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hero-name,.sec-title,.dish-name,.dish-price,.cart-empty-title,.admin-login-title,.order-card-num,.stat-num,.brand-mark,.modal-title{
+  font-family:'Playfair Display',serif;
+}
 .bnav{
-  position:fixed;bottom:0;left:0;right:0;z-index:500;
-  background:rgba(15,10,8,.97);
-  border-top:1px solid var(--border);
-  backdrop-filter:blur(24px);
-  display:flex;align-items:stretch;height:72px;
-  padding:0 4px;
-  padding-bottom:env(safe-area-inset-bottom);
+  position:fixed;left:0;right:0;bottom:0;z-index:300;
+  height:78px;padding:0 6px env(safe-area-inset-bottom);
+  background:rgba(10,8,7,.94);backdrop-filter:blur(18px);
+  border-top:1px solid var(--line);
+  display:flex;align-items:stretch;
 }
-.bnav-item{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:4px;color:var(--muted);transition:color .2s;position:relative;
-  font-size:10px;letter-spacing:.5px;text-transform:uppercase;font-weight:500;
-  padding:8px 4px;
-}
+.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.8px;font-weight:700;position:relative}
 .bnav-item.active{color:var(--gold2)}
-.bnav-item svg{width:22px;height:22px;stroke-width:1.5}
-.bnav-badge{
-  position:absolute;top:8px;right:calc(50% - 18px);
-  min-width:18px;height:18px;padding:0 5px;
-  background:var(--crimson);color:#fff;
-  font-size:10px;font-weight:700;
-  border-radius:9px;display:flex;align-items:center;justify-content:center;
-  transform:scale(0);transition:transform .25s cubic-bezier(.34,1.56,.64,1);
-}
+.bnav-item svg{width:22px;height:22px;stroke-width:1.65}
+.bnav-badge{position:absolute;top:10px;right:calc(50% - 17px);min-width:18px;height:18px;padding:0 5px;border-radius:100px;background:linear-gradient(135deg,var(--wine),var(--crimson));color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;transform:scale(0);transition:transform .2s ease}
 .bnav-badge.show{transform:scale(1)}
-
-/* ─── HERO ──────────────────────────────────────── */
-.hero{
-  min-height:100dvh;position:relative;overflow:hidden;
-  display:flex;flex-direction:column;justify-content:flex-end;
-  padding:0 24px 40px;
-}
-.hero-bg{
-  position:absolute;inset:0;
-  background:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80') center/cover;
-  filter:brightness(.18) saturate(.6);
-}
-.hero-grad{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse at 30% 0%,rgba(124,29,29,.25) 0%,transparent 65%),
-    linear-gradient(to top,rgba(15,10,8,1) 0%,rgba(15,10,8,.6) 50%,rgba(15,10,8,.1) 100%);
-}
-.hero-ornament{
-  position:absolute;top:40px;left:50%;transform:translateX(-50%);
-  width:120px;height:1px;
-  background:linear-gradient(to right,transparent,var(--gold),transparent);
-}
-.hero-ornament::before,.hero-ornament::after{
-  content:'';position:absolute;top:50%;transform:translateY(-50%);
-  width:6px;height:6px;background:var(--gold);border-radius:50%;
-}
-.hero-ornament::before{left:-3px}
-.hero-ornament::after{right:-3px}
-
-.hero-content{position:relative;z-index:2}
-.hero-eyebrow{
-  font-size:11px;letter-spacing:6px;text-transform:uppercase;
-  color:var(--gold);margin-bottom:16px;
-  display:flex;align-items:center;gap:12px;
-  animation:fadeUp .8s .2s ease both;
-}
-.hero-eyebrow::before{content:'';width:32px;height:1px;background:var(--crimson)}
-.hero-name{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(72px,22vw,120px);font-weight:700;
-  letter-spacing:-2px;line-height:.9;color:var(--cream);
-  animation:fadeUp .8s .3s ease both;
-}
-.hero-name em{
-  display:block;font-style:italic;font-weight:300;
-  font-size:.38em;letter-spacing:8px;color:var(--gold2);margin-top:8px;
-}
-.hero-sub{
-  font-size:14px;font-weight:300;color:rgba(237,224,200,.5);
-  line-height:1.7;margin:20px 0 36px;letter-spacing:.3px;
-  animation:fadeUp .8s .4s ease both;
-}
-.hero-cta{
-  animation:fadeUp .8s .5s ease both;
-  display:flex;gap:12px;flex-wrap:wrap;
-}
-.btn-hero{
-  padding:15px 36px;background:var(--wine);color:var(--cream);
-  font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
-  border-radius:2px;transition:all .25s;position:relative;overflow:hidden;
-}
-.btn-hero::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.12) 0%,transparent 50%);
-  opacity:0;transition:opacity .25s;
-}
-.btn-hero:hover{background:var(--crimson);transform:translateY(-2px)}
-.btn-hero:hover::before{opacity:1}
-.btn-hero-outline{
-  padding:15px 36px;background:transparent;
-  border:1px solid rgba(200,151,74,.35);color:var(--gold2);
-  font-size:12px;font-weight:500;letter-spacing:3px;text-transform:uppercase;
-  border-radius:2px;transition:all .25s;
-}
-.btn-hero-outline:hover{border-color:var(--gold);background:rgba(200,151,74,.08)}
-
-/* ─── SECTION HEADER ─────────────────────────────── */
-.sec-head{padding:32px 20px 20px}
-.sec-eyebrow{
-  font-size:10px;letter-spacing:5px;text-transform:uppercase;
-  color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:8px;
-}
-.sec-eyebrow::before{content:'';width:16px;height:1px;background:var(--crimson);flex-shrink:0}
-.sec-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(32px,9vw,52px);font-weight:700;
-  color:var(--cream);letter-spacing:-1px;line-height:1;
-}
-.sec-title em{font-style:italic;color:var(--gold2)}
-
-/* ─── SEARCH ────────────────────────────────────── */
-.search-wrap{padding:0 20px 16px;position:relative}
-.search-input{
-  width:100%;padding:13px 44px 13px 16px;
-  background:var(--card);border:1px solid var(--border);
-  border-radius:var(--r2);color:var(--text);font-size:14px;
-  transition:border-color .2s;
-}
-.search-input::placeholder{color:var(--muted)}
-.search-input:focus{border-color:var(--border2)}
-.search-icon{
-  position:absolute;right:32px;top:50%;transform:translateY(-50%);
-  color:var(--muted);pointer-events:none;
-}
-
-/* ─── CATEGORY TABS ──────────────────────────────── */
-.cats{
-  display:flex;gap:8px;padding:0 20px 20px;
-  overflow-x:auto;scrollbar-width:none;
-}
-.cats::-webkit-scrollbar{display:none}
-.cat-btn{
-  flex-shrink:0;padding:9px 18px;
-  border-radius:100px;border:1px solid var(--border);
-  background:var(--card);color:var(--muted);
-  font-size:12px;font-weight:500;letter-spacing:.5px;
-  transition:all .2s;white-space:nowrap;
-}
-.cat-btn.active{
-  background:var(--wine);border-color:var(--wine);
-  color:var(--cream);
-}
-.cat-btn:hover:not(.active){border-color:var(--border2);color:var(--text)}
-
-/* ─── MENU GRID ──────────────────────────────────── */
-.menu-grid{
-  display:grid;grid-template-columns:repeat(2,1fr);
-  gap:12px;padding:0 16px 24px;
-}
-@media(max-width:360px){.menu-grid{grid-template-columns:1fr}}
-
-.dish-card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:var(--r);overflow:hidden;
-  transition:transform .2s,border-color .2s;
-  position:relative;
-}
-.dish-card:active{transform:scale(.97)}
-.dish-card.hidden-item{display:none}
-
-.dish-img{
-  width:100%;aspect-ratio:4/3;object-fit:cover;
-  background:var(--card2);
-}
-.dish-img-placeholder{
-  width:100%;aspect-ratio:4/3;
-  background:linear-gradient(135deg,var(--card2) 0%,rgba(124,29,29,.2) 100%);
-  display:flex;align-items:center;justify-content:center;
-  font-size:36px;
-}
-.dish-body{padding:12px 12px 14px}
-.dish-cat-tag{
-  font-size:9px;letter-spacing:3px;text-transform:uppercase;
-  color:var(--gold);margin-bottom:6px;display:block;
-}
-.dish-name{
-  font-family:'Cormorant Garamond',serif;
-  font-size:17px;font-weight:600;color:var(--cream);
-  line-height:1.2;margin-bottom:5px;
-}
-.dish-desc{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:10px}
-.dish-meta{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.dish-price{
-  font-family:'Cormorant Garamond',serif;
-  font-size:20px;font-weight:700;color:var(--gold2);
-  white-space:nowrap;
-}
-.dish-weight{font-size:10px;color:var(--muted);margin-top:1px}
-.dish-add{
-  width:34px;height:34px;border-radius:50%;
-  background:var(--wine);color:#fff;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;transition:all .2s;font-size:20px;line-height:1;
-}
-.dish-add:hover{background:var(--crimson);transform:scale(1.1)}
-.dish-add:active{transform:scale(.9)}
-.dish-in-cart{
-  font-size:11px;font-weight:600;letter-spacing:1px;
-  color:var(--gold2);background:rgba(200,151,74,.12);
-  padding:2px 8px;border-radius:100px;
-  position:absolute;top:10px;right:10px;
-  display:none;
-}
-.dish-in-cart.show{display:block}
-
-/* ─── EMPTY STATE ────────────────────────────────── */
-.empty{
-  text-align:center;padding:60px 24px;
-  display:none;
-}
-.empty.show{display:block}
-.empty-icon{font-size:48px;margin-bottom:16px;opacity:.4}
-.empty-text{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--muted)}
-
-/* ─── CART ───────────────────────────────────────── */
-.cart-wrap{padding:20px}
-.cart-empty{
-  min-height:50dvh;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:12px;
-  text-align:center;
-}
-.cart-empty-icon{font-size:64px;opacity:.25}
-.cart-empty-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:28px;color:var(--muted);
-}
-.cart-empty-sub{font-size:13px;color:var(--muted);opacity:.6}
-
-.cart-items{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
-.cart-item{
-  display:grid;grid-template-columns:60px 1fr auto;
-  gap:12px;align-items:center;
-  background:var(--card);border:1px solid var(--border);
-  border-radius:var(--r2);padding:12px;
-}
-.cart-item-img{
-  width:60px;height:60px;border-radius:8px;object-fit:cover;
-  background:var(--card2);
-}
-.cart-item-img-placeholder{
-  width:60px;height:60px;border-radius:8px;
-  background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:24px;
-}
-.cart-item-name{
-  font-family:'Cormorant Garamond',serif;
-  font-size:16px;font-weight:600;color:var(--cream);margin-bottom:2px;
-}
-.cart-item-price{font-size:13px;color:var(--gold2);font-weight:500}
-.cart-qty{
-  display:flex;align-items:center;gap:0;
-  background:var(--surface);border:1px solid var(--border);border-radius:100px;
-  overflow:hidden;
-}
-.qty-btn{
-  width:32px;height:32px;display:flex;align-items:center;justify-content:center;
-  color:var(--text);font-size:16px;transition:background .15s;
-}
-.qty-btn:hover{background:var(--border)}
-.qty-num{
-  min-width:28px;text-align:center;
-  font-size:13px;font-weight:600;color:var(--cream);
-}
-
-.cart-divider{height:1px;background:var(--border);margin:20px 0}
-.cart-total-row{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:8px;
-}
-.cart-total-label{font-size:13px;color:var(--muted)}
-.cart-total-val{
-  font-family:'Cormorant Garamond',serif;
-  font-size:22px;font-weight:700;color:var(--gold2);
-}
-
-.btn-main{
-  width:100%;padding:16px;
-  background:var(--wine);color:var(--cream);
-  font-size:13px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;
-  border-radius:var(--r2);transition:all .25s;margin-top:16px;
+.hero{min-height:100dvh;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:0 22px 42px}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1400&q=80') center/cover;filter:brightness(.2) saturate(.72)}
+.hero-grad{position:absolute;inset:0;background:radial-gradient(circle at 20% 0%, rgba(143,36,48,.38), transparent 34%),linear-gradient(to top, rgba(12,9,8,1) 0%, rgba(12,9,8,.6) 40%, rgba(12,9,8,.16) 100%)}
+.hero-content{position:relative;z-index:2;max-width:680px}
+.hero-eyebrow{font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--gold2);display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.hero-eyebrow::before{content:'';width:34px;height:1px;background:var(--crimson)}
+.hero-name{font-size:clamp(64px,20vw,120px);line-height:.88;letter-spacing:-2px;color:#fff}
+.hero-name em{display:block;font-size:.34em;font-style:italic;font-weight:600;letter-spacing:7px;color:var(--gold2);margin-top:8px}
+.hero-sub{margin:22px 0 34px;max-width:540px;font-size:14px;line-height:1.75;color:rgba(243,234,220,.75)}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn-hero,.btn-main{
   position:relative;overflow:hidden;
+  background:linear-gradient(135deg,var(--wine),var(--crimson));
+  color:#fff;border-radius:16px;box-shadow:0 12px 24px rgba(190,78,88,.22);
 }
-.btn-main::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);
-  opacity:0;transition:opacity .2s;
+.btn-hero{padding:15px 26px;font-size:12px;text-transform:uppercase;letter-spacing:2.5px;font-weight:800}
+.btn-hero-outline{padding:14px 24px;border-radius:16px;border:1px solid var(--line2);color:var(--gold2);background:rgba(255,255,255,.02);font-size:12px;text-transform:uppercase;letter-spacing:2px;font-weight:800}
+.btn-hero:active,.btn-main:active,.dish-add:active{transform:scale(.98)}
+.btn-hero::before,.btn-main::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.16),transparent 55%);opacity:0;transition:opacity .2s}
+.btn-hero:hover::before,.btn-main:hover::before{opacity:1}
+.section{padding:28px 18px}
+.sec-head{padding:28px 18px 18px}
+.sec-eyebrow{font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.sec-eyebrow::before{content:'';width:18px;height:1px;background:var(--crimson)}
+.sec-title{font-size:clamp(34px,9vw,54px);line-height:1;color:#fff}
+.sec-title em{font-style:italic;color:var(--gold2)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:18px}
+.stat{background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:18px;padding:18px 12px;text-align:center;box-shadow:var(--shadow2)}
+.stat-num{font-size:34px;color:var(--gold2)}
+.stat-label{font-size:11px;color:var(--muted);letter-spacing:1px;margin-top:4px}
+.feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:0 18px 28px}
+.feature{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow2)}
+.feature-ic{font-size:22px;margin-bottom:12px}
+.feature-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:5px}
+.feature-sub{font-size:12px;line-height:1.6;color:var(--muted)}
+.search-wrap{padding:0 18px 16px;position:relative}
+.search-input,.form-input,.form-select,.settings-box input{
+  width:100%;padding:14px 16px;border-radius:16px;
+  background:rgba(255,255,255,.028);border:1px solid var(--line);
+  color:var(--text);
 }
-.btn-main:hover{background:var(--crimson)}
-.btn-main:hover::before{opacity:1}
-.btn-main:active{transform:scale(.98)}
-.btn-main:disabled{opacity:.5;cursor:not-allowed}
-.btn-ghost{
-  width:100%;padding:14px;
-  background:transparent;color:var(--muted);
-  font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;
-  border:1px solid var(--border);border-radius:var(--r2);
-  transition:all .2s;margin-top:8px;
+.search-input::placeholder,.form-input::placeholder{color:var(--muted)}
+.search-icon{position:absolute;right:32px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.cats{display:flex;gap:8px;overflow:auto;padding:0 18px 18px;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cat-btn{flex:0 0 auto;padding:10px 16px;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:rgba(255,255,255,.025);font-size:12px;font-weight:700;letter-spacing:.4px}
+.cat-btn.active{background:linear-gradient(135deg,var(--wine),var(--crimson));border-color:transparent;color:#fff}
+.menu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding:0 18px 28px}
+@media (max-width:370px){.menu-grid{grid-template-columns:1fr}}
+.dish-card{
+  background:linear-gradient(180deg,rgba(35,25,19,.95),rgba(23,17,14,.98));
+  border:1px solid var(--line);border-radius:20px;overflow:hidden;position:relative;box-shadow:var(--shadow2);transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
 }
-.btn-ghost:hover{border-color:var(--border2);color:var(--text)}
-
-/* ─── ORDER FORM ──────────────────────────────────── */
-.order-wrap{padding:20px}
-.order-head{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:24px;
-}
-.form-section{margin-bottom:20px}
-.form-label{
-  display:block;font-size:10px;letter-spacing:3px;
-  text-transform:uppercase;color:var(--gold);margin-bottom:8px;
-}
-.form-input{
-  width:100%;padding:14px 16px;
-  background:var(--card);border:1px solid var(--border);
-  border-radius:var(--r2);color:var(--text);font-size:15px;
-  transition:border-color .2s;
-}
-.form-input::placeholder{color:var(--muted)}
-.form-input:focus{border-color:var(--border2)}
-textarea.form-input{resize:none;min-height:96px;line-height:1.6}
-
-.order-summary{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:var(--r);padding:16px;margin-bottom:20px;
-}
-.order-sum-title{
-  font-size:10px;letter-spacing:3px;text-transform:uppercase;
-  color:var(--gold);margin-bottom:12px;
-}
-.order-sum-row{
-  display:flex;justify-content:space-between;
-  font-size:13px;color:var(--muted);margin-bottom:6px;
-}
-.order-sum-row:last-child{
-  margin-top:10px;padding-top:10px;border-top:1px solid var(--border);
-  font-size:16px;font-weight:600;color:var(--cream);margin-bottom:0;
-}
-
-/* ─── TOAST ─────────────────────────────────────── */
-.toast{
-  position:fixed;top:20px;left:50%;
-  transform:translateX(-50%) translateY(-80px);
-  background:var(--card);border:1px solid var(--border2);
-  padding:12px 24px;border-radius:100px;
-  font-size:13px;font-weight:500;color:var(--cream);
-  z-index:1000;white-space:nowrap;
-  transition:transform .4s cubic-bezier(.34,1.56,.64,1);
-  display:flex;align-items:center;gap:8px;
-  box-shadow:var(--shadow);
-}
+.dish-card:hover{transform:translateY(-2px);border-color:var(--line2);box-shadow:var(--shadow)}
+.dish-img,.dish-img-placeholder{width:100%;aspect-ratio:4/3;background:var(--card2);border-bottom:1px solid rgba(255,255,255,.04)}
+.dish-img{object-fit:cover}
+.dish-img-placeholder{display:flex;align-items:center;justify-content:center;font-size:42px;background:linear-gradient(135deg,rgba(143,36,48,.18),rgba(255,255,255,.03))}
+.dish-body{padding:14px 14px 16px}
+.dish-cat-tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:8px}
+.dish-name{font-size:18px;line-height:1.18;color:#fff;margin-bottom:6px}
+.dish-desc{font-size:12px;color:var(--muted);line-height:1.55;min-height:38px;margin-bottom:10px}
+.dish-meta{display:flex;justify-content:space-between;gap:8px;align-items:end}
+.dish-price{font-size:22px;color:var(--gold2)}
+.dish-weight{font-size:11px;color:var(--muted);margin-top:3px}
+.dish-add{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--wine),var(--crimson));color:#fff;font-size:22px;box-shadow:0 10px 18px rgba(190,78,88,.22)}
+.dish-in-cart{position:absolute;top:10px;right:10px;background:rgba(240,201,141,.12);color:var(--gold2);padding:3px 8px;border-radius:999px;font-size:11px;font-weight:800;display:none}
+.dish-in-cart.show{display:block}
+.empty{display:none;text-align:center;padding:56px 24px;color:var(--muted)}
+.empty.show{display:block}
+.empty-icon{font-size:52px;opacity:.4;margin-bottom:12px}
+.empty-text{font-size:24px}
+.cart-wrap,.order-wrap,.admin-wrap{padding:20px 18px}
+.cart-empty{min-height:52dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center}
+.cart-empty-icon{font-size:66px;opacity:.24}
+.cart-empty-title{font-size:30px;color:var(--muted)}
+.cart-empty-sub{font-size:13px;color:var(--muted)}
+.cart-items{display:flex;flex-direction:column;gap:12px;margin-bottom:22px}
+.cart-item{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:var(--shadow2)}
+.cart-item-img,.cart-item-img-placeholder{width:64px;height:64px;border-radius:12px;background:var(--card2)}
+.cart-item-img{object-fit:cover}
+.cart-item-img-placeholder{display:flex;align-items:center;justify-content:center;font-size:28px}
+.cart-item-name{font-size:17px;color:#fff;margin-bottom:3px}
+.cart-item-price{font-size:13px;color:var(--gold2);font-weight:700}
+.cart-qty{display:flex;align-items:center;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:rgba(255,255,255,.02)}
+.qty-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:#fff}
+.qty-num{min-width:28px;text-align:center;font-size:13px;font-weight:800}
+.cart-total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.cart-total-label{font-size:13px;color:var(--muted)}
+.cart-total-val{font-size:24px;color:var(--gold2)}
+.btn-main{width:100%;padding:16px;font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;border-radius:16px;margin-top:16px}
+.btn-ghost{width:100%;padding:14px;border:1px solid var(--line);border-radius:16px;color:var(--muted);text-transform:uppercase;font-size:12px;font-weight:800;letter-spacing:1.4px;background:rgba(255,255,255,.02);margin-top:10px}
+.order-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.form-section{margin-bottom:18px}
+.form-label{display:block;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+textarea.form-input{resize:none;min-height:100px;line-height:1.6}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.order-summary,.settings-box,.dish-edit-card,.order-card,.admin-login-card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow2)}
+.order-summary{padding:16px;margin-bottom:20px}
+.order-sum-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.order-sum-row{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:7px}
+.order-sum-row:last-child{margin-top:8px;padding-top:10px;border-top:1px solid var(--line);font-size:16px;color:#fff;font-weight:800}
+.toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-90px);z-index:500;background:var(--card);border:1px solid var(--line2);border-radius:999px;padding:12px 20px;font-size:13px;font-weight:800;box-shadow:var(--shadow);transition:transform .35s ease;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
-.toast.success{background:rgba(30,60,20,.95);border-color:rgba(80,160,60,.3);color:#a0e080}
-.toast.error{background:rgba(60,20,20,.95);border-color:rgba(160,40,40,.3);color:#e07070}
-
-/* ─── ADMIN ──────────────────────────────────────── */
-.admin-wrap{padding:20px}
-.admin-login{
-  min-height:70dvh;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:20px;
-  text-align:center;
-}
-.admin-login-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:36px;color:var(--cream);margin-bottom:4px;
-}
-.admin-login-sub{font-size:13px;color:var(--muted)}
-.admin-tabs{
-  display:flex;gap:2px;background:var(--surface);
-  border:1px solid var(--border);border-radius:var(--r2);
-  padding:4px;margin-bottom:24px;overflow-x:auto;
-}
-.admin-tab{
-  flex:1;min-width:fit-content;padding:9px 14px;
-  border-radius:6px;font-size:12px;font-weight:500;
-  color:var(--muted);white-space:nowrap;transition:all .2s;
-  letter-spacing:.5px;
-}
-.admin-tab.active{background:var(--wine);color:var(--cream)}
+.toast.success{color:#baf1b9;background:rgba(24,53,24,.96);border-color:rgba(109,195,109,.28)}
+.toast.error{color:#ffb1b1;background:rgba(68,22,22,.97);border-color:rgba(216,107,107,.26)}
+.admin-login{min-height:70dvh;display:flex;align-items:center;justify-content:center}
+.admin-login-card{padding:24px;width:min(100%,420px)}
+.admin-login-title{font-size:36px;color:#fff;margin-bottom:6px}
+.admin-login-sub{font-size:13px;color:var(--muted);margin-bottom:18px}
+.admin-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.admin-brand{font-size:28px;color:#fff}
+.admin-tabs{display:flex;gap:4px;overflow:auto;background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:16px;padding:4px;margin-bottom:20px;scrollbar-width:none}
+.admin-tabs::-webkit-scrollbar{display:none}
+.admin-tab{flex:1;min-width:max-content;padding:10px 14px;border-radius:12px;color:var(--muted);font-size:12px;font-weight:800}
+.admin-tab.active{background:linear-gradient(135deg,var(--wine),var(--crimson));color:#fff}
 .admin-panel{display:none}
 .admin-panel.active{display:block}
-
-.dish-edit-card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:var(--r);padding:16px;margin-bottom:12px;
-  display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:start;
-}
-.dish-edit-img{
-  width:56px;height:56px;border-radius:8px;object-fit:cover;
-  background:var(--card2);
-}
-.dish-edit-name{
-  font-family:'Cormorant Garamond',serif;
-  font-size:16px;font-weight:600;color:var(--cream);margin-bottom:3px;
-}
+.dish-edit-card{padding:14px;display:grid;grid-template-columns:58px 1fr auto;gap:12px;align-items:start;margin-bottom:12px}
+.dish-edit-img{width:58px;height:58px;border-radius:12px;object-fit:cover;background:var(--card2)}
+.dish-edit-name{font-size:17px;color:#fff;margin-bottom:4px}
 .dish-edit-price{font-size:13px;color:var(--gold2)}
 .dish-edit-actions{display:flex;flex-direction:column;gap:6px}
-.btn-edit{
-  padding:7px 14px;font-size:11px;font-weight:500;letter-spacing:.5px;
-  border-radius:6px;transition:all .2s;white-space:nowrap;
-}
-.btn-edit-primary{background:rgba(124,29,29,.3);border:1px solid var(--wine);color:var(--crimson)}
-.btn-edit-primary:hover{background:var(--wine);color:var(--cream)}
-.btn-edit-danger{background:rgba(60,20,20,.3);border:1px solid rgba(160,40,40,.3);color:#e07070}
-.btn-edit-danger:hover{background:rgba(160,40,40,.4)}
-.toggle-vis{
-  padding:6px 12px;font-size:10px;font-weight:600;
-  letter-spacing:1px;text-transform:uppercase;border-radius:6px;transition:all .2s;
-  border:1px solid var(--border);color:var(--muted);
-}
-.toggle-vis.on{background:rgba(40,80,30,.3);border-color:rgba(80,160,60,.3);color:#80cc60}
-
-.order-card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:var(--r);padding:16px;margin-bottom:12px;
-}
-.order-card-head{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:10px;
-}
-.order-card-num{
-  font-family:'Cormorant Garamond',serif;
-  font-size:22px;font-weight:700;color:var(--cream);
-}
+.btn-edit{padding:8px 12px;border-radius:10px;font-size:11px;font-weight:800}
+.btn-edit-primary{border:1px solid rgba(190,78,88,.3);background:rgba(190,78,88,.1);color:#ffb7bf}
+.btn-edit-danger{border:1px solid rgba(216,107,107,.3);background:rgba(216,107,107,.08);color:#ffb1b1}
+.toggle-vis{padding:7px 12px;border-radius:10px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:1px;border:1px solid var(--line);color:var(--muted)}
+.toggle-vis.on{color:#baf1b9;border-color:rgba(109,195,109,.28);background:rgba(109,195,109,.08)}
+.order-card{padding:16px;margin-bottom:12px}
+.order-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.order-card-num{font-size:24px;color:#fff}
 .order-card-time{font-size:11px;color:var(--muted)}
-.order-card-table{
-  display:inline-block;padding:4px 12px;
-  background:rgba(124,29,29,.2);border:1px solid rgba(124,29,29,.4);
-  border-radius:100px;font-size:12px;font-weight:600;
-  color:var(--crimson);margin-bottom:10px;
-}
-.order-card-items{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:8px}
-.order-card-total{
-  font-family:'Cormorant Garamond',serif;
-  font-size:20px;font-weight:700;color:var(--gold2);
-}
-.order-card-comment{
-  font-size:12px;color:var(--muted);
-  border-left:2px solid var(--border);padding-left:10px;margin-top:8px;
-  font-style:italic;
-}
-
-/* ─── MODAL ──────────────────────────────────────── */
-.modal-bg{
-  position:fixed;inset:0;z-index:800;
-  background:rgba(0,0,0,.7);backdrop-filter:blur(6px);
-  display:flex;align-items:flex-end;justify-content:center;
-  opacity:0;visibility:hidden;transition:all .3s;
-}
-.modal-bg.open{opacity:1;visibility:visible}
-.modal-box{
-  width:100%;max-width:480px;
-  background:var(--card);border-radius:20px 20px 0 0;
-  border:1px solid var(--border);border-bottom:none;
-  padding:24px 20px 36px;
-  max-height:90dvh;overflow-y:auto;
-  transform:translateY(40px);transition:transform .35s cubic-bezier(.34,1.3,.64,1);
-}
-.modal-bg.open .modal-box{transform:translateY(0)}
-.modal-bar{width:36px;height:3px;background:var(--border2);border-radius:2px;margin:0 auto 20px}
-.modal-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:22px;font-weight:700;color:var(--cream);margin-bottom:16px;
-}
-.modal-close{
-  position:absolute;top:20px;right:20px;
-  width:32px;height:32px;background:var(--border);
-  border-radius:50%;display:flex;align-items:center;justify-content:center;
-  color:var(--muted);font-size:16px;transition:all .2s;
-}
-.modal-close:hover{background:var(--border2);color:var(--text)}
-.modal-box{position:relative}
-
-/* ─── ADD DISH FORM ──────────────────────────────── */
+.order-card-table{display:inline-block;padding:4px 12px;border-radius:999px;background:rgba(190,78,88,.12);border:1px solid rgba(190,78,88,.2);color:#ffb7bf;font-size:12px;font-weight:800;margin-bottom:10px}
+.order-card-items{font-size:13px;line-height:1.75;color:var(--muted)}
+.order-card-total{font-size:22px;color:var(--gold2);margin-top:8px}
+.order-card-comment{margin-top:8px;padding-left:10px;border-left:2px solid var(--line);color:var(--muted);font-size:12px;font-style:italic}
 .photo-upload{
-  width:100%;aspect-ratio:16/9;
-  border:2px dashed var(--border);border-radius:var(--r);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:8px;cursor:pointer;transition:border-color .2s;
-  overflow:hidden;position:relative;background:var(--surface);
-  margin-bottom:16px;
+  width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;
+  border:2px dashed var(--line2);border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));
+  display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow2);margin-bottom:16px;
 }
-.photo-upload:hover{border-color:var(--border2)}
-.photo-upload-icon{font-size:32px;opacity:.4}
-.photo-upload-label{font-size:12px;color:var(--muted)}
-.photo-upload img{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;
-}
-.photo-upload input{
-  position:absolute;inset:0;opacity:0;cursor:pointer;
-}
-
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.form-select{
-  width:100%;padding:14px 16px;
-  background:var(--card);border:1px solid var(--border);
-  border-radius:var(--r2);color:var(--text);font-size:15px;
-  -webkit-appearance:none;
-}
-.form-select option{background:var(--card);color:var(--text)}
-
-/* ─── HERO SCROLL INDICATOR ──────────────────────── */
-.scroll-ind{
-  position:absolute;bottom:100px;left:50%;transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:6px;z-index:2;
-  animation:fadeUp .8s .9s ease both,pulse 2s 2s infinite;
-}
-.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--gold),transparent)}
-.scroll-dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
-@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-
-/* ─── UTILITY ────────────────────────────────────── */
+.photo-upload:active{transform:scale(.995)}
+.photo-upload input{position:absolute;inset:0;width:100%;height:100%;opacity:0;z-index:2;display:block!important;cursor:pointer}
+.photo-upload-content{position:relative;z-index:1;text-align:center;padding:18px}
+.photo-upload-icon{font-size:34px;opacity:.48;margin-bottom:8px}
+.photo-upload-label{font-size:12px;color:var(--muted);line-height:1.6}
+.photo-upload img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.modal-bg{position:fixed;inset:0;z-index:350;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center;opacity:0;visibility:hidden;transition:all .25s}
+.modal-bg.open{opacity:1;visibility:visible}
+.modal-box{width:min(100%,520px);max-height:88dvh;overflow:auto;background:var(--card);border:1px solid var(--line);border-bottom:none;border-radius:24px 24px 0 0;padding:24px 18px 32px;transform:translateY(30px);transition:transform .25s ease;position:relative}
+.modal-bg.open .modal-box{transform:none}
+.modal-title{font-size:24px;color:#fff;margin-bottom:14px}
+.modal-close{position:absolute;top:18px;right:18px;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.05);color:var(--muted)}
 .hidden{display:none!important}
-.divider{height:1px;background:var(--border);margin:20px 0}
-.tag{
-  display:inline-block;padding:4px 10px;
-  background:rgba(124,29,29,.2);border:1px solid rgba(124,29,29,.4);
-  border-radius:100px;font-size:10px;letter-spacing:1px;
-  text-transform:uppercase;color:var(--crimson);
+@media (min-width:740px){
+  .hero{padding-left:42px;padding-right:42px}
+  .section,.sec-head,.search-wrap,.cats,.menu-grid,.cart-wrap,.order-wrap,.admin-wrap{max-width:900px;margin:0 auto}
 }
-*{scrollbar-width:thin;scrollbar-color:rgba(200,151,74,.15) transparent}
 </style>
 </head>
 <body>
-
-<!-- ═══ TOAST ═══════════════════════════════════ -->
 <div class="toast" id="toast"></div>
-
-<!-- ═══ BOTTOM NAV ═════════════════════════════ -->
 <nav class="bnav">
   <button class="bnav-item active" data-page="home" onclick="goPage('home')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 10l9-7 9 7"/><path d="M5 9.8V21h14V9.8"/></svg>
     Главная
   </button>
   <button class="bnav-item" data-page="menu" onclick="goPage('menu')">
@@ -620,12 +240,12 @@ textarea.form-input{resize:none;min-height:96px;line-height:1.6}
     Меню
   </button>
   <button class="bnav-item" data-page="cart" onclick="goPage('cart')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
     Корзина
     <span class="bnav-badge" id="cartBadge">0</span>
   </button>
   <button class="bnav-item" data-page="order" onclick="goPage('order')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h8"/></svg>
     Заказ
   </button>
   <button class="bnav-item" data-page="admin" onclick="goPage('admin')">
@@ -633,1076 +253,202 @@ textarea.form-input{resize:none;min-height:96px;line-height:1.6}
     Админ
   </button>
 </nav>
-
-<!-- ═══ PAGE: HOME ══════════════════════════════ -->
 <div class="page active" id="page-home">
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-grad"></div>
-    <div class="hero-ornament"></div>
-    <div class="scroll-ind">
-      <div class="scroll-dot"></div>
-      <div class="scroll-line"></div>
-    </div>
     <div class="hero-content">
       <div class="hero-eyebrow">Ресторан · Алматы</div>
       <h1 class="hero-name">Velour<em>живая кухня</em></h1>
-      <p class="hero-sub">Каждое блюдо — история. Каждый вечер — событие.<br/>Настоящие вкусы в самом сердце города.</p>
+      <p class="hero-sub">Красивые блюда, атмосферная подача и удобный заказ прямо с телефона. Меню легко редактируется через встроенную админку.</p>
       <div class="hero-cta">
         <button class="btn-hero" onclick="goPage('menu')">Открыть меню</button>
-        <button class="btn-hero-outline" onclick="goPage('cart')">Корзина</button>
+        
       </div>
     </div>
   </section>
-
-  <section style="padding:40px 20px;background:var(--surface);border-top:1px solid var(--border)">
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;text-align:center;max-width:480px;margin:0 auto">
-      <div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:var(--gold2)">120+</div>
-        <div style="font-size:11px;color:var(--muted);letter-spacing:1px;margin-top:4px">ПОЗИЦИЙ</div>
-      </div>
-      <div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:var(--gold2)">4.9</div>
-        <div style="font-size:11px;color:var(--muted);letter-spacing:1px;margin-top:4px">РЕЙТИНГ</div>
-      </div>
-      <div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:var(--gold2)">7+</div>
-        <div style="font-size:11px;color:var(--muted);letter-spacing:1px;margin-top:4px">ЛЕТ</div>
-      </div>
-    </div>
+  <section class="stats">
+    <div class="stat"><div class="stat-num">120+</div><div class="stat-label">ПОЗИЦИЙ</div></div>
+    <div class="stat"><div class="stat-num">4.9</div><div class="stat-label">РЕЙТИНГ</div></div>
+    <div class="stat"><div class="stat-num">7+</div><div class="stat-label">ЛЕТ</div></div>
   </section>
-
-  <section style="padding:36px 20px;border-top:1px solid var(--border)">
-    <div style="display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px" class="feature-scroll">
-      <div style="flex-shrink:0;width:160px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;text-align:center">
-        <div style="font-size:28px;margin-bottom:10px">🍷</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--cream)">Авторские напитки</div>
-      </div>
-      <div style="flex-shrink:0;width:160px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;text-align:center">
-        <div style="font-size:28px;margin-bottom:10px">🔥</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--cream)">Открытая кухня</div>
-      </div>
-      <div style="flex-shrink:0;width:160px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;text-align:center">
-        <div style="font-size:28px;margin-bottom:10px">🌿</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--cream)">Свежие продукты</div>
-      </div>
-      <div style="flex-shrink:0;width:160px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;text-align:center">
-        <div style="font-size:28px;margin-bottom:10px">⚡</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--cream)">Быстрый заказ</div>
-      </div>
-    </div>
+  <section class="feature-grid">
+    <div class="feature"><div class="feature-ic">🍷</div><div class="feature-title">Авторская подача</div><div class="feature-sub">Красивый интерьер и блюда, которые приятно не только пробовать, но и фотографировать.</div></div>
+    <div class="feature"><div class="feature-ic">🔥</div><div class="feature-title">Живая кухня</div><div class="feature-sub">Горячие блюда, свежие ингредиенты и быстрая выдача заказов.</div></div>
+    <div class="feature"><div class="feature-ic">📱</div><div class="feature-title">Мобильная админка</div><div class="feature-sub">Меняй блюда, цены и фотографии прямо со смартфона или ноутбука.</div></div>
+    <div class="feature"><div class="feature-ic">✨</div><div class="feature-title">Премиальный стиль</div><div class="feature-sub">Тёплая палитра, аккуратные карточки и читаемые шрифты.</div></div>
   </section>
 </div>
-
-<!-- ═══ PAGE: MENU ══════════════════════════════ -->
 <div class="page" id="page-menu">
   <div class="sec-head">
-    <div class="sec-eyebrow">Наше меню</div>
-    <h2 class="sec-title">Выбери <em>своё</em></h2>
+    <div class="sec-eyebrow">меню</div>
+    <h2 class="sec-title">Наше <em>меню</em></h2>
   </div>
   <div class="search-wrap">
-    <input class="search-input" id="searchInput" placeholder="Поиск по меню..." oninput="filterMenu()"/>
-    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="menuSearch" class="search-input" placeholder="Поиск блюда" oninput="renderMenu()">
+    <div class="search-icon">⌕</div>
   </div>
   <div class="cats" id="catTabs"></div>
   <div class="menu-grid" id="menuGrid"></div>
-  <div class="empty" id="menuEmpty">
-    <div class="empty-icon">🍽</div>
-    <div class="empty-text">Ничего не найдено</div>
-  </div>
+  <div class="empty" id="menuEmpty"><div class="empty-icon">🍽️</div><div class="empty-text">Ничего не найдено</div></div>
 </div>
-
-<!-- ═══ PAGE: CART ══════════════════════════════ -->
 <div class="page" id="page-cart">
   <div class="cart-wrap">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
-      <div>
-        <div class="sec-eyebrow" style="margin-bottom:4px">Ваш выбор</div>
-        <h2 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--cream)">Корзина</h2>
-      </div>
-      <button id="clearCartBtn" onclick="clearCart()" style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;padding:8px 14px;border:1px solid var(--border);border-radius:100px;">Очистить</button>
-    </div>
-    <div id="cartContent"></div>
-  </div>
-</div>
-
-<!-- ═══ PAGE: ORDER ═════════════════════════════ -->
-<div class="page" id="page-order">
-  <div class="order-wrap">
-    <div class="sec-head" style="padding:0 0 24px">
-      <div class="sec-eyebrow">Оформление</div>
+    <div class="sec-head" style="padding:0 0 18px">
+      <div class="sec-eyebrow">корзина</div>
       <h2 class="sec-title">Ваш <em>заказ</em></h2>
     </div>
+    <div id="cartView"></div>
+  </div>
+</div>
+<div class="page" id="page-order">
+  <div class="order-wrap">
+    <div class="order-head"><h2 class="sec-title" style="font-size:36px">Оформить</h2></div>
     <div class="order-summary" id="orderSummary"></div>
     <div class="form-section">
       <label class="form-label">Номер стола</label>
-      <input class="form-input" id="tableNum" type="number" min="1" max="50" placeholder="Введите номер стола"/>
+      <input class="form-input" id="orderTable" placeholder="Например, 7" />
     </div>
     <div class="form-section">
-      <label class="form-label">Комментарий к заказу</label>
-      <textarea class="form-input" id="orderComment" placeholder="Пожелания, аллергии, особые просьбы..."></textarea>
+      <label class="form-label">Комментарий</label>
+      <textarea class="form-input" id="orderComment" placeholder="Пожелания к заказу"></textarea>
     </div>
-    <button class="btn-main" onclick="submitOrder()">
-      Отправить заказ
-    </button>
-    <button class="btn-ghost" onclick="goPage('cart')">← Вернуться в корзину</button>
+    <button class="btn-main" onclick="submitOrder()">Отправить заказ</button>
+    <button class="btn-ghost" onclick="goPage('menu')">Вернуться в меню</button>
   </div>
 </div>
-
-<!-- ═══ PAGE: ADMIN ═════════════════════════════ -->
 <div class="page" id="page-admin">
-  <div class="admin-wrap">
-    <!-- Login -->
-    <div id="adminLogin">
-      <div class="admin-login">
-        <div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:700;color:var(--gold2);text-align:center">V</div>
-          <div class="admin-login-title">Velour Admin</div>
-          <div class="admin-login-sub">Панель управления рестораном</div>
-        </div>
-        <div style="width:100%;max-width:300px">
-          <label class="form-label">Пароль</label>
-          <input class="form-input" id="adminPass" type="password" placeholder="Введите пароль" onkeydown="if(event.key==='Enter')adminLogin()"/>
-          <button class="btn-main" style="margin-top:12px" onclick="adminLogin()">Войти</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Panel -->
-    <div id="adminPanel" class="hidden">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--cream)">Управление</div>
-        <button onclick="adminLogout()" style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;padding:8px 14px;border:1px solid var(--border);border-radius:100px;">Выйти</button>
-      </div>
-      <div class="admin-tabs">
-        <button class="admin-tab active" onclick="adminTab('dishes')">Блюда</button>
-        <button class="admin-tab" onclick="adminTab('add')">+ Добавить</button>
-        <button class="admin-tab" onclick="adminTab('orders')">Заказы</button>
-        <button class="admin-tab" onclick="adminTab('settings')">Настройки</button>
-      </div>
-
-      <!-- Tab: Dishes -->
-      <div class="admin-panel active" id="tab-dishes">
-        <div style="margin-bottom:12px;font-size:12px;color:var(--muted)">Нажмите на блюдо для редактирования</div>
-        <div id="adminDishList"></div>
-      </div>
-
-      <!-- Tab: Add -->
-      <div class="admin-panel" id="tab-add">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream);margin-bottom:20px" id="addFormTitle">Новое блюдо</div>
-        <input type="hidden" id="editDishId"/>
-
-        <label onclick="document.getElementById('photoFile').click()" class="photo-upload" id="photoPreviewWrap">
-          <input type="file" id="photoFile" accept="image/*" onchange="handlePhotoUpload(event)" style="display:none"/>
-          <div id="photoPreviewContent">
-            <div class="photo-upload-icon">📷</div>
-            <div class="photo-upload-label">Нажмите, чтобы загрузить фото</div>
-          </div>
-        </label>
-        <input type="hidden" id="photoData"/>
-
-        <div class="form-section">
-          <label class="form-label">Название</label>
-          <input class="form-input" id="dishName" placeholder="Название блюда"/>
-        </div>
-        <div class="form-section">
-          <label class="form-label">Описание</label>
-          <textarea class="form-input" id="dishDesc" placeholder="Краткое описание..." style="min-height:72px"></textarea>
-        </div>
-        <div class="form-row">
-          <div class="form-section">
-            <label class="form-label">Цена (₸)</label>
-            <input class="form-input" id="dishPrice" type="number" placeholder="1500"/>
-          </div>
-          <div class="form-section">
-            <label class="form-label">Вес/Объём</label>
-            <input class="form-input" id="dishWeight" placeholder="250 г / 300 мл"/>
-          </div>
-        </div>
-        <div class="form-section">
-          <label class="form-label">Категория</label>
-          <select class="form-select" id="dishCat">
-            <option value="dishes">Блюда</option>
-            <option value="drinks">Напитки</option>
-            <option value="desserts">Десерты</option>
-            <option value="combo">Комбо</option>
-            <option value="seasonal">Сезонное</option>
-          </select>
-        </div>
-        <div class="form-section">
-          <label class="form-label">Эмодзи (иконка)</label>
-          <input class="form-input" id="dishEmoji" placeholder="🍕"/>
-        </div>
-        <button class="btn-main" onclick="saveDish()">Сохранить блюдо</button>
-        <button class="btn-ghost" onclick="resetDishForm()">Отмена / очистить</button>
-      </div>
-
-      <!-- Tab: Orders -->
-      <div class="admin-panel" id="tab-orders">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-          <div style="font-size:13px;color:var(--muted)" id="orderCount">Заказов: 0</div>
-          <button onclick="clearOrders()" style="font-size:11px;color:var(--muted);padding:6px 12px;border:1px solid var(--border);border-radius:100px;">Очистить всё</button>
-        </div>
-        <div id="adminOrderList"></div>
-      </div>
-
-      <!-- Tab: Settings -->
-      <div class="admin-panel" id="tab-settings">
-        <div id="sbStatus" style="padding:10px 14px;border-radius:var(--r2);border:1px solid var(--border);font-size:12px;margin-bottom:16px;color:var(--muted)">Проверка подключения...</div>
-        <div class="form-section">
-          <label class="form-label">Telegram Bot Token</label>
-          <input class="form-input" id="tgToken" placeholder="7123456789:AAHxxxxxx"/>
-        </div>
-        <div class="form-section">
-          <label class="form-label">Telegram Chat ID</label>
-          <input class="form-input" id="tgChatId" placeholder="123456789"/>
-        </div>
-        <div class="divider"></div>
-        <div class="form-section">
-          <label class="form-label">Название ресторана</label>
-          <input class="form-input" id="restName" placeholder="Velour"/>
-        </div>
-        <div class="form-section">
-          <label class="form-label">Новый пароль (оставьте пустым, чтобы не менять)</label>
-          <input class="form-input" id="newPass" type="password" placeholder="Новый пароль"/>
-        </div>
-        <button class="btn-main" onclick="saveSettings()">Сохранить настройки</button>
-        <div style="margin-top:16px;padding:12px 16px;background:rgba(200,151,74,.06);border:1px solid var(--border);border-radius:var(--r2);font-size:12px;color:var(--muted);line-height:1.7">
-          <strong style="color:var(--gold)">Как настроить Telegram:</strong><br/>
-          1. Напишите @BotFather → /newbot<br/>
-          2. Скопируйте токен бота<br/>
-          3. Напишите боту любое сообщение<br/>
-          4. Откройте: api.telegram.org/bot&lt;ТОКЕН&gt;/getUpdates<br/>
-          5. Найдите "chat":{"id": XXXXXX} — это ваш Chat ID
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="admin-wrap" id="adminRoot"></div>
 </div>
-
-<!-- ═══ MODAL: DISH EDIT ════════════════════════ -->
-<div class="modal-bg" id="editModal" onclick="handleModalClick(event)">
+<div class="modal-bg" id="dishModal" onclick="closeModal(event)">
   <div class="modal-box">
-    <div class="modal-bar"></div>
     <button class="modal-close" onclick="closeModal()">✕</button>
-    <div class="modal-title" id="editModalTitle">Редактировать</div>
-    <div id="editModalContent"></div>
+    <div class="modal-title" id="modalDishTitle">Блюдо</div>
+    <div id="modalDishBody"></div>
   </div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* ════════════════════════════════════════════════
-   ⚙️  КОНФИГ — ЗАПОЛНИ ЭТИ ПОЛЯ
-   ════════════════════════════════════════════════
-
-   SUPABASE — SQL для создания таблиц:
-   ─────────────────────────────────────────────
-   -- Таблица меню
-   CREATE TABLE menu (
-     id          UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-     name        TEXT NOT NULL,
-     description TEXT,
-     price       INTEGER NOT NULL,
-     weight      TEXT,
-     emoji       TEXT,
-     category    TEXT NOT NULL,
-     photo_url   TEXT,
-     visible     BOOLEAN DEFAULT true,
-     sort_order  INTEGER DEFAULT 0,
-     created_at  TIMESTAMPTZ DEFAULT NOW()
-   );
-
-   -- Таблица заказов
-   CREATE TABLE orders (
-     id          BIGSERIAL PRIMARY KEY,
-     table_num   TEXT NOT NULL,
-     items       JSONB NOT NULL,
-     total       INTEGER NOT NULL,
-     comment     TEXT,
-     created_at  TIMESTAMPTZ DEFAULT NOW()
-   );
-
-   -- RLS политики (выполни отдельно для каждой таблицы)
-   ALTER TABLE menu   ENABLE ROW LEVEL SECURITY;
-   ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
-
-   CREATE POLICY "public read menu"    ON menu   FOR SELECT TO anon USING (true);
-   CREATE POLICY "public insert menu"  ON menu   FOR INSERT TO anon WITH CHECK (true);
-   CREATE POLICY "public update menu"  ON menu   FOR UPDATE TO anon USING (true);
-   CREATE POLICY "public delete menu"  ON menu   FOR DELETE TO anon USING (true);
-   CREATE POLICY "public insert order" ON orders FOR INSERT TO anon WITH CHECK (true);
-   CREATE POLICY "public read orders"  ON orders FOR SELECT TO anon USING (true);
-   CREATE POLICY "public delete order" ON orders FOR DELETE TO anon USING (true);
-
-   -- Storage bucket для фото (в Supabase Dashboard → Storage → New bucket)
-   -- Имя бакета: "menu-photos"
-   -- Публичный: ДА (Public bucket)
-   ─────────────────────────────────────────────
-   ════════════════════════════════════════════════ */
-
-const SUPABASE_URL      = "https://rgvxlafkmwbmbhcqvray.supabase.co";      // https://xxxx.supabase.co
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJndnhsYWZrbXdibWJoY3F2cmF5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5NjAwODMsImV4cCI6MjA4ODUzNjA4M30.-J4X8J0tSjGEGXHD4S0n9H7on9A7vyPPuOuupJ2AlE8"; // eyJh...
-const ADMIN_PASSWORD    = "velour2025";
-const STORAGE_BUCKET    = "menu-photos";
-
-// Telegram (или настраивается в панели Настройки)
-const DEFAULT_TG_TOKEN  = "8688518430:AAEe5eCcPi0QIw4x_MTeRx6MILXt5T2LbGs";
-const DEFAULT_TG_CHATID = "1153365718";
-
-/* ════════════════════════════════════════════════
-   SUPABASE CLIENT
-   ════════════════════════════════════════════════ */
-const sbReady = !SUPABASE_URL.includes("PASTE_") && !SUPABASE_ANON_KEY.includes("PASTE_");
+const SUPABASE_URL = 'PASTE_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'PASTE_SUPABASE_ANON_KEY';
+const STORAGE_BUCKET = 'menu-photos';
+const ADMIN_PASSWORD = 'velour2025';
+const TG_BOT_TOKEN = '';
+const TG_CHAT_ID = '';
+const sbReady = !!(SUPABASE_URL && SUPABASE_ANON_KEY && !SUPABASE_URL.includes('PASTE_') && !SUPABASE_ANON_KEY.includes('PASTE_'));
 const sb = sbReady ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
-
-/* ════════════════════════════════════════════════
-   LOCAL STORAGE (только корзина и настройки)
-   ════════════════════════════════════════════════ */
-const LS = {
-  get: (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e) { return d; } },
-  set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} },
-};
-
-/* ════════════════════════════════════════════════
-   DEFAULT MENU (показывается пока Supabase не настроен)
-   ════════════════════════════════════════════════ */
+let menu = [];
+let cart = [];
+let orders = [];
+let activePage = 'home';
+let activeCat = 'all';
+let adminLogged = false;
 const DEFAULT_MENU = [
-  { id:"d1", category:"dishes",   name:"Рибай на кости",      description:"Мраморная говядина, розмарин, чесночное масло",  price:5800, weight:"400 г", emoji:"🥩", visible:true },
-  { id:"d2", category:"dishes",   name:"Паста карбонара",      description:"Гуанчале, пармезан, желток, свежий перец",       price:2400, weight:"320 г", emoji:"🍝", visible:true },
-  { id:"d3", category:"dishes",   name:"Лосось на гриле",      description:"Норвежский лосось, соус терияки, кунжут",        price:3600, weight:"280 г", emoji:"🐟", visible:true },
-  { id:"d4", category:"dishes",   name:"Бургер Velour",        description:"Чёрная булочка, бри, говядина, трюфельный айоли",price:2900, weight:"350 г", emoji:"🍔", visible:true },
-  { id:"d5", category:"dishes",   name:"Цезарь с курицей",     description:"Ромейн, пармезан, крутоны, авторский соус",      price:1900, weight:"250 г", emoji:"🥗", visible:true },
-  { id:"dr1",category:"drinks",   name:"Авторский лимонад",    description:"Клубника, базилик, лимон, содовая",              price:900,  weight:"400 мл",emoji:"🍹", visible:true },
-  { id:"dr2",category:"drinks",   name:"Эспрессо двойной",     description:"Одиночная порция 30 мл, двойная 60 мл",          price:600,  weight:"60 мл", emoji:"☕", visible:true },
-  { id:"dr3",category:"drinks",   name:"Облепиховый чай",      description:"Облепиха, имбирь, мёд, корица",                  price:750,  weight:"400 мл",emoji:"🍵", visible:true },
-  { id:"de1",category:"desserts", name:"Тирамису Velour",      description:"Маскарпоне, дамские пальчики, кофейный сироп",   price:1400, weight:"180 г", emoji:"🍰", visible:true },
-  { id:"de2",category:"desserts", name:"Шоколадный фондан",  description:"Горячий центр, ванильное мороженое",             price:1600, weight:"150 г", emoji:"🍫", visible:true },
-  { id:"c1", category:"combo",    name:"Бизнес-ланч №1",     description:"Суп + горячее + напиток + десерт",               price:3200, weight:"—",    emoji:"🍱", visible:true },
-  { id:"c2", category:"combo",    name:"Романтик сет",        description:"2 горячих + 2 напитка + тирамису на двоих",      price:8900, weight:"—",    emoji:"💝", visible:true },
-  { id:"s1", category:"seasonal", name:"Тыквенный крем-суп", description:"Тыква, кокосовое молоко, пряности осени",        price:1800, weight:"300 мл",emoji:"🎃", visible:true },
-  { id:"s2", category:"seasonal", name:"Утиная ножка конфи", description:"Утка, варёный картофель, брусничный соус",       price:4200, weight:"380 г", emoji:"🦆", visible:true },
+  {id:'1',name:'Стейк Velour',description:'Сочный стейк с перечным соусом',price:8900,weight:'320 г',emoji:'🥩',category:'hot',photo_url:'',visible:true,sort_order:1},
+  {id:'2',name:'Паста с трюфелем',description:'Кремовая паста с пармезаном',price:5400,weight:'280 г',emoji:'🍝',category:'hot',photo_url:'',visible:true,sort_order:2},
+  {id:'3',name:'Цезарь с курицей',description:'Хрустящий салат с фирменной заправкой',price:4200,weight:'250 г',emoji:'🥗',category:'salad',photo_url:'',visible:true,sort_order:3},
+  {id:'4',name:'Шоколадный десерт',description:'Нежный десерт с ягодным соусом',price:3100,weight:'180 г',emoji:'🍰',category:'dessert',photo_url:'',visible:true,sort_order:4},
+  {id:'5',name:'Лимонад гранат',description:'Освежающий напиток со льдом',price:1900,weight:'350 мл',emoji:'🥤',category:'drink',photo_url:'',visible:true,sort_order:5},
+  {id:'6',name:'Суп дня',description:'Тёплый суп с домашней подачей',price:2600,weight:'300 мл',emoji:'🍲',category:'soup',photo_url:'',visible:true,sort_order:6}
 ];
-
-/* ════════════════════════════════════════════════
-   STATE
-   ════════════════════════════════════════════════ */
-let menu     = [...DEFAULT_MENU]; // будет перезаписан из Supabase
-let cart     = LS.get('velour_cart', []);
-let orders   = [];                 // всегда из Supabase
-let settings = LS.get('velour_settings', { tgToken:DEFAULT_TG_TOKEN, tgChatId:DEFAULT_TG_CHATID, restName:'Velour', password:ADMIN_PASSWORD });
-let adminOk  = false;
-let curCat   = 'all';
-let curSearch= '';
-
-const CATS = [
-  { key:'all',      label:'Все' },
-  { key:'dishes',   label:'Блюда' },
-  { key:'drinks',   label:'Напитки' },
-  { key:'desserts', label:'Десерты' },
-  { key:'combo',    label:'Комбо' },
-  { key:'seasonal', label:'Сезонное' },
-];
-
-/* ════════════════════════════════════════════════
-   SUPABASE — МЕНЮ
-   ════════════════════════════════════════════════ */
-async function loadMenuFromSupabase() {
-  if (!sb) return; // используем DEFAULT_MENU
-  showLoading(true);
-  const { data, error } = await sb
-    .from('menu')
-    .select('*')
-    .order('sort_order', { ascending: true });
-  showLoading(false);
-  if (error) { console.error('loadMenu:', error); return; }
-  if (data && data.length > 0) {
-    menu = data;
-    renderMenu();
-  } else {
-    // Supabase пустой — загружаем дефолтные блюда в базу
-    await seedDefaultMenu();
-  }
+const CAT_LABELS = {all:'Все',hot:'Горячее',salad:'Салаты',soup:'Супы',dessert:'Десерты',drink:'Напитки'};
+function money(v){return new Intl.NumberFormat('ru-RU').format(Number(v||0)) + ' ₸';}
+function showToast(text,type='success'){
+  const t = document.getElementById('toast');
+  t.textContent = text;
+  t.className = 'toast show ' + type;
+  clearTimeout(showToast._id);
+  showToast._id = setTimeout(()=>t.className='toast',2200);
 }
-
-async function seedDefaultMenu() {
-  if (!sb) return;
-  const rows = DEFAULT_MENU.map((d, i) => ({
-    name:        d.name,
-    description: d.description,
-    price:       d.price,
-    weight:      d.weight,
-    emoji:       d.emoji,
-    category:    d.category,
-    visible:     d.visible,
-    sort_order:  i,
-  }));
-  const { data, error } = await sb.from('menu').insert(rows).select();
-  if (!error && data) {
-    menu = data;
-    renderMenu();
-    showToast('✅ Меню загружено в базу данных', 'success');
-  }
+function saveLocal(){localStorage.setItem('velour_cart', JSON.stringify(cart)); localStorage.setItem('velour_admin', adminLogged ? '1':'0');}
+function loadLocal(){try{cart = JSON.parse(localStorage.getItem('velour_cart')||'[]')}catch{cart=[]} adminLogged = localStorage.getItem('velour_admin')==='1';}
+function goPage(page){activePage = page; document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active', p.id===`page-${page}`)); document.querySelectorAll('.bnav-item').forEach(b=>b.classList.toggle('active', b.dataset.page===page)); if(page==='cart') renderCart(); if(page==='order') renderOrderPage(); if(page==='admin') renderAdmin();}
+function updateBadge(){const qty = cart.reduce((s,i)=>s+i.qty,0); const b = document.getElementById('cartBadge'); b.textContent = qty; b.classList.toggle('show', qty>0); saveLocal();}
+function getVisibleMenu(){return [...menu].filter(d=>d.visible!==false).sort((a,b)=>(a.sort_order||0)-(b.sort_order||0));}
+function categoryName(cat){return CAT_LABELS[cat] || cat;}
+function renderCats(){
+  const cats = ['all', ...new Set(getVisibleMenu().map(d=>d.category || 'other'))];
+  document.getElementById('catTabs').innerHTML = cats.map(c=>`<button class="cat-btn ${activeCat===c?'active':''}" onclick="setCategory('${c}')">${categoryName(c)}</button>`).join('');
 }
-
-async function sbInsertDish(row) {
-  const { data, error } = await sb.from('menu').insert([row]).select().single();
-  if (error) throw error;
-  return data;
-}
-
-async function sbUpdateDish(id, row) {
-  const { error } = await sb.from('menu').update(row).eq('id', id);
-  if (error) throw error;
-}
-
-async function sbDeleteDish(id) {
-  const { error } = await sb.from('menu').delete().eq('id', id);
-  if (error) throw error;
-}
-
-/* ════════════════════════════════════════════════
-   SUPABASE — ФОТО (Storage)
-   ════════════════════════════════════════════════ */
-async function uploadPhoto(file) {
-  if (!sb) return null;
-  const ext  = file.name.split('.').pop();
-  const path = `dishes/${Date.now()}.${ext}`;
-  const { error } = await sb.storage.from(STORAGE_BUCKET).upload(path, file, { upsert: true });
-  if (error) { console.error('upload:', error); return null; }
-  const { data } = sb.storage.from(STORAGE_BUCKET).getPublicUrl(path);
-  return data.publicUrl;
-}
-
-/* ════════════════════════════════════════════════
-   SUPABASE — ЗАКАЗЫ
-   ════════════════════════════════════════════════ */
-async function loadOrdersFromSupabase() {
-  if (!sb) return;
-  const { data, error } = await sb
-    .from('orders')
-    .select('*')
-    .order('created_at', { ascending: false })
-    .limit(100);
-  if (error) { console.error('loadOrders:', error); return; }
-  orders = data || [];
-}
-
-async function sbInsertOrder(order) {
-  const { data, error } = await sb.from('orders').insert([{
-    table_num: order.table,
-    items:     order.items,
-    total:     order.total,
-    comment:   order.comment || '',
-  }]).select().single();
-  if (error) throw error;
-  return data;
-}
-
-async function sbDeleteAllOrders() {
-  if (!sb) return;
-  const { error } = await sb.from('orders').delete().neq('id', 0);
-  if (error) console.error(error);
-}
-
-/* ════════════════════════════════════════════════
-   LOADING INDICATOR
-   ════════════════════════════════════════════════ */
-function showLoading(show) {
-  let el = document.getElementById('globalLoader');
-  if (!el) {
-    el = document.createElement('div');
-    el.id = 'globalLoader';
-    el.style.cssText = `position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--wine),var(--gold));z-index:9999;transition:opacity .3s;transform-origin:left`;
-    el.style.animation = 'loaderAnim 1s linear infinite';
-    const style = document.createElement('style');
-    style.textContent = '@keyframes loaderAnim{0%{transform:scaleX(0) translateX(0)}50%{transform:scaleX(.7) translateX(30%)}100%{transform:scaleX(1) translateX(100%)}}';
-    document.head.appendChild(style);
-    document.body.appendChild(el);
-  }
-  el.style.opacity = show ? '1' : '0';
-}
-
-/* ════════════════════════════════════════════════
-   NAVIGATION
-   ════════════════════════════════════════════════ */
-function goPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.bnav-item').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
-  document.querySelector(`.bnav-item[data-page="${id}"]`)?.classList.add('active');
-
-  if (id === 'menu')  renderMenu();
-  if (id === 'cart')  renderCart();
-  if (id === 'order') renderOrderSummary();
-  if (id === 'admin') renderAdmin();
-  window.scrollTo(0,0);
-}
-
-/* ════════════════════════════════════════════════
-   MENU RENDER
-   ════════════════════════════════════════════════ */
-function renderMenu() {
-  // Tabs
-  const tabs = document.getElementById('catTabs');
-  tabs.innerHTML = CATS.map(c =>
-    `<button class="cat-btn ${curCat===c.key?'active':''}" onclick="setCat('${c.key}')">${c.label}</button>`
-  ).join('');
-
-  // Grid
-  const grid  = document.getElementById('menuGrid');
-  const empty = document.getElementById('menuEmpty');
-  const q = curSearch.toLowerCase().trim();
-
-  const visible = menu.filter(d => {
-    if (!d.visible) return false;
-    if (curCat !== 'all' && d.category !== curCat) return false;
-    if (q && !d.name.toLowerCase().includes(q) && !(d.description||'').toLowerCase().includes(q)) return false;
-    return true;
+function setCategory(cat){activeCat = cat; renderCats(); renderMenu();}
+function renderMenu(){
+  const q = document.getElementById('menuSearch').value.trim().toLowerCase();
+  const rows = getVisibleMenu().filter(d=>{
+    const okCat = activeCat==='all' || d.category===activeCat;
+    const hay = `${d.name} ${d.description||''} ${d.category||''}`.toLowerCase();
+    return okCat && (!q || hay.includes(q));
   });
-
-  empty.classList.toggle('show', visible.length === 0);
-  grid.style.display = visible.length === 0 ? 'none' : '';
-
-  grid.innerHTML = visible.map(d => {
-    const inCart  = cart.find(c=>c.id===d.id);
-    const imgHtml = d.photo_url
-      ? `<img class="dish-img" src="${d.photo_url}" alt="${d.name}" loading="lazy"/>`
-      : `<div class="dish-img-placeholder">${d.emoji||'🍽'}</div>`;
-    return `
-    <div class="dish-card" onclick="addToCart('${d.id}')">
-      ${imgHtml}
-      <span class="dish-in-cart ${inCart?'show':''}">В корзине: ${inCart?inCart.qty:0}</span>
+  const grid = document.getElementById('menuGrid');
+  const empty = document.getElementById('menuEmpty');
+  empty.classList.toggle('show', rows.length===0);
+  grid.innerHTML = rows.map(d=>{
+    const inCart = cart.find(i=>i.id===d.id)?.qty || 0;
+    const media = d.photo_url ? `<img class="dish-img" src="${escapeHtml(d.photo_url)}" alt="${escapeHtml(d.name)}" loading="lazy">` : `<div class="dish-img-placeholder">${escapeHtml(d.emoji || '🍽️')}</div>`;
+    return `<article class="dish-card">
+      ${media}
+      <div class="dish-in-cart ${inCart ? 'show':''}">x${inCart}</div>
       <div class="dish-body">
-        <span class="dish-cat-tag">${CATS.find(c=>c.key===d.category)?.label||d.category}</span>
-        <div class="dish-name">${d.name}</div>
-        <div class="dish-desc">${d.description||''}</div>
+        <span class="dish-cat-tag">${escapeHtml(categoryName(d.category))}</span>
+        <div class="dish-name">${escapeHtml(d.name)}</div>
+        <div class="dish-desc">${escapeHtml(d.description || 'Без описания')}</div>
         <div class="dish-meta">
           <div>
-            <div class="dish-price">${d.price.toLocaleString('ru')} ₸</div>
-            <div class="dish-weight">${d.weight||''}</div>
+            <div class="dish-price">${money(d.price)}</div>
+            <div class="dish-weight">${escapeHtml(d.weight || '')}</div>
           </div>
-          <div class="dish-add" onclick="event.stopPropagation();addToCart('${d.id}')">+</div>
+          <button class="dish-add" onclick="event.stopPropagation();addToCart('${d.id}')">+</button>
         </div>
       </div>
-    </div>`;
+    </article>`;
   }).join('');
+  [...grid.querySelectorAll('.dish-card')].forEach((card, idx)=>{card.onclick=()=>openDish(rows[idx].id)});
 }
-
-function setCat(key) {
-  curCat = key;
-  renderMenu();
-}
-
-function filterMenu() {
-  curSearch = document.getElementById('searchInput').value;
-  renderMenu();
-}
-
-/* ════════════════════════════════════════════════
-   CART LOGIC
-   ════════════════════════════════════════════════ */
-function addToCart(id) {
-  const dish = menu.find(d=>d.id===id);
-  if (!dish) return;
-  const ex = cart.find(c=>c.id===id);
-  if (ex) ex.qty++;
-  else cart.push({ id, qty:1 });
-  saveCart();
-  showToast(`${dish.emoji||'✓'} ${dish.name} — добавлено`, 'success');
-}
-
-function changeQty(id, delta) {
-  const i = cart.findIndex(c=>c.id===id);
-  if (i<0) return;
-  cart[i].qty += delta;
-  if (cart[i].qty <= 0) cart.splice(i,1);
-  saveCart();
-  renderCart();
-}
-
-function clearCart() {
-  cart = [];
-  saveCart();
-  renderCart();
-}
-
-function saveCart() {
-  LS.set('velour_cart', cart);
-  updateCartBadge();
-}
-
-function updateCartBadge() {
-  const total = cart.reduce((s,c)=>s+c.qty, 0);
-  const badge = document.getElementById('cartBadge');
-  badge.textContent = total;
-  badge.classList.toggle('show', total > 0);
-}
-
-function getCartTotal() {
-  return cart.reduce((s,c)=>{
-    const d = menu.find(m=>m.id===c.id);
-    return s + (d ? d.price * c.qty : 0);
-  }, 0);
-}
-
-/* ════════════════════════════════════════════════
-   CART RENDER
-   ════════════════════════════════════════════════ */
-function renderCart() {
-  const wrap     = document.getElementById('cartContent');
-  const clearBtn = document.getElementById('clearCartBtn');
-
-  if (cart.length === 0) {
-    clearBtn.style.display = 'none';
-    wrap.innerHTML = `
-      <div class="cart-empty">
-        <div class="cart-empty-icon">🛒</div>
-        <div class="cart-empty-title">Корзина пуста</div>
-        <div class="cart-empty-sub">Добавьте что-нибудь из меню</div>
-        <button class="btn-main" style="width:auto;padding:14px 32px;margin-top:8px" onclick="goPage('menu')">Открыть меню</button>
-      </div>`;
-    return;
-  }
-
-  clearBtn.style.display = '';
-  const total = getCartTotal();
-
-  const itemsHtml = cart.map(c => {
-    const d = menu.find(m=>m.id===c.id);
-    if (!d) return '';
-    const img = d.photo_url
-      ? `<img class="cart-item-img" src="${d.photo_url}" alt="${d.name}"/>`
-      : `<div class="cart-item-img-placeholder">${d.emoji||'🍽'}</div>`;
-    return `
-    <div class="cart-item">
-      ${img}
-      <div>
-        <div class="cart-item-name">${d.name}</div>
-        <div class="cart-item-price">${(d.price*c.qty).toLocaleString('ru')} ₸</div>
-      </div>
-      <div class="cart-qty">
-        <button class="qty-btn" onclick="changeQty('${d.id}',-1)">−</button>
-        <span class="qty-num">${c.qty}</span>
-        <button class="qty-btn" onclick="changeQty('${d.id}',1)">+</button>
-      </div>
-    </div>`;
-  }).join('');
-
-  wrap.innerHTML = `
-    <div class="cart-items">${itemsHtml}</div>
-    <div class="cart-divider"></div>
-    <div class="cart-total-row">
-      <span class="cart-total-label">Итого</span>
-      <span class="cart-total-val">${total.toLocaleString('ru')} ₸</span>
-    </div>
-    <div class="cart-total-row">
-      <span class="cart-total-label">Позиций</span>
-      <span style="font-size:14px;color:var(--muted)">${cart.reduce((s,c)=>s+c.qty,0)} шт.</span>
-    </div>
-    <button class="btn-main" onclick="goPage('order')">Оформить заказ →</button>
-    <button class="btn-ghost" onclick="goPage('menu')">← Продолжить выбор</button>
-  `;
-}
-
-/* ════════════════════════════════════════════════
-   ORDER
-   ════════════════════════════════════════════════ */
-function renderOrderSummary() {
-  const el = document.getElementById('orderSummary');
-  if (cart.length === 0) {
-    el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">Корзина пуста — добавьте блюда</div>';
-    return;
-  }
-  const rows = cart.map(c => {
-    const d = menu.find(m=>m.id===c.id);
-    if (!d) return '';
-    return `<div class="order-sum-row"><span>${d.name} × ${c.qty}</span><span>${(d.price*c.qty).toLocaleString('ru')} ₸</span></div>`;
-  }).join('');
-  el.innerHTML = `
-    <div class="order-sum-title">Состав заказа</div>
-    ${rows}
-    <div class="order-sum-row"><span>Итого</span><span>${getCartTotal().toLocaleString('ru')} ₸</span></div>
-  `;
-}
-
-async function submitOrder() {
-  const table   = document.getElementById('tableNum').value.trim();
-  const comment = document.getElementById('orderComment').value.trim();
-
-  if (cart.length === 0) { showToast('Корзина пуста!', 'error'); return; }
-  if (!table)            { showToast('Введите номер стола', 'error'); return; }
-
-  const orderData = {
-    table,
-    comment,
-    items: cart.map(c => {
-      const d = menu.find(m=>m.id===c.id);
-      return { name: d?.name||'?', qty: c.qty, price: d?.price||0 };
-    }),
-    total: getCartTotal(),
-    time:  new Date().toLocaleString('ru'),
-  };
-
-  const btn = document.querySelector('#page-order .btn-main');
-  if (btn) { btn.disabled = true; btn.textContent = 'Отправка...'; }
-
-  try {
-    if (sb) {
-      const saved = await sbInsertOrder(orderData);
-      orderData.id = saved.id;
-      orderData.created_at = saved.created_at;
-    }
-    await sendTelegram(orderData);
-
-    cart = [];
-    saveCart();
-    renderCart();
-    document.getElementById('tableNum').value    = '';
-    document.getElementById('orderComment').value = '';
-
-    showToast('🎉 Заказ принят! Ожидайте.', 'success');
-    setTimeout(() => goPage('home'), 1800);
-  } catch(err) {
-    console.error('submitOrder:', err);
-    showToast('Ошибка при отправке заказа', 'error');
-  } finally {
-    if (btn) { btn.disabled = false; btn.textContent = 'Отправить заказ'; }
-  }
-}
-
-/* ════════════════════════════════════════════════
-   TELEGRAM
-   ════════════════════════════════════════════════ */
-async function sendTelegram(order) {
-  const tok = settings.tgToken?.trim();
-  const cid = settings.tgChatId?.trim();
-  if (!tok || !cid) return;
-
-  const lines = order.items.map(i => `  • ${i.name} × ${i.qty} — ${(i.price*i.qty).toLocaleString('ru')} ₸`).join('\n');
-  const text =
-`🍽 *Новый заказ — ${settings.restName||'Velour'}*
-
-🪑 Стол: *${order.table}*
-🕐 Время: ${order.time}
-
-${lines}
-
-━━━━━━━━━━━━━━━
-💰 *Итого: ${order.total.toLocaleString('ru')} ₸*
-${order.comment ? '\n💬 Комментарий: _' + order.comment + '_' : ''}`;
-
-  try {
-    await fetch(`https://api.telegram.org/bot${tok}/sendMessage`, {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ chat_id:cid, text, parse_mode:'Markdown' })
-    });
-  } catch(e) { console.warn('TG error', e); }
-}
-
-/* ════════════════════════════════════════════════
-   ADMIN
-   ════════════════════════════════════════════════ */
-function adminLogin() {
-  const pw = document.getElementById('adminPass').value;
-  if (pw === (settings.password || ADMIN_PASSWORD)) {
-    adminOk = true;
-    document.getElementById('adminLogin').classList.add('hidden');
-    document.getElementById('adminPanel').classList.remove('hidden');
-    loadSettings();
-    renderAdminDishes();
-    renderAdminOrders();
-  } else {
-    showToast('Неверный пароль', 'error');
-    document.getElementById('adminPass').value = '';
-  }
-}
-
-function adminLogout() {
-  adminOk = false;
-  document.getElementById('adminLogin').classList.remove('hidden');
-  document.getElementById('adminPanel').classList.add('hidden');
-  document.getElementById('adminPass').value = '';
-}
-
-function renderAdmin() {
-  if (adminOk) {
-    renderAdminDishes();
-    renderAdminOrders();
-  }
-}
-
-function adminTab(tab) {
-  document.querySelectorAll('.admin-tab').forEach((t,i) => {
-    t.classList.toggle('active', ['dishes','add','orders','settings'][i] === tab);
-  });
-  document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById(`tab-${tab}`).classList.add('active');
-  if (tab === 'dishes')  renderAdminDishes();
-  if (tab === 'orders')  renderAdminOrders();
-  if (tab === 'settings') loadSettings();
-}
-
-function renderAdminDishes() {
-  const list = document.getElementById('adminDishList');
-  if (!sb) {
-    list.innerHTML = `<div style="padding:16px;background:rgba(200,151,74,.08);border:1px solid var(--border);border-radius:var(--r2);font-size:12px;color:var(--gold);line-height:1.7">
-      ⚠️ Supabase не подключён. Блюда хранятся только демо-режиме.<br/>Добавьте ключи в «Настройки» для полноценной работы.
-    </div>`;
-    return;
-  }
-  list.innerHTML = menu.map(d => {
-    const img = d.photo_url
-      ? `<img class="dish-edit-img" src="${d.photo_url}"/>`
-      : `<div class="dish-edit-img" style="display:flex;align-items:center;justify-content:center;font-size:24px">${d.emoji||'🍽'}</div>`;
-    return `
-    <div class="dish-edit-card">
-      ${img}
-      <div>
-        <div class="dish-edit-name">${d.name}</div>
-        <div class="dish-edit-price">${d.price.toLocaleString('ru')} ₸ · ${d.weight||''}</div>
-      </div>
-      <div class="dish-edit-actions">
-        <button class="btn-edit btn-edit-primary" onclick="editDish('${d.id}')">Ред.</button>
-        <button class="toggle-vis ${d.visible?'on':''}" onclick="toggleVis('${d.id}')">${d.visible?'Вкл':'Выкл'}</button>
-        <button class="btn-edit btn-edit-danger" onclick="deleteDish('${d.id}')">Удал.</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-async function toggleVis(id) {
-  const d = menu.find(m=>m.id===id);
-  if (!d) return;
-  d.visible = !d.visible;
-  if (sb) {
-    await sbUpdateDish(id, { visible: d.visible });
-  }
-  renderAdminDishes();
-  showToast(d.visible ? 'Позиция включена' : 'Позиция скрыта');
-}
-
-async function deleteDish(id) {
-  if (!confirm('Удалить позицию?')) return;
-  if (sb) {
-    try { await sbDeleteDish(id); } catch(e) { showToast('Ошибка удаления','error'); return; }
-  }
-  menu = menu.filter(d=>d.id!==id);
-  renderAdminDishes();
-  showToast('Удалено');
-}
-
-function editDish(id) {
-  const d = menu.find(m=>m.id===id);
-  if (!d) return;
-  adminTab('add');
-  document.getElementById('addFormTitle').textContent = 'Редактировать блюдо';
-  document.getElementById('editDishId').value  = id;
-  document.getElementById('dishName').value    = d.name;
-  document.getElementById('dishDesc').value    = d.description||'';
-  document.getElementById('dishPrice').value   = d.price;
-  document.getElementById('dishWeight').value  = d.weight||'';
-  document.getElementById('dishEmoji').value   = d.emoji||'';
-  document.getElementById('dishCat').value     = d.category||'dishes';
-  document.getElementById('photoData').value   = '';
-  updatePhotoPreview(d.photo_url||null);
-  // сохраняем текущий url для случая если фото не меняли
-  document.getElementById('photoData').dataset.existing = d.photo_url||'';
-}
-
-function resetDishForm() {
-  document.getElementById('addFormTitle').textContent = 'Новое блюдо';
-  document.getElementById('editDishId').value  = '';
-  document.getElementById('dishName').value    = '';
-  document.getElementById('dishDesc').value    = '';
-  document.getElementById('dishPrice').value   = '';
-  document.getElementById('dishWeight').value  = '';
-  document.getElementById('dishEmoji').value   = '';
-  document.getElementById('dishCat').value     = 'dishes';
-  document.getElementById('photoData').value   = '';
-  document.getElementById('photoData').dataset.existing = '';
-  updatePhotoPreview(null);
-}
-
-async function saveDish() {
-  const name    = document.getElementById('dishName').value.trim();
-  const desc    = document.getElementById('dishDesc').value.trim();
-  const price   = parseInt(document.getElementById('dishPrice').value);
-  const weight  = document.getElementById('dishWeight').value.trim();
-  const emoji   = document.getElementById('dishEmoji').value.trim();
-  const cat     = document.getElementById('dishCat').value;
-  const editId  = document.getElementById('editDishId').value;
-  const fileInp = document.getElementById('photoFile');
-  const existingUrl = document.getElementById('photoData').dataset.existing || '';
-
-  if (!name || !price) { showToast('Заполните название и цену', 'error'); return; }
-
-  const btn = document.querySelector('#tab-add .btn-main');
-  if (btn) { btn.disabled = true; btn.textContent = 'Сохраняем...'; }
-
-  try {
-    // Загружаем фото если выбрано новое
+function openDish(id){const d = menu.find(x=>x.id===id); if(!d) return; document.getElementById('modalDishTitle').textContent = d.name; document.getElementById('modalDishBody').innerHTML = `${d.photo_url ? `<img src="${escapeHtml(d.photo_url)}" alt="${escapeHtml(d.name)}" style="width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:18px;margin-bottom:14px">` : `<div style="height:180px;border-radius:18px;background:rgba(255,255,255,.03);display:flex;align-items:center;justify-content:center;font-size:58px;margin-bottom:14px">${escapeHtml(d.emoji || '🍽️')}</div>`}<div style="font-size:14px;line-height:1.7;color:var(--muted);margin-bottom:14px">${escapeHtml(d.description || 'Без описания')}</div><div style="display:flex;justify-content:space-between;align-items:center"><div><div class="dish-price">${money(d.price)}</div><div class="dish-weight">${escapeHtml(d.weight || '')}</div></div><button class="btn-main" style="width:auto;padding:14px 18px;margin:0" onclick="addToCart('${d.id}');closeModal()">Добавить</button></div>`; document.getElementById('dishModal').classList.add('open');}
+function closeModal(e){if(e && e.target.id!=='dishModal') return; document.getElementById('dishModal').classList.remove('open');}
+function addToCart(id){const d = menu.find(x=>x.id===id); if(!d) return; const item = cart.find(x=>x.id===id); if(item) item.qty += 1; else cart.push({id:d.id,name:d.name,price:d.price,photo_url:d.photo_url || '',emoji:d.emoji || '🍽️',qty:1}); updateBadge(); renderMenu(); if(activePage==='cart') renderCart(); if(activePage==='order') renderOrderPage(); showToast('Добавлено в корзину');}
+function changeQty(id,delta){const item = cart.find(x=>x.id===id); if(!item) return; item.qty += delta; if(item.qty<=0) cart = cart.filter(x=>x.id!==id); updateBadge(); renderCart(); renderMenu(); renderOrderPage();}
+function cartTotal(){return cart.reduce((s,i)=>s + i.price*i.qty, 0)}
+function renderCart(){const root = document.getElementById('cartView'); if(cart.length===0){root.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🛒</div><div class="cart-empty-title">Корзина пуста</div><div class="cart-empty-sub">Добавьте блюда из меню</div><button class="btn-main" onclick="goPage('menu')">Перейти в меню</button></div>`; return;} root.innerHTML = `<div class="cart-items">${cart.map(i=>`<div class="cart-item"><div>${i.photo_url?`<img class="cart-item-img" src="${escapeHtml(i.photo_url)}" alt="${escapeHtml(i.name)}">`:`<div class="cart-item-img-placeholder">${escapeHtml(i.emoji||'🍽️')}</div>`}</div><div><div class="cart-item-name">${escapeHtml(i.name)}</div><div class="cart-item-price">${money(i.price)}</div></div><div class="cart-qty"><button class="qty-btn" onclick="changeQty('${i.id}',-1)">−</button><div class="qty-num">${i.qty}</div><button class="qty-btn" onclick="changeQty('${i.id}',1)">+</button></div></div>`).join('')}</div><div class="order-summary"><div class="order-sum-title">Итого</div><div class="cart-total-row"><div class="cart-total-label">Количество позиций</div><div>${cart.reduce((s,i)=>s+i.qty,0)}</div></div><div class="cart-total-row"><div class="cart-total-label">Сумма</div><div class="cart-total-val">${money(cartTotal())}</div></div></div><button class="btn-main" onclick="goPage('order')">Продолжить</button><button class="btn-ghost" onclick="cart=[];updateBadge();renderCart();renderMenu();renderOrderPage()">Очистить корзину</button>`;}
+function renderOrderPage(){const box = document.getElementById('orderSummary'); if(cart.length===0){box.innerHTML = `<div class="order-sum-title">Заказ</div><div style="color:var(--muted)">Корзина пуста</div>`; return;} box.innerHTML = `<div class="order-sum-title">Ваш заказ</div>${cart.map(i=>`<div class="order-sum-row"><span>${escapeHtml(i.name)} × ${i.qty}</span><span>${money(i.price*i.qty)}</span></div>`).join('')}<div class="order-sum-row"><span>Итого</span><span>${money(cartTotal())}</span></div>`;}
+async function submitOrder(){if(cart.length===0){showToast('Корзина пуста','error'); return;} const table_num = document.getElementById('orderTable').value.trim(); const comment = document.getElementById('orderComment').value.trim(); if(!table_num){showToast('Введите номер стола','error'); return;} const payload = {table_num, items:cart.map(i=>({id:i.id,name:i.name,price:i.price,qty:i.qty})), total:cartTotal(), comment}; try{if(sb){const {error} = await sb.from('orders').insert(payload); if(error) throw error;} if(TG_BOT_TOKEN && TG_CHAT_ID){sendToTelegram(payload).catch(()=>{})} cart=[]; updateBadge(); document.getElementById('orderTable').value=''; document.getElementById('orderComment').value=''; renderCart(); renderMenu(); renderOrderPage(); showToast('Заказ отправлен'); goPage('cart');}catch(e){console.error(e); showToast('Ошибка отправки заказа','error')}}
+async function sendToTelegram(payload){const lines = payload.items.map(i=>`• ${i.name} × ${i.qty} — ${money(i.price*i.qty)}`).join('\n'); const text = `Новый заказ%0AСтол: ${encodeURIComponent(payload.table_num)}%0A%0A${encodeURIComponent(lines)}%0A%0AИтого: ${encodeURIComponent(money(payload.total))}${payload.comment ? `%0AКомментарий: ${encodeURIComponent(payload.comment)}` : ''}`; await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage?chat_id=${TG_CHAT_ID}&text=${text}`);}
+function renderAdmin(){const root = document.getElementById('adminRoot'); if(!adminLogged){root.innerHTML = `<div class="admin-login"><div class="admin-login-card"><div class="admin-login-title">Velour Admin</div><div class="admin-login-sub">Войдите, чтобы управлять блюдами и заказами</div><div class="form-section"><label class="form-label">Пароль</label><input id="adminPass" type="password" class="form-input" placeholder="Введите пароль"></div><button class="btn-main" onclick="adminLogin()">Войти</button></div></div>`; return;} root.innerHTML = `<div class="admin-top"><div class="admin-brand">Управление</div><button class="btn-edit btn-edit-danger" onclick="adminLogout()">Выйти</button></div><div class="admin-tabs"><button class="admin-tab active" data-tab="dishes" onclick="adminTab('dishes')">Блюда</button><button class="admin-tab" data-tab="add" onclick="adminTab('add')">+ Добавить</button><button class="admin-tab" data-tab="orders" onclick="adminTab('orders')">Заказы</button><button class="admin-tab" data-tab="settings" onclick="adminTab('settings')">Настройки</button></div><div class="admin-panel active" id="tab-dishes"><div style="margin-bottom:10px;color:var(--muted);font-size:12px">Нажмите на блюдо для редактирования</div><div id="adminDishList"></div></div><div class="admin-panel" id="tab-add"><div style="font-size:24px;margin-bottom:18px;color:#fff" class="dish-name" id="addFormTitle">Новое блюдо</div><input type="hidden" id="editDishId"><div class="photo-upload" id="photoPreviewWrap"><input type="file" id="photoFile" accept="image/*" capture="environment" onchange="handlePhotoUpload(event)"><div class="photo-upload-content" id="photoPreviewContent"><div class="photo-upload-icon">📷</div><div class="photo-upload-label">Нажмите, чтобы выбрать фото<br>На телефоне откроется камера или галерея</div></div></div><input type="hidden" id="photoData"><div class="form-section"><label class="form-label">Название</label><input class="form-input" id="dishName" placeholder="Название блюда"></div><div class="form-section"><label class="form-label">Описание</label><textarea class="form-input" id="dishDesc" placeholder="Краткое описание"></textarea></div><div class="form-row"><div class="form-section"><label class="form-label">Цена</label><input class="form-input" id="dishPrice" type="number" placeholder="2500"></div><div class="form-section"><label class="form-label">Вес / объём</label><input class="form-input" id="dishWeight" placeholder="250 г / 300 мл"></div></div><div class="form-row"><div class="form-section"><label class="form-label">Emoji</label><input class="form-input" id="dishEmoji" placeholder="🍽️"></div><div class="form-section"><label class="form-label">Категория</label><select class="form-select" id="dishCat">${Object.entries(CAT_LABELS).filter(([k])=>k!=='all').map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></div></div><button class="btn-main" onclick="saveDish()">Сохранить блюдо</button><button class="btn-ghost" onclick="resetDishForm()">Сбросить форму</button></div><div class="admin-panel" id="tab-orders"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><div style="font-size:24px" class="dish-name">Заказы</div><div id="orderCount" style="font-size:12px;color:var(--muted)">Заказов: 0</div></div><div id="adminOrderList"></div></div><div class="admin-panel" id="tab-settings"><div class="settings-box" style="padding:18px"><div class="form-section"><label class="form-label">Supabase URL</label><input value="${escapeHtml(SUPABASE_URL)}" readonly></div><div class="form-section"><label class="form-label">Storage bucket</label><input value="${escapeHtml(STORAGE_BUCKET)}" readonly></div><div style="font-size:12px;line-height:1.7;color:var(--muted)">Для продакшна вставь свои реальные <b>SUPABASE_URL</b> и <b>SUPABASE_ANON_KEY</b> в верхней части файла.</div></div></div>`; renderAdminDishes(); renderAdminOrders();}
+function adminTab(name){document.querySelectorAll('.admin-tab').forEach(b=>b.classList.toggle('active', b.dataset.tab===name)); document.querySelectorAll('.admin-panel').forEach(p=>p.classList.toggle('active', p.id===`tab-${name}`)); if(name==='orders') renderAdminOrders(); if(name==='dishes') renderAdminDishes();}
+function adminLogin(){const pass = document.getElementById('adminPass')?.value || ''; if(pass !== ADMIN_PASSWORD){showToast('Неверный пароль','error'); return;} adminLogged = true; saveLocal(); renderAdmin(); showToast('Вход выполнен');}
+function adminLogout(){adminLogged = false; saveLocal(); renderAdmin(); showToast('Вы вышли');}
+function renderAdminDishes(){const list = document.getElementById('adminDishList'); if(!list) return; list.innerHTML = [...menu].sort((a,b)=>(a.sort_order||0)-(b.sort_order||0)).map(d=>`<div class="dish-edit-card"><div>${d.photo_url?`<img class="dish-edit-img" src="${escapeHtml(d.photo_url)}" alt="${escapeHtml(d.name)}">`:`<div class="dish-edit-img" style="display:flex;align-items:center;justify-content:center;font-size:26px">${escapeHtml(d.emoji || '🍽️')}</div>`}</div><div><div class="dish-edit-name">${escapeHtml(d.name)}</div><div class="dish-edit-price">${money(d.price)} · ${escapeHtml(d.weight || '')}</div></div><div class="dish-edit-actions"><button class="btn-edit btn-edit-primary" onclick="editDish('${d.id}')">Ред.</button><button class="toggle-vis ${d.visible!==false?'on':''}" onclick="toggleVis('${d.id}')">${d.visible!==false?'Вкл':'Выкл'}</button><button class="btn-edit btn-edit-danger" onclick="deleteDish('${d.id}')">Удал.</button></div></div>`).join('');}
+async function toggleVis(id){const d = menu.find(m=>m.id===id); if(!d) return; d.visible = !(d.visible!==false); if(sb){await sb.from('menu').update({visible:d.visible}).eq('id',id)} renderAdminDishes(); renderMenu(); showToast(d.visible ? 'Позиция включена':'Позиция скрыта');}
+async function deleteDish(id){if(!confirm('Удалить позицию?')) return; if(sb){const {error} = await sb.from('menu').delete().eq('id',id); if(error){showToast('Ошибка удаления','error'); return;}} menu = menu.filter(d=>d.id!==id); renderAdminDishes(); renderMenu(); showToast('Удалено');}
+function editDish(id){const d = menu.find(m=>m.id===id); if(!d) return; adminTab('add'); document.getElementById('addFormTitle').textContent = 'Редактировать блюдо'; document.getElementById('editDishId').value = id; document.getElementById('dishName').value = d.name || ''; document.getElementById('dishDesc').value = d.description || ''; document.getElementById('dishPrice').value = d.price || ''; document.getElementById('dishWeight').value = d.weight || ''; document.getElementById('dishEmoji').value = d.emoji || ''; document.getElementById('dishCat').value = d.category || 'hot'; document.getElementById('photoData').dataset.existing = d.photo_url || ''; updatePhotoPreview(d.photo_url || null);}
+function resetDishForm(){document.getElementById('addFormTitle').textContent = 'Новое блюдо'; document.getElementById('editDishId').value=''; document.getElementById('dishName').value=''; document.getElementById('dishDesc').value=''; document.getElementById('dishPrice').value=''; document.getElementById('dishWeight').value=''; document.getElementById('dishEmoji').value=''; document.getElementById('dishCat').value='hot'; document.getElementById('photoData').dataset.existing=''; const file = document.getElementById('photoFile'); if(file) file.value=''; updatePhotoPreview(null);}
+async function saveDish(){const name = document.getElementById('dishName').value.trim(); const desc = document.getElementById('dishDesc').value.trim(); const price = parseInt(document.getElementById('dishPrice').value,10); const weight = document.getElementById('dishWeight').value.trim(); const emoji = document.getElementById('dishEmoji').value.trim(); const cat = document.getElementById('dishCat').value; const editId = document.getElementById('editDishId').value; const fileInp = document.getElementById('photoFile'); const existingUrl = document.getElementById('photoData').dataset.existing || ''; if(!name || !price){showToast('Заполните название и цену','error'); return;} const btn = document.querySelector('#tab-add .btn-main'); if(btn){btn.disabled=true; btn.textContent='Сохраняем...';}
+  try{
     let photo_url = existingUrl;
-    if (fileInp.files[0]) {
+    let finalEmoji = emoji;
+    if(fileInp && fileInp.files && fileInp.files[0]){
       const uploaded = await uploadPhoto(fileInp.files[0]);
-      if (uploaded) photo_url = uploaded;
+      if(uploaded){photo_url = uploaded; finalEmoji = '';}
     }
-
-    const row = { name, description: desc, price, weight, emoji, category: cat, photo_url, visible: true };
-
-    if (sb) {
-      if (editId) {
-        await sbUpdateDish(editId, row);
-        const d = menu.find(m=>m.id===editId);
-        if (d) Object.assign(d, row);
-      } else {
-        row.sort_order = menu.length;
-        const saved = await sbInsertDish(row);
-        menu.push(saved);
-      }
+    if(photo_url) finalEmoji = '';
+    const row = {name, description:desc, price, weight, emoji:finalEmoji, category:cat, photo_url, visible:true};
+    if(sb){
+      if(editId){const {error} = await sb.from('menu').update(row).eq('id', editId); if(error) throw error; const d = menu.find(m=>m.id===editId); if(d) Object.assign(d,row)}
+      else {row.sort_order = menu.length + 1; const {data,error} = await sb.from('menu').insert(row).select().single(); if(error) throw error; menu.push(data || {id:'tmp_'+Date.now(),...row})}
     } else {
-      // Нет Supabase — только в памяти
-      if (editId) {
-        const d = menu.find(m=>m.id===editId);
-        if (d) Object.assign(d, row);
-      } else {
-        menu.push({ id: 'tmp_'+Date.now(), ...row });
-      }
+      if(editId){const d = menu.find(m=>m.id===editId); if(d) Object.assign(d,row)} else {menu.push({id:'tmp_'+Date.now(), sort_order:menu.length+1, ...row})}
     }
-
-    showToast('✅ Сохранено!', 'success');
-    resetDishForm();
-    fileInp.value = '';
-    adminTab('dishes');
-  } catch(err) {
-    console.error('saveDish:', err);
-    showToast('Ошибка сохранения', 'error');
-  } finally {
-    if (btn) { btn.disabled = false; btn.textContent = 'Сохранить блюдо'; }
-  }
+    renderAdminDishes(); renderMenu(); resetDishForm(); adminTab('dishes'); showToast('Сохранено');
+  }catch(err){console.error('saveDish:',err); showToast('Ошибка сохранения','error')} finally {if(btn){btn.disabled=false; btn.textContent='Сохранить блюдо';}}
 }
-
-function handlePhotoUpload(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  // Показываем превью через ObjectURL (не храним base64 в памяти)
-  const url = URL.createObjectURL(file);
-  updatePhotoPreview(url);
-  // file сохраняется в input, будет загружен в Storage при saveDish
-}
-
-function updatePhotoPreview(src) {
-  const content = document.getElementById('photoPreviewContent');
-  const existing = document.querySelector('#photoPreviewWrap img');
-  if (existing) existing.remove();
-  if (src) {
-    const img = document.createElement('img');
-    img.src = src;
-    img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:var(--r)';
-    document.getElementById('photoPreviewWrap').appendChild(img);
-    content.style.display = 'none';
-  } else {
-    content.style.display = '';
-  }
-}
-
-async function renderAdminOrders() {
-  const list  = document.getElementById('adminOrderList');
-  const count = document.getElementById('orderCount');
-
-  if (sb) {
-    list.innerHTML = `<div style="text-align:center;padding:20px;color:var(--muted);font-size:12px">Загрузка...</div>`;
-    await loadOrdersFromSupabase();
-  }
-
-  count.textContent = `Заказов: ${orders.length}`;
-
-  if (orders.length === 0) {
-    list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">Пока нет заказов</div>';
-    return;
-  }
-
-  list.innerHTML = orders.map((o, i) => {
-    const items = Array.isArray(o.items) ? o.items : (o.items || []);
-    const time  = o.created_at ? new Date(o.created_at).toLocaleString('ru') : (o.time||'—');
-    const total = o.total || items.reduce((s,it)=>(s+(it.price*it.qty)),0);
-    return `
-    <div class="order-card">
-      <div class="order-card-head">
-        <div class="order-card-num">#${String(i+1).padStart(3,'0')}</div>
-        <div class="order-card-time">${time}</div>
-      </div>
-      <div class="order-card-table">Стол ${o.table_num||o.table}</div>
-      <div class="order-card-items">${items.map(it=>`${it.name} × ${it.qty}`).join(' · ')}</div>
-      <div class="order-card-total">${total.toLocaleString('ru')} ₸</div>
-      ${o.comment ? `<div class="order-card-comment">${o.comment}</div>` : ''}
-    </div>`;
-  }).join('');
-}
-
-async function clearOrders() {
-  if (!confirm('Очистить историю заказов?')) return;
-  if (sb) await sbDeleteAllOrders();
-  orders = [];
-  renderAdminOrders();
-  showToast('История очищена');
-}
-
-function loadSettings() {
-  document.getElementById('tgToken').value  = settings.tgToken  || '';
-  document.getElementById('tgChatId').value = settings.tgChatId || '';
-  document.getElementById('restName').value = settings.restName || 'Velour';
-  // Показываем статус подключения
-  const statusEl = document.getElementById('sbStatus');
-  if (statusEl) {
-    statusEl.textContent = sb ? '✅ Supabase подключён' : '⚠️ Supabase не настроен — вставьте ключи в код';
-    statusEl.style.color = sb ? 'var(--em3, #80cc60)' : 'var(--gold)';
-  }
-}
-
-function saveSettings() {
-  settings.tgToken  = document.getElementById('tgToken').value.trim();
-  settings.tgChatId = document.getElementById('tgChatId').value.trim();
-  settings.restName = document.getElementById('restName').value.trim();
-  const np = document.getElementById('newPass').value.trim();
-  if (np) settings.password = np;
-  LS.set('velour_settings', settings);
-  document.getElementById('newPass').value = '';
-  showToast('✅ Настройки сохранены!', 'success');
-}
-
-/* ════════════════════════════════════════════════
-   MODAL
-   ════════════════════════════════════════════════ */
-function closeModal() {
-  document.getElementById('editModal').classList.remove('open');
-  document.body.style.overflow = '';
-}
-function handleModalClick(e) {
-  if (e.target === document.getElementById('editModal')) closeModal();
-}
-
-/* ════════════════════════════════════════════════
-   TOAST
-   ════════════════════════════════════════════════ */
-let toastTimer;
-function showToast(msg, type='') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast show ' + type;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.className = 'toast', 2600);
-}
-
-/* ════════════════════════════════════════════════
-   INIT
-   ════════════════════════════════════════════════ */
-updateCartBadge();
-loadMenuFromSupabase().then(() => renderMenu());
-
-// Prevent double-tap zoom on iOS
-document.addEventListener('touchstart', ()=>{}, {passive:true});
+function handlePhotoUpload(e){const file = e.target.files && e.target.files[0]; if(!file) return; if(!file.type.startsWith('image/')){showToast('Выберите изображение','error'); e.target.value=''; return;} if(file.size > 8 * 1024 * 1024){showToast('Фото слишком большое. До 8 МБ','error'); e.target.value=''; return;} const url = URL.createObjectURL(file); updatePhotoPreview(url);}
+function updatePhotoPreview(src){const wrap = document.getElementById('photoPreviewWrap'); const content = document.getElementById('photoPreviewContent'); if(!wrap || !content) return; const existing = wrap.querySelector('img'); if(existing) existing.remove(); if(src){const img = document.createElement('img'); img.src = src; img.alt = 'Preview'; wrap.appendChild(img); content.classList.add('hidden');} else {content.classList.remove('hidden');}}
+async function uploadPhoto(file){if(!sb) return null; const extFromName = (file.name || '').split('.').pop()?.toLowerCase(); const extByType = (file.type || '').includes('/') ? file.type.split('/')[1].toLowerCase() : ''; const ext = (extFromName && extFromName.length <= 5 ? extFromName : extByType) || 'jpg'; const path = `dishes/${Date.now()}-${Math.random().toString(36).slice(2,8)}.${ext}`; const {error} = await sb.storage.from(STORAGE_BUCKET).upload(path, file, {upsert:true, contentType:file.type || undefined}); if(error){console.error('uploadPhoto:', error); throw error;} const {data} = sb.storage.from(STORAGE_BUCKET).getPublicUrl(path); return data?.publicUrl || null;}
+async function loadOrdersFromSupabase(){if(!sb) return; const {data,error} = await sb.from('orders').select('*').order('created_at',{ascending:false}); if(error){console.error(error); return;} orders = data || [];}
+async function renderAdminOrders(){const list = document.getElementById('adminOrderList'); const count = document.getElementById('orderCount'); if(!list || !count) return; if(sb) await loadOrdersFromSupabase(); count.textContent = `Заказов: ${orders.length}`; if(orders.length===0){list.innerHTML = '<div style="padding:34px 18px;text-align:center;color:var(--muted)">Пока нет заказов</div>'; return;} list.innerHTML = orders.map((o,i)=>{const items = Array.isArray(o.items) ? o.items.map(x=>`• ${escapeHtml(x.name)} × ${x.qty}`).join('<br>') : ''; const time = o.created_at ? new Date(o.created_at).toLocaleString('ru-RU') : ''; return `<div class="order-card"><div class="order-card-head"><div class="order-card-num">#${o.id || i+1}</div><div class="order-card-time">${time}</div></div><div class="order-card-table">Стол: ${escapeHtml(o.table_num || '')}</div><div class="order-card-items">${items}</div><div class="order-card-total">${money(o.total || 0)}</div>${o.comment ? `<div class="order-card-comment">${escapeHtml(o.comment)}</div>`:''}</div>`}).join('');}
+async function loadMenu(){if(sb){const {data,error} = await sb.from('menu').select('*').order('sort_order',{ascending:true}); if(!error && data && data.length){menu = data; return;}} menu = DEFAULT_MENU;}
+function escapeHtml(value){return String(value ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+async function init(){loadLocal(); await loadMenu(); renderCats(); renderMenu(); renderCart(); renderOrderPage(); renderAdmin(); updateBadge();}
+window.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
 </html>
