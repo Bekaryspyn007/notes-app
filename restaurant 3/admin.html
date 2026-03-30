@@ -181,18 +181,5 @@
 <script src="js/config.js"></script>
 <script src="js/admin.js"></script>
 
-<script>
-// Показываем кнопку Выйти только когда залогинен
-const _orig = showPanel;
-function showPanel() {
-  _orig();
-  document.getElementById('logoutBtn').classList.remove('hidden');
-}
-const _origOut = adminLogout;
-function adminLogout() {
-  _origOut();
-  document.getElementById('logoutBtn').classList.add('hidden');
-}
-</script>
 </body>
 </html>

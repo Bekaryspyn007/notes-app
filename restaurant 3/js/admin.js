@@ -49,14 +49,6 @@ function adminLogin() {
   }
 }
 
-function adminLogout() {
-  adminToken = '';
-  sessionStorage.removeItem('adm_token');
-  document.getElementById('adminLogin').classList.remove('hidden');
-  document.getElementById('adminPanel').classList.add('hidden');
-  document.getElementById('adminPass').value = '';
-}
-
 function isTokenValid() {
   if (!adminToken) return false;
   const ts = parseInt(adminToken.split('.')[0]);
@@ -66,7 +58,17 @@ function isTokenValid() {
 function showPanel() {
   document.getElementById('adminLogin').classList.add('hidden');
   document.getElementById('adminPanel').classList.remove('hidden');
+  document.getElementById('logoutBtn').classList.remove('hidden');
   switchTab('orders');
+}
+
+function adminLogout() {
+  adminToken = '';
+  sessionStorage.removeItem('adm_token');
+  document.getElementById('adminLogin').classList.remove('hidden');
+  document.getElementById('adminPanel').classList.add('hidden');
+  document.getElementById('logoutBtn').classList.add('hidden');
+  document.getElementById('adminPass').value = '';
 }
 
 /* ════ TABS ════ */
