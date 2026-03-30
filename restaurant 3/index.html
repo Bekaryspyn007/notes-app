@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta name="description" content="Меню ресторана"/>
+<meta name="theme-color" content="#0f0a08"/>
+<title data-r-name>Ресторан</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/styles.css"/>
+<style>body{padding-bottom:68px}</style>
+</head>
+<body>
+
+<div id="loader"></div>
+<div class="toast" id="toast"></div>
+
+<!-- ─── BOTTOM NAV (без кнопки Админ) ─── -->
+<nav class="bnav">
+  <button class="bnav-item active" data-page="home" onclick="goPage('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Главная
+  </button>
+  <button class="bnav-item" data-page="menu" onclick="goPage('menu')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    Меню
+  </button>
+  <button class="bnav-item" data-page="cart" onclick="goPage('cart')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    Корзина
+    <span class="bnav-badge" id="cartBadge">0</span>
+  </button>
+  <button class="bnav-item" data-page="order" onclick="goPage('order')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    Заказ
+  </button>
+  <button class="bnav-item" data-page="reserve" onclick="goPage('reserve')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Бронь
+  </button>
+</nav>
+
+<!-- ══════════ HOME ══════════ -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-grad"></div>
+    <div class="hero-decor"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Ресторан · Алматы</div>
+      <h1 class="hero-name"><span data-r-name>Ресторан</span><em data-r-tagline>живая кухня</em></h1>
+      <p class="hero-sub">Каждое блюдо — история.<br/>Настоящие вкусы в сердце города.</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary" onclick="goPage('menu')">Открыть меню</button>
+        <button class="btn btn-outline" onclick="goPage('reserve')">Забронировать стол</button>
+      </div>
+    </div>
+  </section>
+  <section style="padding:32px 18px;background:var(--surface);border-top:1px solid var(--border)">
+    <div style="display:flex;gap:9px;overflow-x:auto;scrollbar-width:none;padding-bottom:3px">
+      <div style="flex-shrink:0;width:142px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;text-align:center">
+        <div style="font-size:24px;margin-bottom:7px">🍷</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--cream)">Авторские<br/>напитки</div>
+      </div>
+      <div style="flex-shrink:0;width:142px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;text-align:center">
+        <div style="font-size:24px;margin-bottom:7px">🔥</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--cream)">Открытая<br/>кухня</div>
+      </div>
+      <div style="flex-shrink:0;width:142px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;text-align:center">
+        <div style="font-size:24px;margin-bottom:7px">📅</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--cream)">Бронь<br/>столика</div>
+      </div>
+      <div style="flex-shrink:0;width:142px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;text-align:center">
+        <div style="font-size:24px;margin-bottom:7px">💳</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--cream)">Оплата<br/>Kaspi QR</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════ MENU ══════════ -->
+<div class="page" id="page-menu">
+  <div class="sec-head">
+    <div class="eyebrow">Наше меню</div>
+    <h2 class="sec-title">Выбери <em>своё</em></h2>
+  </div>
+  <div class="search-wrap">
+    <input class="search-input" id="searchInput" placeholder="Поиск по меню..." oninput="filterMenu()"/>
+    <svg class="search-ico" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+  </div>
+  <div class="cats" id="catTabs"></div>
+  <div class="menu-grid" id="menuGrid"></div>
+  <div class="empty" id="menuEmpty">
+    <div class="empty-icon">🍽</div>
+    <div class="empty-text">Ничего не найдено</div>
+  </div>
+</div>
+
+<!-- ══════════ CART ══════════ -->
+<div class="page" id="page-cart">
+  <div class="cart-wrap">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <div><div class="eyebrow" style="margin-bottom:4px">Ваш выбор</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--cream)">Корзина</h2></div>
+      <button id="clearCartBtn" onclick="clearCart()"
+        style="font-size:11px;color:var(--muted);padding:7px 13px;border:1px solid var(--border);border-radius:100px">Очистить</button>
+    </div>
+    <div id="cartContent"></div>
+  </div>
+</div>
+
+<!-- ══════════ ORDER ══════════ -->
+<div class="page" id="page-order">
+  <div class="order-wrap">
+    <div class="sec-head" style="padding:0 0 22px">
+      <div class="eyebrow">Оформление</div>
+      <h2 class="sec-title">Ваш <em>заказ</em></h2>
+    </div>
+    <div class="order-summary" id="orderSummary"></div>
+    <div class="form-sec">
+      <label class="form-label">Номер стола</label>
+      <input class="form-input" id="tableNum" type="number" min="1" max="99" placeholder="Введите номер стола"/>
+    </div>
+    <div class="form-sec">
+      <label class="form-label">Общий комментарий к заказу</label>
+      <textarea class="form-input" id="orderComment" placeholder="Пожелания к заказу в целом..."></textarea>
+    </div>
+    <button class="btn btn-primary btn-full" id="submitOrderBtn" onclick="submitOrder()">Отправить заказ</button>
+    <button class="btn-ghost" onclick="goPage('cart')">← Вернуться в корзину</button>
+  </div>
+</div>
+
+<!-- ══════════ PAYMENT ══════════ -->
+<div class="page" id="page-payment">
+  <div style="padding:24px">
+    <div class="sec-head" style="padding:0 0 24px">
+      <div class="eyebrow">Оплата</div>
+      <h2 class="sec-title">Kaspi <em>QR</em></h2>
+    </div>
+    <div class="kaspi-block">
+      <div class="kaspi-title">Оплатите заказ</div>
+      <div class="kaspi-sub">
+        К оплате: <strong id="payTotal" style="color:var(--gold2)"></strong><br/>
+        Отсканируйте QR или нажмите кнопку ниже
+      </div>
+      <div class="kaspi-qr-img">
+        <img id="kaspiQR" src="" alt="Kaspi QR"/>
+      </div>
+      <a id="kaspiBtn" href="#" target="_blank" class="kaspi-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        Оплатить через Kaspi
+      </a>
+    </div>
+    <div class="info-box warn" style="margin-top:0">
+      После оплаты покажите чек официанту. Спасибо за визит!
+    </div>
+    <button class="btn btn-primary btn-full" onclick="goPage('home')">На главную</button>
+  </div>
+</div>
+
+<!-- ══════════ RESERVE ══════════ -->
+<div class="page" id="page-reserve">
+  <div class="reserve-wrap">
+    <div class="sec-head" style="padding:0 0 24px">
+      <div class="eyebrow">Онлайн бронь</div>
+      <h2 class="sec-title">Забронируй <em>стол</em></h2>
+    </div>
+    <div class="form-row">
+      <div class="form-sec">
+        <label class="form-label">Ваше имя</label>
+        <input class="form-input" id="resName" type="text" placeholder="Имя и фамилия"/>
+      </div>
+      <div class="form-sec">
+        <label class="form-label">Телефон</label>
+        <input class="form-input" id="resPhone" type="tel" placeholder="+7 777 000 00 00"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-sec">
+        <label class="form-label">Дата</label>
+        <input class="form-input" id="resDate" type="date"/>
+      </div>
+      <div class="form-sec">
+        <label class="form-label">Кол-во гостей</label>
+        <input class="form-input" id="resPeople" type="number" min="1" max="50" value="2" placeholder="2"/>
+      </div>
+    </div>
+    <div class="form-sec">
+      <label class="form-label">Время</label>
+      <div class="time-grid" id="timeSlots"></div>
+      <input type="hidden" id="resTimeView"/>
+    </div>
+    <div class="form-sec">
+      <label class="form-label">Предпочтительный стол (необязательно)</label>
+      <input class="form-input" id="resTable" type="text" placeholder="Например: у окна, № 5"/>
+    </div>
+    <div class="form-sec">
+      <label class="form-label">Комментарий</label>
+      <textarea class="form-input" id="resComment" placeholder="Особые пожелания, повод..."></textarea>
+    </div>
+    <button class="btn btn-primary btn-full" id="submitResBtn" onclick="submitReservation()">Забронировать стол</button>
+    <div style="margin-top:14px;text-align:center;font-size:12px;color:var(--muted);line-height:1.6">
+      Мы свяжемся с вами для подтверждения<br/>
+      <a href="tel:PHONE" id="resPhone2" style="color:var(--gold2)"></a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/client.js"></script>
+</body>
+</html>

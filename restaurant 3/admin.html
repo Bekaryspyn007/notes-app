@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>Управление</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+
+<div id="loader"></div>
+<div class="toast" id="toast"></div>
+
+<!-- ─── HEADER ─── -->
+<div class="admin-header">
+  <div class="admin-logo"><span data-r-name>Ресторан</span> <span style="font-size:14px;color:var(--muted);font-family:'Jost',sans-serif;font-weight:400">· Управление</span></div>
+  <button id="logoutBtn" onclick="adminLogout()" class="hidden"
+    style="font-size:11px;color:var(--muted);padding:7px 14px;border:1px solid var(--border);border-radius:100px;letter-spacing:.5px">
+    Выйти
+  </button>
+</div>
+
+<!-- ─── LOGIN ─── -->
+<div id="adminLogin" style="padding-top:60px">
+  <div class="admin-login">
+    <div>
+      <div class="admin-login-logo">✦</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--cream)">Панель управления</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:5px">Только для персонала</div>
+    </div>
+    <div class="admin-login-form">
+      <label class="form-label">Пароль</label>
+      <input class="form-input" id="adminPass" type="password" placeholder="Введите пароль"
+        onkeydown="if(event.key==='Enter') adminLogin()"/>
+      <button class="btn btn-primary btn-full" id="loginBtn" onclick="adminLogin()">Войти</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── PANEL ─── -->
+<div id="adminPanel" class="hidden" style="padding-top:60px">
+  <div class="admin-body">
+
+    <div class="admin-tabs" style="margin-top:8px">
+      <button class="admin-tab" onclick="switchTab('orders')">Заказы</button>
+      <button class="admin-tab" onclick="switchTab('menu')">Меню</button>
+      <button class="admin-tab" onclick="switchTab('reservations')">Брони</button>
+      <button class="admin-tab" onclick="switchTab('returns')">Возвраты</button>
+    </div>
+
+    <!-- TAB: ORDERS -->
+    <div class="admin-panel" id="tab-orders">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+        <div style="font-size:13px;color:var(--muted)">История заказов — сгруппировано по дням</div>
+        <button onclick="loadOrders()" style="font-size:11px;color:var(--muted);padding:6px 12px;border:1px solid var(--border);border-radius:100px">↻ Обновить</button>
+      </div>
+      <div id="ordersWrap"></div>
+    </div>
+
+    <!-- TAB: MENU -->
+    <div class="admin-panel" id="tab-menu">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-size:13px;color:var(--muted)">Управление блюдами</div>
+        <button onclick="openAddDish()" class="btn btn-primary" style="padding:10px 20px;font-size:11px">+ Добавить</button>
+      </div>
+      <div id="menuList"></div>
+    </div>
+
+    <!-- TAB: RESERVATIONS -->
+    <div class="admin-panel" id="tab-reservations">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-size:13px;color:var(--muted)">Брони столиков</div>
+        <button onclick="loadReservations()" style="font-size:11px;color:var(--muted);padding:6px 12px;border:1px solid var(--border);border-radius:100px">↻ Обновить</button>
+      </div>
+      <div id="reservationsWrap"></div>
+    </div>
+
+    <!-- TAB: RETURNS -->
+    <div class="admin-panel" id="tab-returns">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-size:13px;color:var(--muted)">История возвратов</div>
+        <button onclick="openReturnModal('','','0')" class="btn btn-primary" style="padding:10px 20px;font-size:11px">+ Возврат</button>
+      </div>
+      <div id="returnsWrap"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════ MODAL: Добавить/редактировать блюдо ════ -->
+<div class="modal-bg" id="dishModal" onclick="handleBg(event,'dishModal')">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <button class="modal-close" onclick="closeModal('dishModal')">✕</button>
+    <div class="modal-title" id="dishFormTitle">Новое блюдо</div>
+
+    <input type="hidden" id="editDishId"/>
+    <input type="hidden" id="existingPhoto"/>
+
+    <label class="photo-upload" onclick="document.getElementById('photoInput').click()">
+      <img class="photo-preview" id="photoPreview" src="" alt=""/>
+      <div id="photoUploadContent">
+        <div class="photo-upload-icon">📷</div>
+        <div class="photo-upload-hint">Нажмите для загрузки фото</div>
+      </div>
+      <input type="file" id="photoInput" accept="image/*" onchange="onPhotoSelected(this)" style="display:none"/>
+    </label>
+
+    <div class="form-sec">
+      <label class="form-label">Название</label>
+      <input class="form-input" id="fName" placeholder="Название блюда"/>
+    </div>
+    <div class="form-sec">
+      <label class="form-label">Описание</label>
+      <textarea class="form-input" id="fDesc" placeholder="Краткое описание..." style="min-height:68px"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-sec">
+        <label class="form-label">Цена (₸)</label>
+        <input class="form-input" id="fPrice" type="number" placeholder="1500"/>
+      </div>
+      <div class="form-sec">
+        <label class="form-label">Вес / Объём</label>
+        <input class="form-input" id="fWeight" placeholder="250 г"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-sec">
+        <label class="form-label">Категория</label>
+        <select class="form-select" id="fCat">
+          <option value="dishes">Блюда</option>
+          <option value="drinks">Напитки</option>
+          <option value="desserts">Десерты</option>
+          <option value="combo">Комбо</option>
+          <option value="seasonal">Сезонное</option>
+        </select>
+      </div>
+      <div class="form-sec">
+        <label class="form-label">Эмодзи</label>
+        <input class="form-input" id="fEmoji" placeholder="🍕"/>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-full" id="saveDishBtn" onclick="saveDish()">Сохранить</button>
+    <button class="btn-ghost" onclick="closeModal('dishModal')">Отмена</button>
+  </div>
+</div>
+
+<!-- ════ MODAL: Возврат ════ -->
+<div class="modal-bg" id="returnModal" onclick="handleBg(event,'returnModal')">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <button class="modal-close" onclick="closeModal('returnModal')">✕</button>
+    <div class="modal-title">Оформить возврат</div>
+
+    <input type="hidden" id="returnOrderId"/>
+    <input type="hidden" id="returnTableNum"/>
+    <input type="hidden" id="returnMaxAmount"/>
+
+    <div class="form-sec">
+      <label class="form-label">Сумма возврата (₸)</label>
+      <input class="form-input" id="returnAmount" type="number" min="1" placeholder="1500"/>
+    </div>
+    <div class="form-sec">
+      <label class="form-label">Причина возврата</label>
+      <input class="form-input" id="returnReason" placeholder="Не то блюдо / холодное / клиент передумал..."/>
+    </div>
+    <div class="form-sec">
+      <label class="form-label">Что возвращают (необязательно)</label>
+      <input class="form-input" id="returnItemsDesc" placeholder="Паста карбонара × 1"/>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="submitReturn()">Оформить возврат</button>
+    <button class="btn-ghost" onclick="closeModal('returnModal')">Отмена</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/admin.js"></script>
+
+<script>
+// Показываем кнопку Выйти только когда залогинен
+const _orig = showPanel;
+function showPanel() {
+  _orig();
+  document.getElementById('logoutBtn').classList.remove('hidden');
+}
+const _origOut = adminLogout;
+function adminLogout() {
+  _origOut();
+  document.getElementById('logoutBtn').classList.add('hidden');
+}
+</script>
+</body>
+</html>
