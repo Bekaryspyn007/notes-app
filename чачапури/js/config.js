@@ -4,14 +4,19 @@
 
 const CONFIG = {
 
+  /* ── 1. SUPABASE ──────────────────────────────
+     Supabase Dashboard → Settings → API          */
   supabase: {
-    url:     "PASTE_SUPABASE_URL",
-    anonKey: "PASTE_SUPABASE_ANON_KEY",
+    url:            "https://ybxleibiaoxpumpzshyw.supabase.co",       // https://xxxx.supabase.co
+    anonKey:        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlieGxlaWJpYW94cHVtcHpzaHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NDgyNDYsImV4cCI6MjA5MDQyNDI0Nn0.nRhYTLprRmg6MBEI3mC813dYrFgw5jpoigr-XfFt63Q",  // eyJh... (anon public key)
   },
 
+  /* ── 2. TELEGRAM ──────────────────────────────
+     @BotFather → /newbot → скопируй токен
+     Затем: api.telegram.org/bot<TOKEN>/getUpdates → найди chat id */
   telegram: {
-    token:  "PASTE_BOT_TOKEN",
-    chatId: "PASTE_CHAT_ID",
+    token:  "8688518430:AAEe5eCcPi0QIw4x_MTeRx6MILXt5T2LbGs",    // 7123456789:AAHxxxxxx
+    chatId: "1153365718",      // 123456789
   },
 
   restaurant: {
@@ -55,7 +60,7 @@ const CONFIG = {
   ],
 
   admin: {
-    password: "chachapuri2025",
+    password: "123",
   },
 
 };
