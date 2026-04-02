@@ -833,11 +833,12 @@ let modalTime       = "";
 /* ================================================
    ИНИЦИАЛИЗАЦИЯ
    ================================================ */
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
   setTimeout(() => document.getElementById('pre').classList.add('gone'), 1800);
   setMinDate();
   renderServicesMain();
   renderServicesForm();
+  await renderTimes(); // сразу загружаем время на сегодня
 });
 
 window.addEventListener('scroll', () => {
@@ -1072,7 +1073,10 @@ function renderServicesForm() {
 
 function setMinDate() {
   const inp = document.getElementById("bDate");
-  inp.min = inp.value = todayStr();
+  inp.min = todayStr();
+  inp.value = todayStr();
+
+  document.getElementById("selectedTimeView").value = "";
 }
 
 function todayStr() {

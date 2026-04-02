@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>Чачапури — Управление</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/styles.css"/>
+<style>
+/* Waiter card */
+.waiter-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+  padding:14px 16px;margin-bottom:9px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.waiter-rank{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--green);color:var(--cream);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;flex-shrink:0;
+}
+.waiter-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream)}
+.waiter-total{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold2)}
+</style>
+</head>
+<body>
+
+<div id="loader"></div>
+<div class="toast" id="toast"></div>
+
+<!-- HEADER -->
+<div class="admin-header">
+  <div class="admin-logo"><span data-r-name>Чачапури</span></div>
+  <button id="logoutBtn" onclick="adminLogout()" class="hidden"
+    style="font-size:11px;color:var(--muted);padding:7px 14px;border:1px solid var(--border);border-radius:100px">
+    Выйти
+  </button>
+</div>
+
+<!-- LOGIN -->
+<div id="adminLogin" style="padding-top:64px">
+  <div class="admin-login">
+    <div>
+      <div class="admin-login-logo">✦</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--cream)">Панель управления</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:5px">Только для персонала</div>
+    </div>
+    <div class="admin-login-form">
+      <label class="form-label">Пароль</label>
+      <input class="form-input" id="adminPass" type="password" placeholder="Введите пароль"
+        onkeydown="if(event.key==='Enter') adminLogin()"/>
+      <button class="btn btn-primary btn-full" id="loginBtn" onclick="adminLogin()">Войти</button>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL -->
+<div id="adminPanel" class="hidden" style="padding-top:64px">
+  <div class="admin-body">
+
+    <div class="admin-tabs" style="margin-top:8px">
+      <button class="admin-tab" onclick="switchTab('orders')">📋 Заказы</button>
+      <button class="admin-tab" onclick="switchTab('menu')">🍽 Меню</button>
+      <button class="admin-tab" onclick="switchTab('reservations')">📅 Брони</button>
+      <button class="admin-tab" onclick="switchTab('returns')">↩ Возвраты</button>
+      <button class="admin-tab" onclick="switchTab('waiters')">👤 Официанты</button>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="admin-panel" id="tab-orders">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+        <div style="font-size:12px;color:var(--muted)">История заказов — по дням</div>
+        <button onclick="loadOrders()"
+          style="font-size:11px;color:var(--muted);padding:7px 13px;border:1px solid var(--border);border-radius:100px">
+          ↻ Обновить
+        </button>
+      </div>
+      <div id="ordersWrap"></div>
+    </div>
+
+    <!-- MENU -->
+    <div class="admin-panel" id="tab-menu">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-size:12px;color:var(--muted)">Управление блюдами</div>
+        <button onclick="openAddDish()" class="btn btn-primary" style="padding:10px 18px;font-size:11px;letter-spacing:1px">
+          + Добавить
+        </button>
+      </div>
+      <div id="menuList"></div>
+    </div>
+
+    <!-- RESERVATIONS -->
+    <div class="admin-panel" id="tab-reservations">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-size:12px;color:var(--muted)">Брони столиков</div>
+        <button onclick="loadReservations()"
+          style="font-size:11px;color:var(--muted);padding:7px 13px;border:1px solid var(--border);border-radius:100px">
+          ↻ Обновить
+        </button>
+      </div>
+      <div id="reservationsWrap"></div>
+    </div>
+
+    <!-- RETURNS -->
+    <div class="admin-panel" id="tab-returns">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-size:12px;color:var(--muted)">История возвратов</div>
+        <button onclick="openReturnModal('','','999999')" class="btn btn-primary"
+          style="padding:10px 18px;font-size:11px;letter-spacing:1px">
+          + Возврат
+        </button>
+      </div>
+      <div id="returnsWrap"></div>
+    </div>
+
+    <!-- WAITERS -->
+    <div class="admin-panel" id="tab-waiters">
+      <div style="margin-bottom:14px">
+        <div style="font-size:12px;color:var(--muted)">Выручка по официантам</div>
+      </div>
+      <div id="waitersWrap"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL: Блюдо -->
+<div class="modal-bg" id="dishModal" onclick="handleBg(event,'dishModal')">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <button class="modal-close" onclick="closeModal('dishModal')">✕</button>
+    <div class="modal-title" id="dishFormTitle">Новое блюдо</div>
+
+    <input type="hidden" id="editDishId"/>
+    <input type="hidden" id="existingPhoto"/>
+
+    <!-- Фото -->
+    <div class="photo-upload" id="photoUploadArea" onclick="document.getElementById('photoInput').click()">
+      <img class="photo-preview" id="photoPreview" src="" alt=""/>
+      <div id="photoUploadContent">
+        <div class="photo-upload-icon">📷</div>
+        <div class="photo-upload-hint">Нажмите для загрузки фото</div>
+      </div>
+    </div>
+    <input type="file" id="photoInput" accept="image/*" onchange="onPhotoSelected(this)" style="display:none"/>
+
+    <div class="form-sec">
+      <label class="form-label">Название *</label>
+      <input class="form-input" id="fName" placeholder="Название блюда"/>
+    </div>
+    <div class="form-sec">
+      <label class="form-label">Описание</label>
+      <textarea class="form-input" id="fDesc" placeholder="Состав, описание..." style="min-height:68px"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-sec">
+        <label class="form-label">Цена (₸) *</label>
+        <input class="form-input" id="fPrice" type="number" placeholder="1500"/>
+      </div>
+      <div class="form-sec">
+        <label class="form-label">Вес / Объём</label>
+        <input class="form-input" id="fWeight" placeholder="250 г"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-sec">
+        <label class="form-label">Категория</label>
+        <select class="form-select" id="fCat">
+          <option value="dishes">Блюда</option>
+          <option value="drinks">Напитки</option>
+          <option value="desserts">Десерты</option>
+          <option value="combo">Комбо</option>
+          <option value="seasonal">Сезонное</option>
+        </select>
+      </div>
+      <div class="form-sec">
+        <label class="form-label">Эмодзи</label>
+        <input class="form-input" id="fEmoji" placeholder="🫕"/>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-full" id="saveDishBtn" onclick="saveDish()">Сохранить</button>
+    <button class="btn-ghost" onclick="closeModal('dishModal')">Отмена</button>
+  </div>
+</div>
+
+<!-- MODAL: Возврат -->
+<div class="modal-bg" id="returnModal" onclick="handleBg(event,'returnModal')">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <button class="modal-close" onclick="closeModal('returnModal')">✕</button>
+    <div class="modal-title">Оформить возврат</div>
+
+    <input type="hidden" id="returnOrderId"/>
+    <input type="hidden" id="returnTableNum"/>
+    <input type="hidden" id="returnMaxAmt"/>
+
+    <div class="form-sec">
+      <label class="form-label">Сумма возврата (₸)</label>
+      <input class="form-input" id="returnAmount" type="number" min="1" placeholder="1500"/>
+    </div>
+    <div class="form-sec">
+      <label class="form-label">Причина</label>
+      <input class="form-input" id="returnReason" placeholder="Не то блюдо / холодное..."/>
+    </div>
+    <div class="form-sec">
+      <label class="form-label">Что возвращают (необязательно)</label>
+      <input class="form-input" id="returnItems" placeholder="Хинкали × 2"/>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="submitReturn()">Оформить возврат</button>
+    <button class="btn-ghost" onclick="closeModal('returnModal')">Отмена</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
