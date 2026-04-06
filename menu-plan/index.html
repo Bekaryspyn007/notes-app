@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta name="description" content="Меню ресторана"/>
+<meta name="theme-color" content="#0a0d0a"/>
+<title data-r-name>Меню</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/styles.css"/>
+<style>body{padding-bottom:64px}</style>
+</head>
+<body>
+
+<div id="loader"></div>
+<div class="toast" id="toast"></div>
+
+<!-- BOTTOM NAV — только 3 вкладки, без корзины и заказа -->
+<nav class="bnav">
+  <button class="bnav-item active" data-page="home" onclick="goPage('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+    Главная
+  </button>
+
+  <button class="bnav-item" data-page="menu" onclick="goPage('menu')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <rect x="3" y="3" width="7" height="7" rx="1"/>
+      <rect x="14" y="3" width="7" height="7" rx="1"/>
+      <rect x="3" y="14" width="7" height="7" rx="1"/>
+      <rect x="14" y="14" width="7" height="7" rx="1"/>
+    </svg>
+    Меню
+  </button>
+
+  <button class="bnav-item" data-page="contacts" onclick="goPage('contacts')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013 4.18 2 2 0 015 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+    </svg>
+    Контакты
+  </button>
+</nav>
+
+<!-- ══ HOME ══ -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-grad"></div>
+    <div class="hero-decor"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Ресторан · Алматы</div>
+      <h1 class="hero-name">
+        <span data-r-name>Ресторан</span>
+        <em data-r-tagline>Слоган</em>
+      </h1>
+      <p class="hero-sub">Добро пожаловать.<br/>Выберите блюдо из нашего меню.</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary" onclick="goPage('menu')">Смотреть меню</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="geo-divider"><span>✦</span></div>
+
+  <section style="padding:0 18px 36px">
+    <div class="sec-head" style="padding:0 0 18px">
+      <div class="eyebrow">Как это работает</div>
+      <h2 class="sec-title">Всё <em>просто</em></h2>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px">
+        <div style="width:40px;height:40px;border-radius:var(--r3);background:rgba(45,107,63,.15);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">📋</div>
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--cream);margin-bottom:2px">Смотрите меню</div>
+          <div style="font-size:12px;color:var(--muted)">Все блюда с фото и ценами</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px">
+        <div style="width:40px;height:40px;border-radius:var(--r3);background:rgba(45,107,63,.15);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">👋</div>
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--cream);margin-bottom:2px">Позовите официанта</div>
+          <div style="font-size:12px;color:var(--muted)">Сделайте заказ у стола</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px">
+        <div style="width:40px;height:40px;border-radius:var(--r3);background:rgba(45,107,63,.15);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🍽</div>
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--cream);margin-bottom:2px">Наслаждайтесь</div>
+          <div style="font-size:12px;color:var(--muted)">Вкусно как дома</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══ MENU ══ -->
+<div class="page" id="page-menu">
+  <div class="sec-head">
+    <div class="eyebrow">Наше меню</div>
+    <h2 class="sec-title">Выбери <em>своё</em></h2>
+  </div>
+
+  <div class="search-wrap">
+    <input class="search-input" id="searchInput" placeholder="Поиск по меню..." oninput="filterMenu()"/>
+    <svg class="search-ico" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+  </div>
+
+  <div class="cats" id="catTabs"></div>
+
+  <div class="menu-grid" id="menuGrid"></div>
+
+  <div class="empty" id="menuEmpty">
+    <div class="empty-icon">🍽</div>
+    <div class="empty-text">Ничего не найдено</div>
+  </div>
+</div>
+
+<!-- ══ CONTACTS ══ -->
+<div class="page" id="page-contacts">
+  <div class="contact-wrap">
+    <div class="sec-head" style="padding:0 0 22px">
+      <div class="eyebrow">Мы здесь</div>
+      <h2 class="sec-title">Найди <em>нас</em></h2>
+    </div>
+
+    <div class="contact-card">
+      <div class="contact-card-top">
+        <div class="contact-logo" data-r-name>Ресторан</div>
+        <div class="contact-tagline" data-r-tagline>Слоган</div>
+      </div>
+
+      <a class="contact-row" id="contactPhone" href="#">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-label">Телефон</div>
+          <div class="contact-val">+7 777 000 00 00</div>
+        </div>
+      </a>
+
+      <a class="contact-row" id="contactInsta" href="#" target="_blank">
+        <div class="contact-icon">📸</div>
+        <div>
+          <div class="contact-label">Instagram</div>
+          <div class="contact-val">@instagram</div>
+        </div>
+      </a>
+
+      <div class="contact-row">
+        <div class="contact-icon">🕐</div>
+        <div>
+          <div class="contact-label">Режим работы</div>
+          <div class="contact-val">10:00 — 23:00, ежедневно</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/menu.js"></script>
+</body>
+</html>

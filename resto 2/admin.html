@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>Управление</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+
+<div id="loader"></div>
+<div class="toast" id="toast"></div>
+
+<!-- HEADER -->
+<div class="admin-header">
+  <div class="admin-logo"><em data-r-name>Ресторан</em></div>
+  <button id="logoutBtn" onclick="adminLogout()" class="hidden"
+    style="font-size:11px;color:var(--muted);padding:7px 14px;border:1px solid var(--border);border-radius:100px">
+    Выйти
+  </button>
+</div>
+
+<!-- LOGIN -->
+<div id="adminLogin" style="padding-top:64px">
+  <div class="admin-login">
+    <div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;color:var(--green3)">✦</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--cream)">Панель управления</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:5px">Только для персонала</div>
+    </div>
+    <div class="admin-login-form">
+      <label class="form-label">Пароль</label>
+      <input class="form-input" id="adminPass" type="password" placeholder="Введите пароль" onkeydown="if(event.key==='Enter')adminLogin()"/>
+      <button class="btn btn-primary btn-full" id="loginBtn" onclick="adminLogin()">Войти</button>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL -->
+<div id="adminPanel" class="hidden" style="padding-top:64px">
+  <div class="admin-body">
+
+    <div class="admin-tabs">
+      <button class="admin-tab" onclick="switchTab('dashboard')">📊</button>
+      <button class="admin-tab" onclick="switchTab('orders')">📋 Заказы</button>
+      <button class="admin-tab" onclick="switchTab('calls')">🔔 Вызовы</button>
+      <button class="admin-tab" onclick="switchTab('menu')">🍽 Меню</button>
+      <button class="admin-tab" onclick="switchTab('reservations')">📅 Брони</button>
+      <button class="admin-tab" onclick="switchTab('waiters')">👤 Официанты</button>
+      <button class="admin-tab" onclick="switchTab('returns')">↩ Возвраты</button>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="admin-panel" id="tab-dashboard">
+      <div class="eyebrow" style="margin-bottom:14px">Сегодня</div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num" id="dashRevenue">—</div>
+          <div class="stat-label">Выручка</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="dashOrders">—</div>
+          <div class="stat-label">Заказов</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="dashRes">—</div>
+          <div class="stat-label">Броней</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="dashCalls">—</div>
+          <div class="stat-label">Вызовов</div>
+        </div>
+      </div>
+      <div class="stat-card" style="margin-top:10px;text-align:left">
+        <div class="stat-label" style="margin-bottom:6px">Лучший официант сегодня</div>
+        <div id="dashTopWaiter" style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold2)">—</div>
+      </div>
+      <button class="btn-ghost" style="margin-top:14px" onclick="loadDashboard()">↻ Обновить</button>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="admin-panel" id="tab-orders">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+        <div style="font-size:12px;color:var(--muted)">История по дням · Реал-тайм</div>
+        <button onclick="loadOrders()" style="font-size:11px;color:var(--muted);padding:7px 13px;border:1px solid var(--border);border-radius:100px">↻ Обновить</button>
+      </div>
+      <div id="ordersWrap"></div>
+    </div>
+
+    <!-- CALLS -->
+    <div class="admin-panel" id="tab-calls">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-size:12px;color:var(--muted)">Активные вызовы официантов</div>
+        <button onclick="loadCalls()" style="font-size:11px;color:var(--muted);padding:7px 13px;border:1px solid var(--border);border-radius:100px">↻</button>
+      </div>
+      <div id="callsWrap"></div>
+    </div>
+
+    <!-- MENU -->
+    <div class="admin-panel" id="tab-menu">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+        <div style="font-size:12px;color:var(--muted)">Управление меню</div>
+        <button onclick="openAddDish()" class="btn btn-primary" style="padding:9px 16px;font-size:11px">+ Добавить</button>
+      </div>
+      <div id="menuList"></div>
+    </div>
+
+    <!-- RESERVATIONS -->
+    <div class="admin-panel" id="tab-reservations">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-size:12px;color:var(--muted)">Брони столиков</div>
+        <button onclick="loadReservations()" style="font-size:11px;color:var(--muted);padding:7px 13px;border:1px solid var(--border);border-radius:100px">↻</button>
+      </div>
+      <div id="reservationsWrap"></div>
+    </div>
+
+    <!-- WAITERS -->
+    <div class="admin-panel" id="tab-waiters">
+      <div style="margin-bottom:14px;font-size:12px;color:var(--muted)">Выручка по официантам</div>
+      <div id="waitersWrap"></div>
+    </div>
+
+    <!-- RETURNS -->
+    <div class="admin-panel" id="tab-returns">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-size:12px;color:var(--muted)">История возвратов</div>
+        <button onclick="openReturnModal('','',999999)" class="btn btn-wine" style="padding:9px 16px;font-size:11px">+ Возврат</button>
+      </div>
+      <div id="returnsWrap"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL: Блюдо -->
+<div class="modal-bg" id="dishModal" onclick="handleBg(event,'dishModal')">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <button class="modal-close" onclick="closeModal('dishModal')">✕</button>
+    <div class="modal-title" id="dishFormTitle">Новое блюдо</div>
+    <input type="hidden" id="editDishId"/>
+    <input type="hidden" id="existingPhoto"/>
+
+    <!-- Фото -->
+    <div class="photo-upload" onclick="document.getElementById('photoInput').click()">
+      <img class="photo-preview" id="photoPreview" src="" alt=""/>
+      <div id="photoUploadContent"><div class="photo-upload-icon">📷</div><div class="photo-upload-hint">Нажмите для загрузки фото</div></div>
+    </div>
+    <input type="file" id="photoInput" accept="image/*" onchange="onPhotoSelected(this)" style="display:none"/>
+
+    <!-- Название на 3 языках -->
+    <div class="form-sec"><label class="form-label">Название (рус) *</label><input class="form-input" id="fNameRu" placeholder="Хачапури по-аджарски"/></div>
+    <div class="form-sec"><label class="form-label">Название (қаз)</label><input class="form-input" id="fNameKz" placeholder="Аджарлық хачапури"/></div>
+    <div class="form-sec"><label class="form-label">Name (eng)</label><input class="form-input" id="fNameEn" placeholder="Adjarian Khachapuri"/></div>
+
+    <!-- Описание -->
+    <div class="form-sec"><label class="form-label">Описание (рус)</label><textarea class="form-input" id="fDescRu" placeholder="Горячий хлеб..." style="min-height:60px"></textarea></div>
+    <div class="form-sec"><label class="form-label">Сипаттама (қаз)</label><textarea class="form-input" id="fDescKz" placeholder="Жылы нан..." style="min-height:60px"></textarea></div>
+    <div class="form-sec"><label class="form-label">Description (eng)</label><textarea class="form-input" id="fDescEn" placeholder="Warm bread..." style="min-height:60px"></textarea></div>
+
+    <div class="form-row">
+      <div class="form-sec"><label class="form-label">Цена (₸) *</label><input class="form-input" id="fPrice" type="number" placeholder="2200"/></div>
+      <div class="form-sec"><label class="form-label">Вес/Объём</label><input class="form-input" id="fWeight" placeholder="350 г"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-sec"><label class="form-label">Категория</label>
+        <select class="form-select" id="fCat">
+          <option value="dishes">Блюда</option>
+          <option value="drinks">Напитки</option>
+          <option value="desserts">Десерты</option>
+          <option value="combo">Комбо</option>
+          <option value="seasonal">Сезонное</option>
+        </select>
+      </div>
+      <div class="form-sec"><label class="form-label">Время (мин)</label><input class="form-input" id="fCookTime" type="number" min="0" placeholder="20"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-sec"><label class="form-label">Эмодзи</label><input class="form-input" id="fEmoji" placeholder="🫕"/></div>
+      <div class="form-sec" style="display:flex;flex-direction:column;gap:8px;justify-content:flex-end">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+          <input type="checkbox" id="fIsPopular" style="width:16px;height:16px;accent-color:var(--warn)"/>
+          <span style="font-size:12px;color:var(--warn)">🔥 Хит</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+          <input type="checkbox" id="fIsNew" style="width:16px;height:16px;accent-color:var(--green)"/>
+          <span style="font-size:12px;color:var(--green3)">✨ Новинка</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Аллергены -->
+    <div class="form-sec">
+      <label class="form-label">Аллергены</label>
+      <div class="allergen-checks">
+        <div class="allergen-check" onclick="toggleAllergen(this)"><input type="checkbox" id="al_gluten"/>🌾 Глютен</div>
+        <div class="allergen-check" onclick="toggleAllergen(this)"><input type="checkbox" id="al_dairy"/>🥛 Молоко</div>
+        <div class="allergen-check" onclick="toggleAllergen(this)"><input type="checkbox" id="al_nuts"/>🥜 Орехи</div>
+        <div class="allergen-check" onclick="toggleAllergen(this)"><input type="checkbox" id="al_eggs"/>🥚 Яйца</div>
+        <div class="allergen-check" onclick="toggleAllergen(this)"><input type="checkbox" id="al_fish"/>🐟 Рыба</div>
+        <div class="allergen-check" onclick="toggleAllergen(this)"><input type="checkbox" id="al_soy"/>🫘 Соя</div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-full" id="saveDishBtn" onclick="saveDish()">Сохранить блюдо</button>
+    <button class="btn-ghost" onclick="closeModal('dishModal')">Отмена</button>
+  </div>
+</div>
+
+<!-- MODAL: Возврат -->
+<div class="modal-bg" id="returnModal" onclick="handleBg(event,'returnModal')">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <button class="modal-close" onclick="closeModal('returnModal')">✕</button>
+    <div class="modal-title">Оформить возврат</div>
+    <input type="hidden" id="returnOrderId"/>
+    <input type="hidden" id="returnTableNum"/>
+    <input type="hidden" id="returnMaxAmt"/>
+    <div class="form-sec"><label class="form-label">Сумма возврата (₸)</label><input class="form-input" id="returnAmount" type="number" min="1" placeholder="1500"/></div>
+    <div class="form-sec"><label class="form-label">Причина</label><input class="form-input" id="returnReason" placeholder="Не то блюдо / холодное..."/></div>
+    <div class="form-sec"><label class="form-label">Что возвращают</label><input class="form-input" id="returnItems" placeholder="Хачапури × 1"/></div>
+    <button class="btn btn-wine btn-full" onclick="submitReturn()">Оформить возврат</button>
+    <button class="btn-ghost" onclick="closeModal('returnModal')">Отмена</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/admin.js"></script>
+<script>
+// Показываем кнопку выйти после логина
+const _orig = showPanel;
+function showPanel() {
+  _orig();
+  document.getElementById('logoutBtn').classList.remove('hidden');
+}
+</script>
+</body>
+</html>

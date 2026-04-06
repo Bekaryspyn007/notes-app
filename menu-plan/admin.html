@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>Управление меню</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+
+<div id="loader"></div>
+<div class="toast" id="toast"></div>
+
+<!-- HEADER -->
+<div class="admin-header">
+  <div class="admin-logo">
+    <em data-r-name>Ресторан</em>
+    <span style="font-family:'Jost',sans-serif;font-size:12px;color:var(--muted);font-weight:400;margin-left:6px">· Меню</span>
+  </div>
+  <button id="logoutBtn" onclick="adminLogout()" class="hidden"
+    style="font-size:11px;color:var(--muted);padding:7px 14px;border:1px solid var(--border);border-radius:100px;letter-spacing:.5px">
+    Выйти
+  </button>
+</div>
+
+<!-- LOGIN -->
+<div id="adminLogin" style="padding-top:68px">
+  <div class="admin-login">
+    <div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;color:var(--green3)">✦</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--cream);margin-top:4px">
+        Управление меню
+      </div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px">Только для администратора</div>
+    </div>
+    <div class="admin-login-form">
+      <label class="form-label">Пароль</label>
+      <input class="form-input" id="adminPass" type="password" placeholder="Введите пароль"
+        onkeydown="if(event.key==='Enter') adminLogin()"/>
+      <button class="btn btn-primary btn-full" id="loginBtn" onclick="adminLogin()">Войти</button>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL -->
+<div id="adminPanel" class="hidden" style="padding-top:68px">
+  <div class="admin-body">
+
+    <div class="admin-tabs" style="margin-top:8px">
+      <button class="admin-tab active" onclick="switchAdminTab('list')">📋 Список</button>
+      <button class="admin-tab" onclick="switchAdminTab('add')">➕ Добавить</button>
+    </div>
+
+    <!-- LIST -->
+    <div class="admin-panel active" id="tab-list">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+        <div style="font-size:12px;color:var(--muted)">
+          Нажмите ✏️ для редактирования
+        </div>
+        <button onclick="loadMenuAdmin()"
+          style="font-size:11px;color:var(--muted);padding:7px 13px;border:1px solid var(--border);border-radius:100px">
+          ↻ Обновить
+        </button>
+      </div>
+      <div id="menuList"></div>
+    </div>
+
+    <!-- ADD / EDIT -->
+    <div class="admin-panel" id="tab-add">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream);margin-bottom:18px">
+        Новое блюдо
+      </div>
+      <div class="form-sec">
+        <label class="form-label">Название *</label>
+        <input class="form-input" id="fName" placeholder="Хачапури по-аджарски"/>
+      </div>
+      <div class="form-sec">
+        <label class="form-label">Описание</label>
+        <textarea class="form-input" id="fDesc" placeholder="Состав, особенности..." style="min-height:72px"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-sec">
+          <label class="form-label">Цена (₸) *</label>
+          <input class="form-input" id="fPrice" type="number" min="1" placeholder="2200"/>
+        </div>
+        <div class="form-sec">
+          <label class="form-label">Вес / Объём</label>
+          <input class="form-input" id="fWeight" placeholder="350 г"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-sec">
+          <label class="form-label">Категория</label>
+          <select class="form-select" id="fCat">
+            <option value="dishes">Блюда</option>
+            <option value="drinks">Напитки</option>
+            <option value="desserts">Десерты</option>
+            <option value="combo">Комбо</option>
+            <option value="seasonal">Сезонное</option>
+          </select>
+        </div>
+        <div class="form-sec">
+          <label class="form-label">Эмодзи</label>
+          <input class="form-input" id="fEmoji" placeholder="🫕"/>
+        </div>
+      </div>
+
+      <!-- Фото -->
+      <label class="form-label">Фото блюда</label>
+      <div class="photo-upload" onclick="document.getElementById('photoInput').click()">
+        <img class="photo-preview-img" id="photoPreviewImg" src="" alt=""/>
+        <div id="photoUploadContent">
+          <div class="photo-upload-icon">📷</div>
+          <div class="photo-upload-hint">Нажмите для загрузки фото</div>
+        </div>
+      </div>
+      <input type="file" id="photoInput" accept="image/*" onchange="onPhotoSelected(this)" style="display:none"/>
+      <input type="hidden" id="editDishId"/>
+      <input type="hidden" id="existingPhoto"/>
+
+      <button class="btn btn-primary btn-full" id="saveDishBtn" onclick="saveDish()">
+        Сохранить блюдо
+      </button>
+      <button class="btn-ghost" onclick="resetAndGoList()">Очистить форму</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL: Редактирование -->
+<div class="modal-bg" id="dishModal" onclick="handleBg(event,'dishModal')">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <button class="modal-close" onclick="closeModal('dishModal')">✕</button>
+    <div class="modal-title" id="dishFormTitle">Редактировать блюдо</div>
+
+    <input type="hidden" id="editDishId"/>
+    <input type="hidden" id="existingPhoto"/>
+
+    <label class="form-label">Фото</label>
+    <div class="photo-upload" onclick="document.getElementById('photoInput').click()">
+      <img class="photo-preview-img" id="photoPreviewImg" src="" alt=""/>
+      <div id="photoUploadContent">
+        <div class="photo-upload-icon">📷</div>
+        <div class="photo-upload-hint">Нажмите для загрузки</div>
+      </div>
+    </div>
+    <input type="file" id="photoInput" accept="image/*" onchange="onPhotoSelected(this)" style="display:none"/>
+
+    <div class="form-sec">
+      <label class="form-label">Название *</label>
+      <input class="form-input" id="fName" placeholder="Название блюда"/>
+    </div>
+    <div class="form-sec">
+      <label class="form-label">Описание</label>
+      <textarea class="form-input" id="fDesc" style="min-height:68px" placeholder="Состав..."></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-sec">
+        <label class="form-label">Цена (₸) *</label>
+        <input class="form-input" id="fPrice" type="number" placeholder="1500"/>
+      </div>
+      <div class="form-sec">
+        <label class="form-label">Вес / Объём</label>
+        <input class="form-input" id="fWeight" placeholder="250 г"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-sec">
+        <label class="form-label">Категория</label>
+        <select class="form-select" id="fCat">
+          <option value="dishes">Блюда</option>
+          <option value="drinks">Напитки</option>
+          <option value="desserts">Десерты</option>
+          <option value="combo">Комбо</option>
+          <option value="seasonal">Сезонное</option>
+        </select>
+      </div>
+      <div class="form-sec">
+        <label class="form-label">Эмодзи</label>
+        <input class="form-input" id="fEmoji" placeholder="🍕"/>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-full" id="saveDishBtn" onclick="saveDish()">Сохранить</button>
+    <button class="btn-ghost" onclick="closeModal('dishModal')">Отмена</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/admin.js"></script>
+<script>
+function switchAdminTab(tab) {
+  document.querySelectorAll('.admin-tab').forEach((t,i) => {
+    t.classList.toggle('active', ['list','add'][i] === tab);
+  });
+  document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  if (tab === 'list') loadMenuAdmin();
+}
+
+function openAddDish() {
+  resetDishForm();
+  switchAdminTab('add');
+}
+
+function editDish(id) {
+  const d = menu.find(m => m.id === id);
+  if (!d) return;
+  document.getElementById('dishFormTitle').textContent = 'Редактировать';
+  document.getElementById('editDishId').value   = id;
+  document.getElementById('fName').value        = d.name;
+  document.getElementById('fDesc').value        = d.description || '';
+  document.getElementById('fPrice').value       = d.price;
+  document.getElementById('fWeight').value      = d.weight || '';
+  document.getElementById('fEmoji').value       = d.emoji || '';
+  document.getElementById('fCat').value         = d.category || 'dishes';
+  document.getElementById('existingPhoto').value= d.photo_url || '';
+  document.getElementById('photoInput').value   = '';
+  const prev = document.getElementById('photoPreviewImg');
+  const cont = document.getElementById('photoUploadContent');
+  if (d.photo_url) { prev.src=d.photo_url; prev.classList.add('show'); cont.style.display='none'; }
+  else { prev.classList.remove('show'); cont.style.display=''; }
+  openModal('dishModal');
+}
+
+function resetAndGoList() {
+  resetDishForm();
+  switchAdminTab('list');
+}
+</script>
+</body>
+</html>

@@ -3,10 +3,8 @@
  */
 
 const CONFIG = {
-
-  /* ── 1. SUPABASE ──────────────────────────────
-     Supabase Dashboard → Settings → API          */
-  supabase: {
+  
+    supabase: {
     url:            "https://ybxleibiaoxpumpzshyw.supabase.co",       // https://xxxx.supabase.co
     anonKey:        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlieGxlaWJpYW94cHVtcHpzaHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NDgyNDYsImV4cCI6MjA5MDQyNDI0Nn0.nRhYTLprRmg6MBEI3mC813dYrFgw5jpoigr-XfFt63Q",  // eyJh... (anon public key)
   },
@@ -60,7 +58,7 @@ const CONFIG = {
   ],
 
   admin: {
-    password: "123",
+    password: "chachapuri2025",
   },
 
 };
