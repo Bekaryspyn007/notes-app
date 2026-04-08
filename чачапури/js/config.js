@@ -58,7 +58,7 @@ const CONFIG = {
   ],
 
   admin: {
-    password: "chachapuri2025",
+    password: "123",
   },
 
 };
