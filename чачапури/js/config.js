@@ -18,9 +18,9 @@ const CONFIG = {
   },
 
   restaurant: {
-    name:      "Чачапури",
-    tagline:   "Вкусно как дома",
-    city:      "Алматы",
+    name:      "Ola Cafe",
+    tagline:   "когда любовь становится вкусом",
+    city:      "📍Ул. Толе Би, 101",
     heroImage: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80",
     phone:     "+7 777 000 00 00",
   },
