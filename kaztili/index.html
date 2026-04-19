@@ -1,0 +1,2094 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>БолашақHub — Жастарға мүмкіндік</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --g: #0B6E4F;
+  --g2: #13A370;
+  --g3: #1DBF85;
+  --g-light: #E8F9F3;
+  --g-pale: #F2FBF7;
+  --amber: #F5A623;
+  --amber-light: #FEF3DC;
+  --red: #E53E3E;
+  --red-light: #FFF0F0;
+  --blue: #2B6CB0;
+  --blue-light: #EBF4FF;
+  --dark: #0D1117;
+  --dark2: #161B22;
+  --dark3: #21262D;
+  --text: #E6EDF3;
+  --text2: #8B949E;
+  --text3: #58A6FF;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.15);
+  --card: rgba(22,27,34,0.95);
+  --glow: 0 0 60px rgba(19,163,112,0.15);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--dark);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--dark2); }
+::-webkit-scrollbar-thumb { background: var(--g); border-radius: 3px; }
+
+/* ─── NOISE OVERLAY ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.4;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 900;
+  padding: 1rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(13,17,23,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 0.5px solid var(--border);
+}
+
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: white;
+}
+.logo em { color: var(--g3); font-style: normal; }
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 13px;
+  color: var(--text2);
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--g3); }
+
+.nav-right { display: flex; gap: 0.8rem; align-items: center; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 0.5px solid var(--border2);
+  padding: 0.55rem 1.2rem;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.2s;
+}
+.btn-ghost:hover { border-color: var(--g3); color: var(--g3); }
+
+.btn-green {
+  background: var(--g2);
+  color: white;
+  border: none;
+  padding: 0.55rem 1.4rem;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.2s;
+  box-shadow: 0 0 20px rgba(19,163,112,0.3);
+}
+.btn-green:hover { background: var(--g3); transform: translateY(-1px); }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  text-align: center;
+  padding: 8rem 2rem 5rem;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(19,163,112,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 80%, rgba(11,110,79,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 30% 30% at 10% 70%, rgba(245,166,35,0.06) 0%, transparent 50%);
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at center, black 30%, transparent 80%);
+}
+
+.hero-content { position: relative; max-width: 900px; margin: 0 auto; }
+
+.hero-kz-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(19,163,112,0.12);
+  border: 0.5px solid rgba(19,163,112,0.4);
+  color: var(--g3);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  margin-bottom: 2rem;
+  letter-spacing: 0.5px;
+}
+
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(36px, 7vw, 80px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  color: white;
+  margin-bottom: 1.5rem;
+}
+.hero h1 .hi { color: var(--g3); display: inline-block; position: relative; }
+.hero h1 .hi::after {
+  content: '';
+  position: absolute;
+  bottom: 2px; left: 0; right: 0;
+  height: 3px;
+  background: var(--g3);
+  border-radius: 2px;
+  opacity: 0.4;
+}
+
+.hero-desc {
+  font-size: 18px;
+  color: var(--text2);
+  max-width: 620px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+.hero-btns {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 4rem;
+}
+
+.btn-big-green {
+  background: var(--g2);
+  color: white;
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.25s;
+  box-shadow: 0 0 30px rgba(19,163,112,0.4);
+}
+.btn-big-green:hover { background: var(--g3); transform: translateY(-2px); box-shadow: 0 8px 40px rgba(19,163,112,0.5); }
+
+.btn-big-ghost {
+  background: rgba(255,255,255,0.05);
+  color: white;
+  border: 0.5px solid var(--border2);
+  padding: 1rem 2.5rem;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.25s;
+  backdrop-filter: blur(10px);
+}
+.btn-big-ghost:hover { background: rgba(255,255,255,0.1); border-color: var(--g3); }
+
+/* Floating stats */
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.hero-stat {
+  text-align: center;
+  padding: 1rem 1.5rem;
+  background: rgba(22,27,34,0.8);
+  border: 0.5px solid var(--border2);
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+}
+.hero-stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: white;
+  display: block;
+  line-height: 1;
+}
+.hero-stat-num.red { color: #FF6B6B; }
+.hero-stat-num.green { color: var(--g3); }
+.hero-stat-num.amber { color: var(--amber); }
+.hero-stat-label {
+  font-size: 12px;
+  color: var(--text2);
+  margin-top: 4px;
+  max-width: 120px;
+  line-height: 1.4;
+}
+
+/* ─── SECTION BASE ─── */
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 6rem 2rem;
+}
+
+.section-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--g3);
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.section-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1.5px;
+  background: var(--g3);
+}
+
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(26px, 4vw, 46px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: white;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.section-sub {
+  font-size: 16px;
+  color: var(--text2);
+  max-width: 600px;
+  line-height: 1.8;
+  margin-bottom: 3rem;
+}
+
+/* ─── DIVIDER ─── */
+.divider {
+  height: 0.5px;
+  background: linear-gradient(90deg, transparent, var(--border2), transparent);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ─── PROBLEM SECTION ─── */
+.problem-hero {
+  background: linear-gradient(135deg, rgba(229,62,62,0.08) 0%, transparent 60%);
+  border: 0.5px solid rgba(229,62,62,0.2);
+  border-radius: 24px;
+  padding: 3rem;
+  margin-bottom: 2rem;
+}
+
+.problem-lead {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(22px, 3vw, 36px);
+  font-weight: 700;
+  color: white;
+  line-height: 1.3;
+  margin-bottom: 1.5rem;
+}
+.problem-lead .danger { color: #FF6B6B; }
+
+.problem-body {
+  font-size: 16px;
+  color: var(--text2);
+  line-height: 1.9;
+  max-width: 720px;
+}
+
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.problem-card {
+  background: var(--dark2);
+  border: 0.5px solid var(--border);
+  border-radius: 16px;
+  padding: 1.8rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.problem-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+.problem-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--red), transparent);
+}
+.problem-card.amber-accent::before { background: linear-gradient(90deg, var(--amber), transparent); }
+.problem-card.blue-accent::before { background: linear-gradient(90deg, var(--blue), transparent); }
+
+.pcard-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 1.2rem;
+  background: rgba(229,62,62,0.12);
+}
+.pcard-icon.amber { background: rgba(245,166,35,0.12); }
+.pcard-icon.blue { background: rgba(43,108,176,0.12); }
+
+.pcard-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  color: white;
+  margin-bottom: 0.6rem;
+}
+.pcard-text { font-size: 14px; color: var(--text2); line-height: 1.7; }
+.pcard-stat {
+  margin-top: 1rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: #FF6B6B;
+}
+.pcard-stat.amber { color: var(--amber); }
+.pcard-stat.blue { color: #58A6FF; }
+
+/* CONSEQUENCES */
+.consequences {
+  background: var(--dark2);
+  border: 0.5px solid var(--border);
+  border-radius: 24px;
+  padding: 3rem;
+  margin-top: 2rem;
+}
+.cons-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.cons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem;
+}
+
+.con-item {
+  padding: 1.2rem;
+  background: rgba(255,255,255,0.03);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+}
+.con-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #FF6B6B;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+.con-dot.amber { background: var(--amber); }
+.con-dot.blue { background: #58A6FF; }
+.con-text { font-size: 14px; color: var(--text2); line-height: 1.6; }
+.con-text strong { color: var(--text); font-weight: 500; display: block; margin-bottom: 2px; }
+
+/* ─── SOLUTION SECTION ─── */
+.solution-intro {
+  background: linear-gradient(135deg, rgba(11,110,79,0.15) 0%, rgba(19,163,112,0.05) 60%, transparent 100%);
+  border: 0.5px solid rgba(19,163,112,0.25);
+  border-radius: 24px;
+  padding: 3rem;
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+.solution-intro::before {
+  content: 'BOLASHAQHUB';
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  font-family: 'Syne', sans-serif;
+  font-size: 80px;
+  font-weight: 800;
+  color: rgba(19,163,112,0.05);
+  letter-spacing: 8px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.solution-lead {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(20px, 3vw, 32px);
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1rem;
+}
+.solution-lead .hi { color: var(--g3); }
+
+.solution-desc {
+  font-size: 16px;
+  color: var(--text2);
+  line-height: 1.85;
+  max-width: 700px;
+}
+
+/* How it works */
+.how-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.how-step {
+  position: relative;
+  background: var(--dark2);
+  border: 0.5px solid var(--border);
+  border-radius: 20px;
+  padding: 2rem 1.5rem;
+  transition: all 0.3s;
+  overflow: hidden;
+}
+.how-step:hover {
+  border-color: rgba(19,163,112,0.4);
+  box-shadow: 0 0 30px rgba(19,163,112,0.1);
+  transform: translateY(-3px);
+}
+.how-step::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--g), var(--g3));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.how-step:hover::after { opacity: 1; }
+
+.step-n {
+  font-family: 'Syne', sans-serif;
+  font-size: 56px;
+  font-weight: 800;
+  color: rgba(19,163,112,0.12);
+  line-height: 1;
+  margin-bottom: 1rem;
+  position: relative;
+}
+.step-n::after {
+  content: attr(data-n);
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--g3);
+  font-size: 20px;
+  font-weight: 700;
+}
+.step-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+.step-desc { font-size: 14px; color: var(--text2); line-height: 1.7; }
+
+/* Features */
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+@media (max-width: 700px) { .features-grid { grid-template-columns: 1fr; } }
+
+.feature-card {
+  background: var(--dark2);
+  border: 0.5px solid var(--border);
+  border-radius: 20px;
+  padding: 2rem;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.feature-card:hover {
+  border-color: rgba(19,163,112,0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+.feature-card.big {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+@media (max-width: 700px) { .feature-card.big { grid-column: 1; grid-template-columns: 1fr; } }
+
+.feat-icon {
+  font-size: 36px;
+  margin-bottom: 1rem;
+}
+.feat-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.6rem;
+}
+.feat-desc { font-size: 14px; color: var(--text2); line-height: 1.7; }
+.feat-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.2rem;
+}
+.feat-tag {
+  font-size: 11px;
+  background: rgba(19,163,112,0.12);
+  color: var(--g3);
+  border: 0.5px solid rgba(19,163,112,0.3);
+  padding: 0.25rem 0.7rem;
+  border-radius: 50px;
+  font-weight: 500;
+}
+
+/* ─── IMPACT SECTION ─── */
+.impact-section {
+  background: var(--dark2);
+  border-top: 0.5px solid var(--border);
+  border-bottom: 0.5px solid var(--border);
+  padding: 6rem 2rem;
+}
+.impact-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.impact-numbers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 3rem;
+  border: 0.5px solid var(--border2);
+}
+.impact-num {
+  background: var(--dark2);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  position: relative;
+}
+.impact-num::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 20%; right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--g3), transparent);
+}
+.impact-big {
+  font-family: 'Syne', sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  color: white;
+  display: block;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+.impact-big.g { color: var(--g3); }
+.impact-big.a { color: var(--amber); }
+.impact-label {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.5;
+}
+
+/* ─── TEAM SECTION ─── */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.team-card {
+  background: var(--dark2);
+  border: 0.5px solid var(--border);
+  border-radius: 20px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+}
+.team-card:hover {
+  border-color: rgba(19,163,112,0.35);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 20px rgba(19,163,112,0.1);
+}
+
+.team-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--g), var(--g3));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: white;
+  margin: 0 auto 1rem;
+  position: relative;
+}
+.team-avatar::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(19,163,112,0.3);
+}
+
+.team-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: white;
+  margin-bottom: 3px;
+}
+.team-surname {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 0.8rem;
+}
+.team-role {
+  font-size: 11px;
+  background: rgba(19,163,112,0.12);
+  color: var(--g3);
+  border: 0.5px solid rgba(19,163,112,0.3);
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  display: inline-block;
+  font-weight: 500;
+}
+
+/* ─── GAME SECTION ─── */
+.game-section {
+  background: linear-gradient(180deg, var(--dark) 0%, var(--dark2) 50%, var(--dark) 100%);
+  border-top: 0.5px solid var(--border);
+  border-bottom: 0.5px solid var(--border);
+  padding: 6rem 2rem;
+}
+
+.game-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.game-card {
+  background: var(--dark2);
+  border: 0.5px solid var(--border2);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(0,0,0,0.5);
+}
+
+.game-header {
+  background: linear-gradient(90deg, var(--g) 0%, var(--g2) 100%);
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.game-header-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+}
+.game-score-area {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.gscore-box {
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  padding: 0.4rem 1rem;
+  text-align: center;
+}
+.gscore-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: white;
+  display: block;
+  line-height: 1;
+}
+.gscore-lbl { font-size: 10px; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.5px; }
+
+.game-body { padding: 2.5rem; }
+
+/* Main game content */
+.game-screen { display: none; }
+.game-screen.active { display: block; }
+
+/* MENU */
+#screen-menu { text-align: center; }
+.game-title-big {
+  font-family: 'Syne', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+.game-subtitle { font-size: 15px; color: var(--text2); margin-bottom: 2.5rem; }
+
+.game-modes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.mode-btn {
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid var(--border2);
+  border-radius: 16px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: center;
+}
+.mode-btn:hover {
+  background: rgba(19,163,112,0.1);
+  border-color: rgba(19,163,112,0.5);
+  transform: translateY(-3px);
+}
+.mode-icon { font-size: 32px; margin-bottom: 0.8rem; display: block; }
+.mode-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: white;
+  margin-bottom: 0.3rem;
+}
+.mode-desc { font-size: 12px; color: var(--text2); }
+
+/* QUIZ MODE */
+#screen-quiz .quiz-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+.quiz-prog-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50px;
+  margin: 0 1rem;
+  overflow: hidden;
+}
+.quiz-prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--g), var(--g3));
+  border-radius: 50px;
+  transition: width 0.4s ease;
+}
+.quiz-q-num { font-size: 12px; color: var(--text2); white-space: nowrap; }
+
+.quiz-question-text {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(16px, 2.5vw, 22px);
+  font-weight: 700;
+  color: white;
+  margin-bottom: 2rem;
+  line-height: 1.4;
+  min-height: 60px;
+}
+
+.quiz-options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 500px) { .quiz-options-grid { grid-template-columns: 1fr; } }
+
+.quiz-opt-btn {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.5;
+  transition: all 0.2s;
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+}
+.quiz-opt-btn:hover:not(:disabled) {
+  background: rgba(19,163,112,0.1);
+  border-color: rgba(19,163,112,0.5);
+}
+.quiz-opt-btn.correct {
+  background: rgba(19,163,112,0.2);
+  border-color: var(--g3);
+  color: white;
+}
+.quiz-opt-btn.wrong {
+  background: rgba(229,62,62,0.15);
+  border-color: rgba(229,62,62,0.6);
+}
+.quiz-opt-btn:disabled { cursor: default; }
+
+.opt-letter {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--text2);
+}
+.quiz-opt-btn.correct .opt-letter { background: var(--g3); color: white; }
+.quiz-opt-btn.wrong .opt-letter { background: #E53E3E; color: white; }
+
+.quiz-feedback-box {
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  display: none;
+  margin-bottom: 1rem;
+}
+.quiz-feedback-box.show { display: block; }
+.quiz-feedback-box.ok {
+  background: rgba(19,163,112,0.12);
+  border: 0.5px solid rgba(19,163,112,0.3);
+  color: #9EE6C0;
+}
+.quiz-feedback-box.fail {
+  background: rgba(229,62,62,0.1);
+  border: 0.5px solid rgba(229,62,62,0.3);
+  color: #FCA5A5;
+}
+
+.quiz-next-btn {
+  background: var(--g2);
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  display: none;
+  transition: all 0.2s;
+}
+.quiz-next-btn.show { display: inline-flex; align-items: center; gap: 0.5rem; }
+.quiz-next-btn:hover { background: var(--g3); }
+
+/* MATCH MODE */
+#screen-match {
+  user-select: none;
+}
+.match-instruction {
+  font-size: 14px;
+  color: var(--text2);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.match-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+.match-col-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text2);
+  margin-bottom: 0.8rem;
+}
+.match-item {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.6rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  color: var(--text);
+}
+.match-item:hover { background: rgba(19,163,112,0.1); border-color: rgba(19,163,112,0.4); }
+.match-item.selected { background: rgba(19,163,112,0.15); border-color: var(--g3); color: var(--g3); }
+.match-item.matched { background: rgba(19,163,112,0.2); border-color: var(--g); color: #9EE6C0; cursor: default; }
+.match-item.wrong-flash { background: rgba(229,62,62,0.2); border-color: rgba(229,62,62,0.6); }
+
+.match-result-msg {
+  text-align: center;
+  padding: 1.5rem;
+  display: none;
+}
+.match-result-msg.show { display: block; }
+
+/* RESULT */
+#screen-result { text-align: center; }
+.result-emoji { font-size: 72px; margin-bottom: 1rem; display: block; }
+.result-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+.result-score-big {
+  font-family: 'Syne', sans-serif;
+  font-size: 80px;
+  font-weight: 800;
+  color: var(--g3);
+  line-height: 1;
+  margin: 1rem 0;
+  display: block;
+}
+.result-msg { font-size: 16px; color: var(--text2); margin-bottom: 2rem; }
+.result-breakdown {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.rb-item {
+  background: rgba(255,255,255,0.05);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  text-align: center;
+}
+.rb-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: white;
+  display: block;
+}
+.rb-lbl { font-size: 11px; color: var(--text2); }
+
+.restart-btn-big {
+  background: var(--g2);
+  color: white;
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-right: 0.8rem;
+}
+.restart-btn-big:hover { background: var(--g3); }
+.menu-btn {
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  border: 0.5px solid var(--border2);
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.menu-btn:hover { background: rgba(255,255,255,0.1); }
+
+/* Game timer bar */
+.timer-bar {
+  height: 4px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.timer-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--g3), var(--amber));
+  border-radius: 50px;
+  transition: width 0.1s linear;
+}
+.timer-fill.low { background: linear-gradient(90deg, #FF6B6B, var(--red)); }
+
+/* ─── CTA SECTION ─── */
+.cta-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 6rem 2rem;
+  text-align: center;
+}
+
+.cta-box {
+  background: linear-gradient(135deg, rgba(11,110,79,0.2) 0%, rgba(19,163,112,0.1) 50%, rgba(13,17,23,0) 100%);
+  border: 0.5px solid rgba(19,163,112,0.3);
+  border-radius: 32px;
+  padding: 5rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+.cta-box::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(19,163,112,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cta-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--g3);
+  margin-bottom: 1rem;
+}
+.cta-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  color: white;
+  letter-spacing: -1px;
+  line-height: 1.1;
+  margin-bottom: 1.2rem;
+}
+.cta-desc {
+  font-size: 16px;
+  color: var(--text2);
+  max-width: 500px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.8;
+}
+.cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--dark2);
+  border-top: 0.5px solid var(--border);
+  padding: 4rem 2rem 2rem;
+}
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+@media (max-width: 600px) { .footer-top { grid-template-columns: 1fr; } }
+
+.footer-logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 0.8rem;
+}
+.footer-logo em { color: var(--g3); font-style: normal; }
+.footer-about {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.8;
+  max-width: 320px;
+}
+.footer-col-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text2);
+  margin-bottom: 1rem;
+}
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 0.6rem; }
+.footer-col a {
+  font-size: 14px;
+  color: var(--text2);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-col a:hover { color: var(--g3); }
+
+.footer-bottom {
+  border-top: 0.5px solid var(--border);
+  padding-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer-cr { font-size: 13px; color: var(--text2); }
+.footer-cr strong { color: white; font-family: 'Syne', sans-serif; }
+.footer-kz {
+  font-size: 13px;
+  color: var(--text2);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-content > * {
+  animation: fadeUp 0.6s ease both;
+}
+.hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+.hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+.hero-content > *:nth-child(3) { animation-delay: 0.3s; }
+.hero-content > *:nth-child(4) { animation-delay: 0.4s; }
+.hero-content > *:nth-child(5) { animation-delay: 0.5s; }
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.2rem; }
+  .nav-links { display: none; }
+  .hero { padding: 7rem 1.2rem 4rem; }
+  .section { padding: 4rem 1.2rem; }
+  .nav-right .btn-ghost { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Болашақ<em>Hub</em></div>
+  <ul class="nav-links">
+    <li><a href="#problem">Мәселе</a></li>
+    <li><a href="#solution">Шешім</a></li>
+    <li><a href="#team">Ұжым</a></li>
+    <li><a href="#game">Ойын</a></li>
+    <li><a href="#cta">Байланыс</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="btn-ghost">Кіру</button>
+    <button class="btn-green">Тіркелу →</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-kz-badge">🇰🇿 Қазақстан жастарының болашағы</div>
+    <h1>Жұмыссыздыққа —<br><span class="hi">цифрлық шешім</span></h1>
+    <p class="hero-desc">БолашақHub — Қазақстан жастарын жұмыс берушілермен байланыстыратын, дағды дамытуға мүмкіндік беретін тегін платформа. Бірге өзгерейік.</p>
+    <div class="hero-btns">
+      <button class="btn-big-green">Жұмыс іздеу →</button>
+      <button class="btn-big-ghost">Жұмыс беруші үшін</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-num red">1.2М+</span>
+        <div class="hero-stat-label">Жұмыссыз жастар Қазақстанда</div>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num amber">42%</span>
+        <div class="hero-stat-label">18–30 жас аралығындағы жұмыссыздық</div>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num green">3 қадам</span>
+        <div class="hero-stat-label">Жұмысқа орналасу үшін</div>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num" style="color:#58A6FF">2030</span>
+        <div class="hero-stat-label">Мақсатымыз — 100 000 жасты жұмысқа</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="section" id="problem">
+  <div class="section-eyebrow">Мәселе</div>
+  <div class="section-title">Жастар жұмыссыздығы —<br>ұлттық дағдарыс</div>
+  <div class="section-sub">Қазақстанда жыл сайын мыңдаған жас маман еңбек нарығына шыға алмай қалады. Бұл жай ғана статистика емес — бұл нақты адамдардың сынған арманы.</div>
+
+  <div class="problem-hero">
+    <div class="problem-lead">Қазақстанда <span class="danger">1 200 000-нан астам</span> жас (18–30 жас) жұмыссыз. Олардың басым бөлігі диплом иегері — бірақ нарыққа сай дағды жоқ.</div>
+    <div class="problem-body">Жас мамандар жұмыс іздегенде "тәжірибесіз — жоқ", "тәжірибе алу үшін жұмыс керек" — деген қайшылықты шеңберге тіреледі. Бұл жағдай жастардың ғана емес, бүкіл елдің экономикасының өсуін тежейді. ЖІӨ-нің 2–3%-ы жыл сайын осы мәселеден жоғалады.</div>
+  </div>
+
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="pcard-icon">📉</div>
+      <div class="pcard-title">Тәжірибенің жоқтығы</div>
+      <div class="pcard-text">Жұмыс берушілердің 78%-ы кандидаттарда практикалық тәжірибенің жоқтығынан бас тартады. Жас мамандар дипломмен бірге қарусыз қалады.</div>
+      <div class="pcard-stat">78%</div>
+    </div>
+    <div class="problem-card amber-accent">
+      <div class="pcard-icon amber">🎓</div>
+      <div class="pcard-title">Білім мен нарық арасындағы алшақтық</div>
+      <div class="pcard-text">Университет бағдарламаларының 60%-ы нарық талаптарынан 5–7 жыл артта қалады. Студенттер ескі біліммен заманауи нарыққа кіреді.</div>
+      <div class="pcard-stat amber">60%</div>
+    </div>
+    <div class="problem-card blue-accent">
+      <div class="pcard-icon blue">🌐</div>
+      <div class="pcard-title">Байланыс желісінің болмауы</div>
+      <div class="pcard-text">Қазақстанда жұмысқа орналасудың 70%-ы "таныстар арқылы" жүреді. Байланыс желісі жоқ жас маман бастапқыдан кемшіліктен бастайды.</div>
+      <div class="pcard-stat blue">70%</div>
+    </div>
+  </div>
+
+  <!-- CONSEQUENCES -->
+  <div class="consequences">
+    <div class="cons-title">⚠️ Жұмыссыздық нені қаупке алады?</div>
+    <div class="cons-grid">
+      <div class="con-item">
+        <div class="con-dot"></div>
+        <div class="con-text">
+          <strong>ЖІӨ-нің төмендеуі</strong>
+          Жұмыссыз жастар жыл сайын Қазақстан экономикасына 2–3% ЖІӨ шығын туғызады — триллиондаған теңге.
+        </div>
+      </div>
+      <div class="con-item">
+        <div class="con-dot amber"></div>
+        <div class="con-text">
+          <strong>Миграция өсуі</strong>
+          Жыл сайын 25 000-нан астам білімді жас маман жұмыс іздеп елден кетеді — "ми ағыны" проблемасы.
+        </div>
+      </div>
+      <div class="con-item">
+        <div class="con-dot blue"></div>
+        <div class="con-text">
+          <strong>Психологиялық зардап</strong>
+          Жұмыссыз жастардың 43%-ы депрессия мен мазасыздықтан зардап шегеді. Қоғамдық денсаулыққа үлкен соққы.
+        </div>
+      </div>
+      <div class="con-item">
+        <div class="con-dot"></div>
+        <div class="con-text">
+          <strong>Инновация тапшылығы</strong>
+          Жастар жұмыссыз болса — елдің инновациялық потенциалы да өспейді. Технологиялық дамудан артта қалу қаупі.
+        </div>
+      </div>
+      <div class="con-item">
+        <div class="con-dot amber"></div>
+        <div class="con-text">
+          <strong>Зейнетақы жүйесіне қысым</strong>
+          Жұмыс істемейтін жастар зейнетақы жүйесіне жарна аудармайды. 2040 жылға дейін дағдарыс күтілуде.
+        </div>
+      </div>
+      <div class="con-item">
+        <div class="con-dot blue"></div>
+        <div class="con-text">
+          <strong>Тең теңсіздіктің өсуі</strong>
+          Жұмыссыздық ауылдық аймақтарда 2 есе жоғары — әлеуметтік теңсіздікті тереңдетеді.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SOLUTION -->
+<section class="section" id="solution">
+  <div class="section-eyebrow">Шешім</div>
+  <div class="section-title">БолашақHub — жауап<br>барлық сұраққа</div>
+  <div class="section-sub">Жастардың алдындағы тосқауылдарды бұзу үшін цифрлық экожүйе жасадық. Тіркелуден жұмысқа орналасуға дейін — бір платформа.</div>
+
+  <div class="solution-intro">
+    <div class="solution-lead"><span class="hi">БолашақHub</span> — бұл тек жұмыс іздеу сайты емес. Бұл жастар үшін толноқанды цифрлық мүмкіндіктер кеңістігі.</div>
+    <div class="solution-desc">Платформамыз жас мамандарға нарыққа сай дағдыларды меңгеруге, менторлармен байланысуға, портфолиосын құруға және тікелей жұмыс берушілермен жұмысқа орналасуға мүмкіндік береді. Тегін. Қазақ тілінде. Сізге арналған.</div>
+  </div>
+
+  <!-- How it works -->
+  <div class="section-eyebrow" style="margin-top:1rem">Қалай жұмыс істейді</div>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="step-n" data-n="01">01</div>
+      <div class="step-title">Тіркелу & Профиль</div>
+      <div class="step-desc">5 минутта профиль жасаңыз. Дағдыларыңызды, білімі мен мақсаттарыңызды толтырыңыз.</div>
+    </div>
+    <div class="how-step">
+      <div class="step-n" data-n="02">02</div>
+      <div class="step-title">Дағды Дамыту</div>
+      <div class="step-desc">IT, маркетинг, қаржы, тілдер — 50+ тегін курс. Сертификаттар жұмыс берушілер танитын.</div>
+    </div>
+    <div class="how-step">
+      <div class="step-n" data-n="03">03</div>
+      <div class="step-title">Менторлық</div>
+      <div class="step-desc">Тәжірибелі мамандармен байланысыңыз. Олар сізді бағыттайды, кеңес береді, дамуыңызға сүйемелдейді.</div>
+    </div>
+    <div class="how-step">
+      <div class="step-n" data-n="04">04</div>
+      <div class="step-title">AI Сәйкестендіру</div>
+      <div class="step-desc">Жасанды интеллект дағдыларыңызға сай жұмыс орындарын автоматты ұсынады.</div>
+    </div>
+    <div class="how-step">
+      <div class="step-n" data-n="05">05</div>
+      <div class="step-title">Байланыс & Сұхбат</div>
+      <div class="step-desc">Жұмыс берушімен тікелей чат. Бейне сұхбат дайындығы. Нақты ұсыныстар.</div>
+    </div>
+    <div class="how-step">
+      <div class="step-n" data-n="06">06</div>
+      <div class="step-title">Жұмысқа Кіру</div>
+      <div class="step-desc">Мансапты бастаңыз. Платформа аясында кәсіби өсуіңізді жалғастырыңыз.</div>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="section-eyebrow" style="margin-top:3rem">Мүмкіндіктер</div>
+  <div class="features-grid">
+    <div class="feature-card big">
+      <div>
+        <div class="feat-icon">🤖</div>
+        <div class="feat-title">AI-негізделген мансап жолы</div>
+        <div class="feat-desc">Жасанды интеллект сіздің дағды профиліңізді талдап, ең тиімді мансап жолын ұсынады. Қандай курс алу керек, қандай рөлге сай екеніңіз — бәрі автоматты.</div>
+        <div class="feat-tags">
+          <span class="feat-tag">Машиналық оқыту</span>
+          <span class="feat-tag">Дербес ұсыныстар</span>
+          <span class="feat-tag">Нақты уақыт</span>
+        </div>
+      </div>
+      <div style="background: rgba(19,163,112,0.06); border-radius: 16px; padding: 1.5rem; border: 0.5px solid rgba(19,163,112,0.2);">
+        <div style="font-size: 12px; color: var(--text2); margin-bottom: 1rem; font-weight: 500; letter-spacing: 0.5px;">МАНСАП ЖОЛЫҢЫЗ</div>
+        <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+          <div style="background: rgba(19,163,112,0.15); border: 0.5px solid rgba(19,163,112,0.3); border-radius: 8px; padding: 0.7rem 1rem; font-size: 13px; color: var(--g3);">✓ Python негіздері — аяқталды</div>
+          <div style="background: rgba(255,255,255,0.04); border: 0.5px solid var(--border2); border-radius: 8px; padding: 0.7rem 1rem; font-size: 13px; color: var(--text);">→ Деректер талдауы — ағымдағы</div>
+          <div style="background: rgba(255,255,255,0.02); border: 0.5px solid var(--border); border-radius: 8px; padding: 0.7rem 1rem; font-size: 13px; color: var(--text2);">⋯ ML негіздері — жоспар</div>
+          <div style="background: rgba(245,166,35,0.08); border: 0.5px solid rgba(245,166,35,0.25); border-radius: 8px; padding: 0.7rem 1rem; font-size: 13px; color: var(--amber);">🎯 Data Analyst — мақсат</div>
+        </div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feat-icon">📚</div>
+      <div class="feat-title">50+ Тегін курс</div>
+      <div class="feat-desc">IT, маркетинг, дизайн, кәсіпкерлік, тілдер — барлық курстар тегін, қазақша нұсқасымен. Сертификаттар жұмыс берушілер мойындайды.</div>
+      <div class="feat-tags">
+        <span class="feat-tag">Тегін</span>
+        <span class="feat-tag">Қазақша</span>
+        <span class="feat-tag">Сертификат</span>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feat-icon">🤝</div>
+      <div class="feat-title">Менторлар желісі</div>
+      <div class="feat-desc">200+ тәжірибелі маман — Қазақстанның үздік компанияларынан. Апталық кездесулер, резюме тексеру, жұмыс іздеуде кеңес.</div>
+      <div class="feat-tags">
+        <span class="feat-tag">200+ ментор</span>
+        <span class="feat-tag">Тікелей байланыс</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<div class="impact-section">
+  <div class="impact-inner">
+    <div class="section-eyebrow">Біздің мақсат</div>
+    <div class="section-title">2030 жылға дейінгі нәтижелер</div>
+    <div class="impact-numbers">
+      <div class="impact-num">
+        <span class="impact-big g">100К</span>
+        <div class="impact-label">жас жұмысқа орналасқан</div>
+      </div>
+      <div class="impact-num">
+        <span class="impact-big">500+</span>
+        <div class="impact-label">серіктес жұмыс берушілер</div>
+      </div>
+      <div class="impact-num">
+        <span class="impact-big a">50+</span>
+        <div class="impact-label">онлайн курс қазақ тілінде</div>
+      </div>
+      <div class="impact-num">
+        <span class="impact-big g">14</span>
+        <div class="impact-label">облыс бойынша қамту</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TEAM -->
+<section class="section" id="team">
+  <div class="section-eyebrow">Ұжым</div>
+  <div class="section-title">БолашақHub тобы</div>
+  <div class="section-sub">Жобамызды жүзеге асырып жатқан жас, ынталы мамандар тобы. Әркімізде ортақ мақсат бар — Қазақстан жастарының болашағын жасау.</div>
+
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-avatar">ҚК</div>
+      <div class="team-name">Керімқұл</div>
+      <div class="team-surname">Құрбанбек</div>
+      <div class="team-role">Жоба жетекшісі</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">ЕР</div>
+      <div class="team-name">Ерхан</div>
+      <div class="team-surname">Рауан</div>
+      <div class="team-role">Техникалық жетекші</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">БА</div>
+      <div class="team-name">Бекарыс</div>
+      <div class="team-surname">Әбділкәрім</div>
+      <div class="team-role">UX/UI дизайнер</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">СС</div>
+      <div class="team-name">Сарқыт</div>
+      <div class="team-surname">Санжар</div>
+      <div class="team-role">Маркетинг жетекші</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">БН</div>
+      <div class="team-name">Бекболат</div>
+      <div class="team-surname">Нұрислам</div>
+      <div class="team-role">Контент стратег</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">ЕЕ</div>
+      <div class="team-name">Ермекхан</div>
+      <div class="team-surname">Ерасыл</div>
+      <div class="team-role">Бизнес аналитик</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">АА</div>
+      <div class="team-name">Айдархан</div>
+      <div class="team-surname">Азамат</div>
+      <div class="team-role">Қаржы стратегі</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- GAME -->
+<div class="game-section" id="game">
+  <div class="game-wrapper">
+    <div style="text-align:center; margin-bottom: 3rem;">
+      <div class="section-eyebrow" style="justify-content:center">Интерактивті</div>
+      <div class="section-title">Білімді тексеріңіз!</div>
+      <div class="section-sub" style="margin: 0 auto">Жастар жұмыссыздығы туралы ойын-сауықты тест өтіңіз. Ұпай жинаңыз, нәтижені достармен бөлісіңіз!</div>
+    </div>
+
+    <div class="game-card">
+      <div class="game-header">
+        <div class="game-header-title">🎮 БолашақHub — Білім Ойыны</div>
+        <div class="game-score-area">
+          <div class="gscore-box">
+            <span class="gscore-val" id="g-score">0</span>
+            <div class="gscore-lbl">Ұпай</div>
+          </div>
+          <div class="gscore-box">
+            <span class="gscore-val" id="g-streak">0</span>
+            <div class="gscore-lbl">Серия</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-body">
+
+        <!-- MENU -->
+        <div class="game-screen active" id="screen-menu">
+          <div class="game-title-big">Ойынды таңдаңыз</div>
+          <div class="game-subtitle">Білімді тексеру үшін режимді таңдаңыз</div>
+          <div class="game-modes">
+            <div class="mode-btn" onclick="startQuiz()">
+              <span class="mode-icon">🧠</span>
+              <div class="mode-title">Жылдам тест</div>
+              <div class="mode-desc">8 сұрақ, уақыт шегі. Жауап беріңіз!</div>
+            </div>
+            <div class="mode-btn" onclick="startMatch()">
+              <span class="mode-icon">🔗</span>
+              <div class="mode-title">Сәйкестендіру</div>
+              <div class="mode-desc">Термин мен анықтаманы жұптаңыз</div>
+            </div>
+            <div class="mode-btn" onclick="startTrueFalse()">
+              <span class="mode-icon">⚡</span>
+              <div class="mode-title">Дұрыс / Бұрыс</div>
+              <div class="mode-desc">Жылдам шешімдер — жоғары ұпай!</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- QUIZ -->
+        <div class="game-screen" id="screen-quiz">
+          <div class="quiz-top">
+            <span class="quiz-q-num" id="qnum">1/8</span>
+            <div class="quiz-prog-bar"><div class="quiz-prog-fill" id="qprog" style="width:0%"></div></div>
+            <span class="quiz-q-num" id="qtimer">⏱ 15с</span>
+          </div>
+          <div class="timer-bar"><div class="timer-fill" id="qtimer-bar" style="width:100%"></div></div>
+          <div class="quiz-question-text" id="qtext"></div>
+          <div class="quiz-options-grid" id="qopts"></div>
+          <div class="quiz-feedback-box" id="qfb"></div>
+          <button class="quiz-next-btn" id="qnext" onclick="nextQuizQ()">Келесі →</button>
+        </div>
+
+        <!-- MATCH -->
+        <div class="game-screen" id="screen-match">
+          <div class="match-instruction">Сол жақтан термин таңдаңыз, оң жақтан сәйкес анықтаманы таңдаңыз</div>
+          <div class="match-columns">
+            <div>
+              <div class="match-col-title">Термин</div>
+              <div id="match-left"></div>
+            </div>
+            <div>
+              <div class="match-col-title">Анықтама</div>
+              <div id="match-right"></div>
+            </div>
+          </div>
+          <div class="match-result-msg" id="match-done"></div>
+        </div>
+
+        <!-- TRUE/FALSE -->
+        <div class="game-screen" id="screen-tf">
+          <div class="quiz-top">
+            <span class="quiz-q-num" id="tfnum">1/6</span>
+            <div class="quiz-prog-bar"><div class="quiz-prog-fill" id="tfprog" style="width:0%"></div></div>
+            <span class="quiz-q-num" id="tftimer">⏱ 10с</span>
+          </div>
+          <div class="timer-bar"><div class="timer-fill" id="tftimer-bar" style="width:100%"></div></div>
+          <div class="quiz-question-text" id="tftext" style="font-size: clamp(16px,2.5vw,24px); text-align:center; padding: 1rem 0;"></div>
+          <div style="display:flex; gap:1rem; justify-content:center; margin-bottom:1.5rem;">
+            <button onclick="answerTF(true)" id="tf-true" style="background:rgba(19,163,112,0.12); border:1.5px solid rgba(19,163,112,0.4); border-radius:16px; padding:1.5rem 3rem; color:var(--g3); font-family:'Syne',sans-serif; font-size:20px; font-weight:700; cursor:pointer; transition:all 0.2s; flex:1; max-width:200px;">✓ Дұрыс</button>
+            <button onclick="answerTF(false)" id="tf-false" style="background:rgba(229,62,62,0.1); border:1.5px solid rgba(229,62,62,0.3); border-radius:16px; padding:1.5rem 3rem; color:#FF6B6B; font-family:'Syne',sans-serif; font-size:20px; font-weight:700; cursor:pointer; transition:all 0.2s; flex:1; max-width:200px;">✗ Бұрыс</button>
+          </div>
+          <div class="quiz-feedback-box" id="tffb"></div>
+          <button class="quiz-next-btn" id="tfnext" onclick="nextTF()">Келесі →</button>
+        </div>
+
+        <!-- RESULT -->
+        <div class="game-screen" id="screen-result">
+          <span class="result-emoji" id="res-emoji">🏆</span>
+          <div class="result-title" id="res-title">Тамаша!</div>
+          <span class="result-score-big" id="res-score">0</span>
+          <div class="result-msg" id="res-msg"></div>
+          <div class="result-breakdown">
+            <div class="rb-item">
+              <span class="rb-num" id="rb-correct">0</span>
+              <div class="rb-lbl">Дұрыс жауап</div>
+            </div>
+            <div class="rb-item">
+              <span class="rb-num" id="rb-wrong">0</span>
+              <div class="rb-lbl">Қате жауап</div>
+            </div>
+            <div class="rb-item">
+              <span class="rb-num" id="rb-streak">0</span>
+              <div class="rb-lbl">Ең ұзын серия</div>
+            </div>
+          </div>
+          <button class="restart-btn-big" onclick="showMenu()">Қайта ойнау</button>
+          <button class="menu-btn" onclick="showMenu()">Мәзір</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="cta-box">
+    <div class="cta-label">Қазір бастаңыз</div>
+    <div class="cta-title">Болашағыңызды<br>өз қолыңызға алыңыз</div>
+    <div class="cta-desc">БолашақHub-ке тіркеліп, Қазақстанның тез өсіп жатқан жастар платформасына қосылыңыз. Тіркелу тегін.</div>
+    <div class="cta-btns">
+      <button class="btn-big-green">Тегін тіркелу →</button>
+      <button class="btn-big-ghost">Жұмыс берушімін</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Болашақ<em>Hub</em></div>
+        <div class="footer-about">Қазақстан жастарының болашағын бірге жасаймыз. Жұмыссыздыққа — цифрлық шешім. Мүмкіндіктерге — еш шек жоқ.</div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Платформа</div>
+        <ul>
+          <li><a href="#">Жұмыс іздеу</a></li>
+          <li><a href="#">Курстар</a></li>
+          <li><a href="#">Менторлар</a></li>
+          <li><a href="#">Жұмыс берушілер</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Жоба туралы</div>
+        <ul>
+          <li><a href="#">Ұжым</a></li>
+          <li><a href="#">Миссия</a></li>
+          <li><a href="#">Серіктестер</a></li>
+          <li><a href="#">Байланыс</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-cr">© 2025 <strong>БолашақHub</strong>. Барлық құқықтар сақталған.</div>
+      <div class="footer-kz">🇰🇿 Жасалған Қазақстанда</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ─── QUIZ DATA ───────────────────────────────────────────
+const quizQs = [
+  {
+    q: "Қазақстанда 18–30 жас аралығындағы жұмыссыздық деңгейі қандай?",
+    opts: ["15–20%", "25–30%", "40%-дан жоғары", "5%-дан төмен"],
+    ans: 2,
+    exp: "Дұрыс! Қазақстандағы жастар жұмыссыздығы 40%-дан асады — бұл ұлттық дағдарыс деңгейінде."
+  },
+  {
+    q: "Жұмыс берушілердің қандай пайызы тәжірибе жоқтығынан кандидатты қабылдамайды?",
+    opts: ["45%", "60%", "78%", "92%"],
+    ans: 2,
+    exp: "Дұрыс! 78% жұмыс беруші тәжірибе жоқтығынан бас тартады — ең үлкен кедергі."
+  },
+  {
+    q: "БолашақHub платформасының негізгі мақсаты қандай?",
+    opts: ["Тек курс сату", "Жастар мен жұмыс берушіні байланыстыру", "Тек ауылдық аймақтарға", "Тек IT мамандарына"],
+    ans: 1,
+    exp: "Дұрыс! БолашақHub — жастар мен жұмыс берушілерді тікелей байланыстыратын тегін платформа."
+  },
+  {
+    q: "Жыл сайын жұмыс іздеп шетелге кететін білімді маман саны қанша?",
+    opts: ["5 000", "10 000", "25 000-нан астам", "100 000"],
+    ans: 2,
+    exp: "Дұрыс! Жыл сайын 25 000+ білімді маман Қазақстаннан кетеді — 'ми ағыны' проблемасы."
+  },
+  {
+    q: "Қазақстанда жұмысқа орналасудың қандай пайызы 'таныстар арқылы' жүреді?",
+    opts: ["30%", "50%", "70%", "90%"],
+    ans: 2,
+    exp: "Дұрыс! 70% жұмысқа орналасу байланыс желісі арқылы жүреді — бұл адал бәсекеге кедергі."
+  },
+  {
+    q: "Жұмыссыздық Қазақстан ЖІӨ-не жыл сайын қанша шығын туғызады?",
+    opts: ["0.5%", "1%", "2–3%", "10%"],
+    ans: 2,
+    exp: "Дұрыс! Жұмыссыздық жыл сайын ЖІӨ-нің 2–3%-ын жойып жібереді — триллиондаған теңге."
+  },
+  {
+    q: "Университет бағдарламаларының қандай пайызы нарық талаптарынан артта қалады?",
+    opts: ["10%", "30%", "60%", "80%"],
+    ans: 2,
+    exp: "Дұрыс! 60% оқу бағдарламасы нарықтан 5–7 жыл артта. БолашақHub осы алшақтықты толтырады."
+  },
+  {
+    q: "БолашақHub 2030 жылға дейін қанша жасты жұмысқа орналастыруды жоспарлайды?",
+    opts: ["10 000", "50 000", "100 000", "1 000 000"],
+    ans: 2,
+    exp: "Дұрыс! Мақсатымыз — 2030 жылға дейін 100 000 жасты жұмысқа орналастыру."
+  }
+];
+
+const matchData = [
+  { term: "Жұмыссыздық", def: "Жұмысқабілетті халықтың жұмыс табуға қабілетсіздігі" },
+  { term: "Ми ағыны", def: "Білімді мамандардың шетелге кетуі" },
+  { term: "Менторлық", def: "Тәжірибелі маманның жас маманды бағыттауы" },
+  { term: "Портфолио", def: "Кандидаттың жұмыстары мен жобаларының жиынтығы" },
+  { term: "ЖІӨ", def: "Жалпы ішкі өнім — еліміздің экономикалық өнімділік өлшемі" },
+  { term: "Фриланс", def: "Тұрақты жұмыс орнынсыз еркін жұмыс режимі" }
+];
+
+const tfQs = [
+  { q: "Қазақстанда жастар жұмыссыздығы 40%-дан жоғары.", ans: true, exp: "Дұрыс! Жастар жұмыссыздығы ұлттық орташадан 2 есе жоғары." },
+  { q: "БолашақHub платформасы жастарға тегін қызмет көрсетеді.", ans: true, exp: "Дұрыс! Платформа жастарға толықтай тегін." },
+  { q: "Ауылдық аймақтарда жұмыссыздық деңгейі қалалықтан төмен.", ans: false, exp: "Бұрыс! Ауылдық аймақтарда жұмыссыздық 2 есе жоғары." },
+  { q: "Жұмысқа орналасудың 70%-ы ресми хабарландыру арқылы жүреді.", ans: false, exp: "Бұрыс! 70%-ы 'таныстар арқылы' — байланыс желісі маңызды." },
+  { q: "Жастар жұмыссыздығы депрессияға ықпал ете алады.", ans: true, exp: "Дұрыс! 43% жұмыссыз жас психологиялық мәселелермен күреседі." },
+  { q: "Университет бағдарламаларының барлығы нарық талаптарына сай.", ans: false, exp: "Бұрыс! 60% бағдарлама нарықтан 5–7 жыл артта қалады." }
+];
+
+// ─── STATE ───────────────────────────────────────────────
+let score = 0, streak = 0, maxStreak = 0, correct = 0, wrong = 0;
+let qCurrent = 0, qAnswered = false, qTimer = null;
+let tfCurrent = 0, tfAnswered = false, tfTimer = null;
+let matchSelected = null, matchPairs = [], matchCorrect = 0;
+
+function updScoreDisplay() {
+  document.getElementById('g-score').textContent = score;
+  document.getElementById('g-streak').textContent = streak;
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.game-screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function showMenu() {
+  showScreen('screen-menu');
+  score = 0; streak = 0; maxStreak = 0; correct = 0; wrong = 0;
+  updScoreDisplay();
+}
+
+// ─── QUIZ MODE ───────────────────────────────────────────
+function startQuiz() {
+  qCurrent = 0; qAnswered = false;
+  showScreen('screen-quiz');
+  renderQuizQ();
+}
+
+function renderQuizQ() {
+  if (qCurrent >= quizQs.length) { showResult('quiz'); return; }
+  const q = quizQs[qCurrent];
+  const pct = (qCurrent / quizQs.length) * 100;
+  document.getElementById('qnum').textContent = (qCurrent+1) + '/' + quizQs.length;
+  document.getElementById('qprog').style.width = pct + '%';
+  document.getElementById('qtext').textContent = q.q;
+  document.getElementById('qfb').className = 'quiz-feedback-box';
+  document.getElementById('qnext').className = 'quiz-next-btn';
+  qAnswered = false;
+
+  const letters = ['A','B','C','D'];
+  const opts = document.getElementById('qopts');
+  opts.innerHTML = '';
+  q.opts.forEach((o, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt-btn';
+    btn.innerHTML = `<span class="opt-letter">${letters[i]}</span>${o}`;
+    btn.onclick = () => selectQuizAns(i);
+    opts.appendChild(btn);
+  });
+
+  startQTimer(15);
+}
+
+let qTime = 15;
+function startQTimer(t) {
+  clearInterval(qTimer);
+  qTime = t;
+  const bar = document.getElementById('qtimer-bar');
+  bar.style.width = '100%';
+  bar.className = 'timer-fill';
+  document.getElementById('qtimer').textContent = '⏱ ' + t + 'с';
+  qTimer = setInterval(() => {
+    qTime--;
+    const pct = (qTime / t) * 100;
+    bar.style.width = pct + '%';
+    document.getElementById('qtimer').textContent = '⏱ ' + qTime + 'с';
+    if (qTime <= 5) bar.className = 'timer-fill low';
+    if (qTime <= 0) {
+      clearInterval(qTimer);
+      if (!qAnswered) { timeoutQuiz(); }
+    }
+  }, 1000);
+}
+
+function timeoutQuiz() {
+  qAnswered = true;
+  const q = quizQs[qCurrent];
+  const btns = document.querySelectorAll('#qopts .quiz-opt-btn');
+  btns.forEach((b, i) => { b.disabled = true; if (i === q.ans) b.classList.add('correct'); });
+  const fb = document.getElementById('qfb');
+  fb.className = 'quiz-feedback-box show fail';
+  fb.textContent = '⏰ Уақыт бітті! ' + q.exp;
+  streak = 0; wrong++;
+  updScoreDisplay();
+  document.getElementById('qnext').className = 'quiz-next-btn show';
+}
+
+function selectQuizAns(i) {
+  if (qAnswered) return;
+  clearInterval(qTimer);
+  qAnswered = true;
+  const q = quizQs[qCurrent];
+  const btns = document.querySelectorAll('#qopts .quiz-opt-btn');
+  btns.forEach((b, idx) => {
+    b.disabled = true;
+    if (idx === q.ans) b.classList.add('correct');
+    else if (idx === i && i !== q.ans) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('qfb');
+  if (i === q.ans) {
+    const bonus = Math.max(1, qTime) * 10 + (streak > 0 ? streak * 20 : 0);
+    score += bonus; streak++; correct++;
+    if (streak > maxStreak) maxStreak = streak;
+    fb.className = 'quiz-feedback-box show ok';
+    fb.innerHTML = `✓ ${q.exp} <strong>+${bonus} ұпай${streak>1?' (×'+streak+' серия!)':''}</strong>`;
+  } else {
+    streak = 0; wrong++;
+    fb.className = 'quiz-feedback-box show fail';
+    fb.textContent = '✗ ' + q.exp;
+  }
+  updScoreDisplay();
+  document.getElementById('qnext').className = 'quiz-next-btn show';
+}
+
+function nextQuizQ() {
+  qCurrent++;
+  renderQuizQ();
+}
+
+// ─── MATCH MODE ──────────────────────────────────────────
+function startMatch() {
+  matchSelected = null; matchCorrect = 0;
+  showScreen('screen-match');
+  document.getElementById('match-done').className = 'match-result-msg';
+
+  const shuffledDefs = [...matchData].sort(() => Math.random() - 0.5);
+  matchPairs = matchData.map((item, i) => ({...item, id: i}));
+
+  const left = document.getElementById('match-left');
+  const right = document.getElementById('match-right');
+  left.innerHTML = ''; right.innerHTML = '';
+
+  matchData.forEach((item, i) => {
+    const el = document.createElement('div');
+    el.className = 'match-item';
+    el.dataset.id = i;
+    el.dataset.side = 'left';
+    el.textContent = item.term;
+    el.onclick = () => matchClick(el, 'left', i);
+    left.appendChild(el);
+  });
+
+  shuffledDefs.forEach((item) => {
+    const origIdx = matchData.findIndex(m => m.term === item.term);
+    const el = document.createElement('div');
+    el.className = 'match-item';
+    el.dataset.id = origIdx;
+    el.dataset.side = 'right';
+    el.textContent = item.def;
+    el.onclick = () => matchClick(el, 'right', origIdx);
+    right.appendChild(el);
+  });
+}
+
+function matchClick(el, side, id) {
+  if (el.classList.contains('matched')) return;
+  if (matchSelected === null) {
+    if (side === 'left') {
+      document.querySelectorAll('#match-left .match-item').forEach(e => e.classList.remove('selected'));
+      el.classList.add('selected');
+      matchSelected = { el, id, side };
+    }
+    return;
+  }
+  if (side === 'right' && matchSelected.side === 'left') {
+    if (matchSelected.id === id) {
+      matchSelected.el.classList.remove('selected');
+      matchSelected.el.classList.add('matched');
+      el.classList.add('matched');
+      matchSelected.el.onclick = null;
+      el.onclick = null;
+      score += 150; streak++; correct++;
+      if (streak > maxStreak) maxStreak = streak;
+      updScoreDisplay();
+      matchCorrect++;
+      if (matchCorrect === matchData.length) {
+        setTimeout(() => {
+          const done = document.getElementById('match-done');
+          done.className = 'match-result-msg show';
+          done.innerHTML = `<div style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--g3);margin-bottom:0.5rem">🎉 Тамаша!</div><div style="color:var(--text2);font-size:14px;margin-bottom:1rem">Барлық жұптар дұрыс сәйкестендірілді!</div><button onclick="showResult('match')" style="background:var(--g2);color:white;border:none;padding:0.8rem 2rem;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer">Нәтижені көру</button>`;
+        }, 300);
+      }
+    } else {
+      el.classList.add('wrong-flash');
+      setTimeout(() => el.classList.remove('wrong-flash'), 600);
+      streak = 0; wrong++;
+      updScoreDisplay();
+    }
+    document.querySelectorAll('#match-left .match-item').forEach(e => e.classList.remove('selected'));
+    matchSelected = null;
+  }
+}
+
+// ─── TRUE/FALSE MODE ─────────────────────────────────────
+function startTrueFalse() {
+  tfCurrent = 0; tfAnswered = false;
+  showScreen('screen-tf');
+  renderTF();
+}
+
+let tfTime = 10;
+function renderTF() {
+  if (tfCurrent >= tfQs.length) { showResult('tf'); return; }
+  const q = tfQs[tfCurrent];
+  document.getElementById('tfnum').textContent = (tfCurrent+1) + '/' + tfQs.length;
+  document.getElementById('tfprog').style.width = ((tfCurrent / tfQs.length) * 100) + '%';
+  document.getElementById('tftext').textContent = q.q;
+  document.getElementById('tffb').className = 'quiz-feedback-box';
+  document.getElementById('tfnext').className = 'quiz-next-btn';
+  document.getElementById('tf-true').disabled = false;
+  document.getElementById('tf-false').disabled = false;
+  tfAnswered = false;
+  startTFTimer(10);
+}
+
+function startTFTimer(t) {
+  clearInterval(tfTimer);
+  tfTime = t;
+  const bar = document.getElementById('tftimer-bar');
+  bar.style.width = '100%';
+  bar.className = 'timer-fill';
+  document.getElementById('tftimer').textContent = '⏱ ' + t + 'с';
+  tfTimer = setInterval(() => {
+    tfTime--;
+    bar.style.width = ((tfTime / t) * 100) + '%';
+    document.getElementById('tftimer').textContent = '⏱ ' + tfTime + 'с';
+    if (tfTime <= 3) bar.className = 'timer-fill low';
+    if (tfTime <= 0) {
+      clearInterval(tfTimer);
+      if (!tfAnswered) answerTF(null, true);
+    }
+  }, 1000);
+}
+
+function answerTF(ans, timeout) {
+  if (tfAnswered) return;
+  clearInterval(tfTimer);
+  tfAnswered = true;
+  document.getElementById('tf-true').disabled = true;
+  document.getElementById('tf-false').disabled = true;
+  const q = tfQs[tfCurrent];
+  const fb = document.getElementById('tffb');
+  if (timeout) {
+    streak = 0; wrong++;
+    fb.className = 'quiz-feedback-box show fail';
+    fb.textContent = '⏰ Уақыт бітті! ' + q.exp;
+  } else if (ans === q.ans) {
+    const bonus = Math.max(1, tfTime) * 15 + (streak > 0 ? streak * 25 : 0);
+    score += bonus; streak++; correct++;
+    if (streak > maxStreak) maxStreak = streak;
+    fb.className = 'quiz-feedback-box show ok';
+    fb.innerHTML = `✓ ${q.exp} <strong>+${bonus} ұпай</strong>`;
+  } else {
+    streak = 0; wrong++;
+    fb.className = 'quiz-feedback-box show fail';
+    fb.textContent = '✗ ' + q.exp;
+  }
+  updScoreDisplay();
+  document.getElementById('tfnext').className = 'quiz-next-btn show';
+}
+
+function nextTF() {
+  tfCurrent++;
+  renderTF();
+}
+
+// ─── RESULT ──────────────────────────────────────────────
+function showResult(mode) {
+  showScreen('screen-result');
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('rb-correct').textContent = correct;
+  document.getElementById('rb-wrong').textContent = wrong;
+  document.getElementById('rb-streak').textContent = maxStreak;
+
+  let emoji, title, msg;
+  const total = correct + wrong;
+  const ratio = total > 0 ? correct / total : 0;
+  if (ratio >= 0.9) { emoji = '🏆'; title = 'Данышпан!'; msg = 'Сіз жастар жұмыссыздығы туралы өте жақсы білесіз. БолашақHub сізді мақтан тұтады!'; }
+  else if (ratio >= 0.7) { emoji = '🌟'; title = 'Тамаша!'; msg = 'Жақсы нәтиже! Біздің платформа арқылы тіпті көбірек білуге болады.'; }
+  else if (ratio >= 0.5) { emoji = '👍'; title = 'Жаман емес!'; msg = 'Орташа нәтиже. Мәселені тереңірек зерттеу үшін сайтымызды оқыңыз.'; }
+  else { emoji = '📚'; title = 'Оқу керек!'; msg = 'Жастар жұмыссыздығы туралы көбірек біліңіз — бұл маңызды мәселе. БолашақHub көмектеседі!'; }
+
+  document.getElementById('res-emoji').textContent = emoji;
+  document.getElementById('res-title').textContent = title;
+  document.getElementById('res-msg').textContent = msg;
+}
+</script>
+
+</body>
+</html>
