@@ -977,7 +977,11 @@ async function saveProduct(){
   const code=document.getElementById('p-code').value.trim().toUpperCase();
   if(!name){showAlert('alert-modal','Укажите название','error');return;}
   if(!price){showAlert('alert-modal','Укажите цену','error');return;}
-  const sizes={};SIZES.forEach(s=>{sizes[s]=parseInt(document.getElementById('sz-'+s).value)||0;});
+
+  const sizes={};
+  const sizesList=getSizesByCategory(cat);
+  sizesList.forEach(s=>{sizes[s]=parseInt(document.getElementById('sz-'+s).value)||0;});
+
   const btn=document.getElementById('btn-add-product');btn.disabled=true;btn.textContent='Сохранение...';
   let img='';
   const file=document.getElementById('p-photo').files[0];
@@ -989,6 +993,7 @@ async function saveProduct(){
   closeModal();renderProducts();renderDashboard();
   showAlert('alert-products','✓ Товар "'+name+'" добавлен','success');
 }
+
 
 /* SKU search — highlight if matched by code */
 function renderProducts(){
@@ -1055,7 +1060,12 @@ async function saveEdit(){
   const name=document.getElementById('e-name').value.trim();
   const price=parseFloat(document.getElementById('e-price').value)||0;
   const code=document.getElementById('e-code').value.trim().toUpperCase();
-  const sizes={};SIZES.forEach(s=>{sizes[s]=parseInt(document.getElementById('es-'+s).value)||0;});
+
+  const p=products.find(x=>x.id===id);
+  const sizesList=getSizesByCategory(p.cat);
+  const sizes={};
+  sizesList.forEach(s=>{sizes[s]=parseInt(document.getElementById('es-'+s).value)||0;});
+
   let img=document.getElementById('e-img-url').value;
   const file=document.getElementById('e-photo').files[0];
   if(file) img=await uploadPhoto(file,'prog-edit','prog-wrap-edit')||img;
@@ -1065,6 +1075,7 @@ async function saveEdit(){
   if(i!==-1) products[i]={...products[i],name,img,price,code,sizes};
   saveCache();closeEditModal();renderProducts();renderDashboard();populateSaleProduct();
 }
+
 
 async function deleteProduct(){
   const id=document.getElementById('edit-id').value;
