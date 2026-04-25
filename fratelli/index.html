@@ -649,7 +649,7 @@ tr:hover td{background:rgba(255,255,255,0.02);}
     </div>
     <div class="divider"></div>
     <div class="card-label">Количество по размерам</div>
-    <div class="sizes-row">
+    <div class="sizes-row" id="add-sizes"></div>
       <div class="size-item"><span>XS</span><input type="number" id="sz-XS" value="0" min="0"></div>
       <div class="size-item"><span>S</span><input type="number" id="sz-S" value="0" min="0"></div>
       <div class="size-item"><span>M</span><input type="number" id="sz-M" value="0" min="0"></div>
@@ -888,6 +888,14 @@ function setView(v){
   renderProducts();
 }
 
+function renderAddSizes(){
+  const cat=document.getElementById('p-cat').value;
+  const sizesList=getSizesByCategory(cat);
+  document.getElementById('add-sizes').innerHTML=sizesList.map(s=>
+    `<div class="size-item"><span>${s}</span><input type="number" id="sz-${s}" value="0" min="0"></div>`
+  ).join('');
+}
+
 /* ── CATEGORIES ─────────────────────────────────────── */
 function buildCatChips(){
   document.getElementById('cat-chips').innerHTML=CATS.map(c=>
@@ -962,11 +970,12 @@ function renderDashboard(){
 /* ── PRODUCTS ────────────────────────────────────────── */
 function openAddProduct(){
   if(isOffline){alert('Добавление товаров недоступно в офлайн-режиме');return;}
-  SIZES.forEach(s=>document.getElementById('sz-'+s).value=0);
   ['p-name','p-price','p-code'].forEach(id=>document.getElementById(id).value='');
+  renderAddSizes();
   resetBox('box-add','p-photo');showAlert('alert-modal','','');
   document.getElementById('modal-product').classList.add('open');
 }
+
 function closeModal(){document.getElementById('modal-product').classList.remove('open');}
 function closeEditModal(){document.getElementById('modal-edit').classList.remove('open');}
 
@@ -1344,6 +1353,7 @@ document.getElementById('modal-pin').addEventListener('click',e=>{if(e.target===
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){['modal-product','modal-edit','modal-settings','modal-pin'].forEach(id=>document.getElementById(id).classList.remove('open'));closeLightbox();}
 });
+renderAddSizes();
 
 init();
 </script>
