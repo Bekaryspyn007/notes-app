@@ -642,7 +642,7 @@ tr:hover td{background:rgba(255,255,255,0.02);}
       <div class="field"><label>Категория</label>
         <select id="p-cat">
           <option>Двойка</option><option>Ветровка</option><option>Куртка</option>
-          <option>Рубашка</option><option>Брюки</option><option>Трико</option><option>Футболка</option>
+          <option>Рубашка</option><option>Безрукавка</option><option>Брюки</option><option>Трико</option><option>Футболка</option>
           <option>Слаксы</option><option>Другое</option><option>Кардиган</option><option>Носки</option><option>Трусы</option><option>Барсетка</option>
         </select>
       </div>
@@ -768,8 +768,13 @@ const sb = supabase.createClient(
 
 
 /* ── CONSTANTS ───────────────────────────────────────── */
-const SIZES = ['XS','S','M','L','XL','2XL','3XL'];
-const CATS  = ['Все','Двойка','Ветровка','Куртка','Рубашка','Брюки','Трико','Футболка','Слаксы','Кардиган','Носки','Трусы','Барсетка','Другое'];
+const CLOTH_SIZES = ['XS','S','M','L','XL','2XL','3XL'];
+const PANTS_SIZES = ['29','30','31','32','33','34','35','36','37','38'];
+const PANTS_CATS = ['Трико','Брюки','Слаксы'];
+const CATS  = ['Все','Двойка','Ветровка','Куртка','Рубашка','Безрукавка','Брюки','Трико','Футболка','Слаксы','Кардиган','Носки','Трусы','Барсетка','Другое'];
+function getSizesByCategory(cat){
+  return PANTS_CATS.includes(cat) ? PANTS_SIZES : CLOTH_SIZES;
+}
 const CACHE_KEY_P = 'fratelli_products_v1';
 const CACHE_KEY_S = 'fratelli_sales_v1';
 
@@ -1000,7 +1005,9 @@ function renderProducts(){
     const tot=Object.values(p.sizes||{}).reduce((a,b)=>a+b,0);
     const isLow=tot>0&&tot<3;
     const skuMatch=q&&p.code&&p.code.toLowerCase().includes(q);
-    const bdg=SIZES.map(s=>{const qty=(p.sizes||{})[s]||0;return`<span class="sz ${qty>0?'in':'out'}">${s}:${qty}</span>`;}).join('');
+    const sizesList=getSizesByCategory(p.cat);
+    const bdg=sizesList.map(s=>{const qty=(p.sizes||{})[s]||0;return`<span class="sz ${qty>0?'in':'out'}">${s}:${qty}</span>`;}).join('');
+
     const imgH=p.img
       ?`<img src="${p.img}" alt="" onerror="this.style.display='none'" onclick="event.stopPropagation();openLightbox('${p.img}')"><div class="img-overlay" onclick="openLightbox('${p.img}')">🔍</div>`
       :'<span>Нет фото</span>';
@@ -1022,6 +1029,7 @@ function renderProducts(){
 
 function openEdit(id){
   const p=products.find(x=>x.id===id);if(!p)return;
+  const sizesList=getSizesByCategory(p.cat);
   document.getElementById('edit-id').value=id;
   document.getElementById('edit-title').textContent=p.name;
   document.getElementById('e-name').value=p.name;
@@ -1035,11 +1043,12 @@ function openEdit(id){
     img.src=p.img;
     box.querySelectorAll('.ph-icon,.ph-text,.ph-sub').forEach(el=>el.style.display='none');
   }
-  document.getElementById('edit-sizes').innerHTML=SIZES.map(s=>
+  document.getElementById('edit-sizes').innerHTML=sizesList.map(s=>
     `<div class="size-item"><span>${s}</span><input type="number" id="es-${s}" value="${(p.sizes||{})[s]||0}" min="0"></div>`
   ).join('');
   document.getElementById('modal-edit').classList.add('open');
 }
+
 
 async function saveEdit(){
   const id=document.getElementById('edit-id').value;
@@ -1108,10 +1117,20 @@ function onSaleProductChange(){
   const pid=document.getElementById('sale-product').value,ss=document.getElementById('sale-size');
   ss.innerHTML='<option value="">— выберите размер —</option>';
   document.getElementById('sale-stock').value='';
-  if(!pid)return;const p=products.find(x=>x.id===pid);if(!p)return;
-  SIZES.forEach(s=>{const q=(p.sizes||{})[s]||0;if(q>0)ss.innerHTML+=`<option value="${s}">${s} — ${q} шт.</option>`;});
+  if(!pid)return;
+  const p=products.find(x=>x.id===pid);
+  if(!p)return;
+
+  const sizesList=getSizesByCategory(p.cat);
+
+  sizesList.forEach(s=>{
+    const q=(p.sizes||{})[s]||0;
+    if(q>0)ss.innerHTML+=`<option value="${s}">${s} — ${q} шт.</option>`;
+  });
+
   onSaleSizeChange();
 }
+
 function onSaleSizeChange(){
   const pid=document.getElementById('sale-product').value,size=document.getElementById('sale-size').value;
   if(!pid||!size){document.getElementById('sale-stock').value='';return;}
