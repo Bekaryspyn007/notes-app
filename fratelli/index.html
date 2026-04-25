@@ -488,7 +488,6 @@ tr:hover td{background:rgba(255,255,255,0.02);}
   </div>
   <div class="stitle">Продажи за 7 дней</div>
   <div class="chart-wrap"><div class="bar-chart" id="week-chart"></div></div>
-  <div id="low-stock-bar" class="low-stock-bar"></div>
   <div class="stitle">Последние продажи</div>
   <div id="dash-recent"></div>
 </div>
@@ -951,10 +950,6 @@ function renderDashboard(){
   document.getElementById('week-chart').innerHTML=days.map((d,i)=>
     `<div class="bar-col"><div class="bar-val">${vals[i]>0?(vals[i]>=1000?Math.round(vals[i]/1000)+'k':vals[i]):''}</div><div class="bar" style="height:${Math.max(Math.round(vals[i]/mx*100),3)}%"></div><div class="bar-label">${d.slice(5)}</div></div>`
   ).join('');
-  const low=products.filter(p=>Object.values(p.sizes||{}).reduce((a,b)=>a+b,0)>0&&Object.values(p.sizes||{}).reduce((a,b)=>a+b,0)<3);
-  const warn=document.getElementById('low-stock-bar');
-  if(low.length){warn.classList.add('show');warn.textContent='⚠ Мало остатков: '+low.map(p=>p.name).join(', ');}
-  else warn.classList.remove('show');
   const recent=sales.filter(s=>!s.is_return).slice(0,6);
   document.getElementById('dash-recent').innerHTML=recent.length?salesTableHTML(recent,false):'<div class="empty">Продаж ещё нет</div>';
 }
