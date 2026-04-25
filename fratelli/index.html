@@ -636,6 +636,7 @@ tr:hover td{background:rgba(255,255,255,0.02);}
           <option>Трико</option>
           <option>Футболка</option>
           <option>Слаксы</option>
+          <option>Джинсы</option>
           <option>Кардиган</option>
           <option>Носки</option>
           <option>Трусы</option>
@@ -751,9 +752,9 @@ const sb = supabase.createClient(
 );
 
 const CLOTH_SIZES = ['XS','S','M','L','XL','2XL','3XL'];
-const PANTS_SIZES = ['29','30','31','32','33','34','35','36','37','38'];
-const PANTS_CATS = ['Трико','Брюки','Слаксы'];
-const CATS = ['Все','Двойка','Ветровка','Куртка','Рубашка','Безрукавка','Брюки','Трико','Футболка','Слаксы','Кардиган','Носки','Трусы','Барсетка','Другое'];
+const PANTS_SIZES = ['29','30','31','32','33','34','35','36','38','39','40','41','42'];
+const PANTS_CATS = ['Трико','Брюки','Слаксы','Джинсы'];
+const CATS = ['Все','Двойка','Ветровка','Куртка','Рубашка','Безрукавка','Брюки','Трико','Футболка','Слаксы','Джинсы','Кардиган','Носки','Трусы','Барсетка','Другое'];
 function getSizesByCategory(cat){
   return PANTS_CATS.includes(cat) ? PANTS_SIZES : CLOTH_SIZES;
 }
