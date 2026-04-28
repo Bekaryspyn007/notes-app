@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,140 +8,58 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f9fafb;
-  --white:#ffffff;
-  --indigo:#4338ca;
-  --indigo2:#6366f1;
-  --indigo-light:#e0e7ff;
-  --dark:#1e2235;
-  --text:#374151;
-  --muted:#6b7280;
-  --border:#e5e7eb;
-  --green:#16a34a;
-  --green-bg:#dcfce7;
-  --red:#dc2626;
-  --red-bg:#fee2e2;
-  --orange:#d97706;
-  --orange-bg:#fef3c7;
-  --radius:12px;
+  --bg:#f9fafb;--white:#ffffff;--indigo:#4338ca;--indigo2:#6366f1;--indigo-light:#e0e7ff;
+  --dark:#1e2235;--text:#374151;--muted:#6b7280;--border:#e5e7eb;
+  --green:#16a34a;--green-bg:#dcfce7;--red:#dc2626;--red-bg:#fee2e2;
+  --orange:#d97706;--orange-bg:#fef3c7;--radius:12px;
   --shadow:0 1px 3px rgba(0,0,0,0.08),0 1px 2px rgba(0,0,0,0.04);
   --shadow-md:0 4px 6px rgba(0,0,0,0.07),0 2px 4px rgba(0,0,0,0.05);
 }
 html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.5}
-
-/* ── SCREENS ── */
 .screen{display:none;min-height:100vh}
 .screen.active{display:flex;flex-direction:column}
-
-/* ── NAV ── */
-.nav{
-  background:var(--white);border-bottom:1px solid var(--border);
-  padding:0 24px;height:52px;
-  display:flex;align-items:center;justify-content:space-between;
-  flex-shrink:0;position:sticky;top:0;z-index:50;
-}
+.nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:sticky;top:0;z-index:50}
 .nav-logo{font-size:18px;font-weight:800;color:var(--indigo);letter-spacing:-0.5px;cursor:pointer}
 .nav-left{display:flex;align-items:center;gap:8px}
 .nav-right{display:flex;align-items:center;gap:12px}
-.nav-pill{
-  padding:5px 14px;background:var(--indigo-light);
-  border-radius:20px;font-size:13px;font-weight:600;color:var(--indigo);
-  cursor:pointer;border:none;transition:background .2s;
-}
+.nav-pill{padding:5px 14px;background:var(--indigo-light);border-radius:20px;font-size:13px;font-weight:600;color:var(--indigo);cursor:pointer;border:none;transition:background .2s}
 .nav-pill:hover{background:#c7d2fe}
-.nav-pill.active{background:var(--indigo-light);color:var(--indigo)}
 .nav-user{font-size:13px;color:var(--dark);font-weight:500}
 .nav-user span{color:var(--muted);font-weight:400}
-.nav-role{
-  padding:4px 10px;background:#e0e7ff;border-radius:20px;
-  font-size:11px;font-weight:700;color:var(--indigo);letter-spacing:.5px;
-}
-.nav-logout{
-  font-size:13px;color:var(--muted);background:none;border:none;cursor:pointer;
-  transition:color .2s;
-}
+.nav-role{padding:4px 10px;background:#e0e7ff;border-radius:20px;font-size:11px;font-weight:700;color:var(--indigo);letter-spacing:.5px}
+.nav-logout{font-size:13px;color:var(--muted);background:none;border:none;cursor:pointer;transition:color .2s}
 .nav-logout:hover{color:var(--dark)}
-.nav-timer{
-  display:flex;align-items:center;gap:6px;
-  font-size:14px;font-weight:600;color:var(--indigo2);
-  background:var(--indigo-light);padding:5px 14px;border-radius:8px;
-  border:1px solid rgba(99,102,241,0.2);
-}
-.nav-timer svg{color:var(--indigo2)}
+.nav-timer{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--indigo2);background:var(--indigo-light);padding:5px 14px;border-radius:8px;border:1px solid rgba(99,102,241,0.2)}
 .q-nav-controls{display:flex;align-items:center;gap:6px}
-.q-nav-controls select{
-  padding:6px 12px;border:1px solid var(--border);border-radius:8px;
-  font-size:13px;font-weight:500;background:white;cursor:pointer;
-  outline:none;color:var(--dark);min-width:120px;
-}
-.q-nav-btn{
-  width:32px;height:32px;border:1px solid var(--border);border-radius:8px;
-  background:white;font-size:20px;cursor:pointer;color:var(--dark);
-  display:flex;align-items:center;justify-content:center;
-  transition:all .2s;padding:0;line-height:1;
-}
+.q-nav-controls select{padding:6px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-weight:500;background:white;cursor:pointer;outline:none;color:var(--dark);min-width:140px}
+.q-nav-btn{width:32px;height:32px;border:1px solid var(--border);border-radius:8px;background:white;font-size:20px;cursor:pointer;color:var(--dark);display:flex;align-items:center;justify-content:center;transition:all .2s;padding:0;line-height:1}
 .q-nav-btn:hover{background:var(--indigo-light);border-color:var(--indigo2);color:var(--indigo2)}
 .q-nav-btn:disabled{opacity:0.35;cursor:not-allowed}
-
-/* ── LOGIN SCREENS ── */
-#screen-login,#screen-password{
-  align-items:center;justify-content:center;
-  background:var(--bg);
-}
+#screen-login,#screen-password{align-items:center;justify-content:center;background:var(--bg)}
 .login-box{width:100%;max-width:620px;padding:24px}
-.login-title{
-  font-size:clamp(24px,4vw,36px);font-weight:800;color:var(--dark);
-  text-align:center;margin-bottom:32px;letter-spacing:-0.5px;
-}
+.login-title{font-size:clamp(24px,4vw,36px);font-weight:800;color:var(--dark);text-align:center;margin-bottom:32px;letter-spacing:-0.5px}
 .login-label{font-size:14px;font-weight:500;color:var(--dark);margin-bottom:6px;display:block}
-.login-input{
-  width:100%;padding:14px 16px;border:1.5px solid var(--border);
-  border-radius:var(--radius);font-size:15px;color:var(--dark);
-  background:var(--white);outline:none;transition:all .2s;
-}
+.login-input{width:100%;padding:14px 16px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:15px;color:var(--dark);background:var(--white);outline:none;transition:all .2s}
 .login-input:focus{border-color:var(--indigo2);box-shadow:0 0 0 3px rgba(99,102,241,0.15)}
 .login-input::placeholder{color:#9ca3af}
-.login-btn{
-  width:100%;padding:14px;margin-top:16px;
-  background:var(--indigo2);color:white;border:none;
-  border-radius:var(--radius);font-size:15px;font-weight:600;
-  cursor:pointer;transition:all .2s;
-}
+.login-btn{width:100%;padding:14px;margin-top:16px;background:var(--indigo2);color:white;border:none;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;transition:all .2s}
 .login-btn:hover{background:var(--indigo);transform:translateY(-1px)}
-.login-btn:active{transform:translateY(0)}
 .login-btn:disabled{background:#a5b4fc;cursor:not-allowed;transform:none}
-
-/* Username shown on password screen */
-.login-username-row{
-  display:flex;align-items:center;gap:10px;margin-bottom:24px;
-}
+.login-username-row{display:flex;align-items:center;gap:10px;margin-bottom:24px}
 .login-username-label{font-size:14px;color:var(--muted)}
 .login-username-val{font-size:15px;font-weight:700;color:var(--dark)}
-.login-change{
-  font-size:14px;color:var(--indigo2);background:none;border:none;cursor:pointer;font-weight:500;
-}
+.login-change{font-size:14px;color:var(--indigo2);background:none;border:none;cursor:pointer;font-weight:500}
 .login-change:hover{color:var(--indigo);text-decoration:underline}
-.login-error{
-  margin-top:10px;padding:10px 14px;background:#fee2e2;border-radius:8px;
-  font-size:13px;color:var(--red);display:none;
-}
+.login-error{margin-top:10px;padding:10px 14px;background:#fee2e2;border-radius:8px;font-size:13px;color:var(--red);display:none}
 .login-error.show{display:block}
-
-/* ── DASHBOARD ── */
 #screen-dashboard{background:var(--bg)}
-.dash-body{flex:1;padding:40px 40px;max-width:1200px;margin:0 auto;width:100%}
+.dash-body{flex:1;padding:40px;max-width:1200px;margin:0 auto;width:100%}
 .dash-title{font-size:26px;font-weight:800;color:var(--dark);margin-bottom:28px;letter-spacing:-0.5px}
 .quiz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:20px}
-.quiz-card{
-  background:var(--white);border-radius:var(--radius);padding:24px;
-  border:1px solid var(--border);box-shadow:var(--shadow);
-  transition:box-shadow .2s,transform .2s;cursor:pointer;
-}
+.quiz-card{background:var(--white);border-radius:var(--radius);padding:24px;border:1px solid var(--border);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s;cursor:pointer}
 .quiz-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
 .quiz-card-top{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
-.badge{
-  padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.5px;
-}
+.badge{padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.5px}
 .badge-finished{background:var(--green-bg);color:var(--green)}
 .badge-available{background:#dbeafe;color:#1d4ed8}
 .badge-pts-good{background:var(--green-bg);color:var(--green)}
@@ -152,229 +71,70 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sy
 .quiz-meta{display:flex;align-items:center;gap:16px;font-size:13px;color:var(--muted);margin-bottom:16px}
 .quiz-meta-item{display:flex;align-items:center;gap:5px}
 .quiz-actions{display:flex;gap:10px;align-items:center;margin-top:4px}
-.btn-quiz{
-  padding:5px 14px;border-radius:6px;font-size:13px;font-weight:600;
-  cursor:pointer;transition:all .2s;border:1.5px solid transparent;background:none;
-}
-.btn-label{
-  border:1.5px solid var(--orange);color:var(--orange);
-  background:none;border-radius:6px;padding:5px 14px;
-  font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;
-}
+.btn-label{border:1.5px solid var(--orange);color:var(--orange);background:none;border-radius:6px;padding:5px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
 .btn-label:hover{background:var(--orange-bg)}
-.btn-results{
-  background:none;color:var(--green);border:none;font-weight:700;
-  cursor:pointer;font-size:13px;padding:5px 0;
-}
+.btn-results{background:none;color:var(--green);border:none;font-weight:700;cursor:pointer;font-size:13px;padding:5px 0}
 .btn-results:hover{text-decoration:underline}
-.btn-start{
-  background:var(--indigo2);color:white;border-color:var(--indigo2);
-  padding:5px 16px;border-radius:6px;font-size:13px;font-weight:600;
-  cursor:pointer;transition:all .2s;border:1.5px solid var(--indigo2);
-}
+.btn-start{background:var(--indigo2);color:white;border-color:var(--indigo2);padding:5px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;border:1.5px solid var(--indigo2)}
 .btn-start:hover{background:var(--indigo)}
-.btn-outline{background:none;border-color:var(--indigo2);color:var(--indigo2);border-radius:6px}
-.btn-outline:hover{background:var(--indigo-light)}
-
-/* ── QUIZ SCREEN ── */
 #screen-quiz{background:var(--bg)}
 .quiz-body{flex:1;overflow-y:auto;padding:24px 32px}
 .quiz-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
 .quiz-content{display:grid;grid-template-columns:700px 360px;gap:3px;align-items:start;justify-content:center}
 .quiz-right{background:var(--white);border-radius:var(--radius);padding:24px;border:1px solid var(--border);box-shadow:var(--shadow)}
 @media(max-width:900px){.quiz-content{grid-template-columns:1fr}.quiz-body{padding:16px}}
-
-.q-nav-bar{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:24px;
-}
-.q-back{
-  display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;
-  color:var(--muted);background:none;border:none;cursor:pointer;transition:color .2s;
-}
+.q-back{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;color:var(--muted);background:none;border:none;cursor:pointer;transition:color .2s}
 .q-back:hover{color:var(--dark)}
-.q-nav-select{
-  padding:6px 12px;border:1px solid var(--border);border-radius:8px;
-  font-size:13px;color:var(--text);background:var(--white);cursor:pointer;outline:none;
-}
-
-.q-card{
-  background:var(--white);border-radius:var(--radius);padding:28px;
-  border:1px solid var(--border);box-shadow:var(--shadow);
-  max-width:680px;margin:0 auto;
-}
+.q-card{background:var(--white);border-radius:var(--radius);padding:28px;border:1px solid var(--border);box-shadow:var(--shadow);max-width:680px;margin:0 auto}
 .q-title{font-size:20px;font-weight:800;color:var(--dark);margin-bottom:10px;letter-spacing:-0.3px}
 .q-type-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
-.q-type-badge{
-  padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600;display:inline-flex;align-items:center;
-}
+.q-type-badge{padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600;display:inline-flex;align-items:center}
 .badge-fitb{background:#ccfbf1;color:#0f766e}
 .badge-mc{background:#dbeafe;color:#1e40af}
 .badge-code{background:#f3e8ff;color:#6b21a8}
 .badge-sio{background:#dcfce7;color:#15803d}
 .q-max{font-size:13px;color:var(--text);font-weight:400}
 .q-description{font-size:14px;color:var(--text);margin-bottom:20px;line-height:1.6}
-
-/* Code block */
-.code-block{
-  background:#1e1e2e;border-radius:10px;padding:20px;
-  font-family:'Fira Code','Courier New',monospace;font-size:13px;
-  line-height:1.7;overflow-x:auto;margin-bottom:16px;
-}
+.code-block{background:#1e1e2e;border-radius:10px;padding:20px;font-family:'Fira Code','Courier New',monospace;font-size:13px;line-height:1.7;overflow-x:auto;margin-bottom:16px}
 .code-line{display:flex;gap:12px}
 .code-ln{color:#4a4a6a;user-select:none;min-width:16px;text-align:right}
 .code-text{color:#cdd6f4;white-space:pre}
-.kw{color:#89b4fa}
-.fn{color:#a6e3a1}
-.str{color:#f9e2af}
-.num{color:#fab387}
-.cm{color:#6c7086}
-.blank-highlight{
-  display:inline-block;background:#3b5bdb;color:white;
-  padding:1px 8px;border-radius:4px;font-size:11px;font-weight:700;
-  vertical-align:middle;margin:0 2px;
-}
-.code-note{font-size:13px;color:var(--red);margin-top:12px}
-.code-note code{font-family:monospace;background:rgba(255,255,255,0.1);padding:1px 5px;border-radius:3px;color:inherit}
-
-/* MC Options */
+.kw{color:#89b4fa}.fn{color:#a6e3a1}.str{color:#f9e2af}.num{color:#fab387}.cm{color:#6c7086}
+.blank-highlight{display:inline-block;background:#3b5bdb;color:white;padding:1px 8px;border-radius:4px;font-size:11px;font-weight:700;vertical-align:middle;margin:0 2px}
 .mc-options{display:flex;flex-direction:column;gap:8px;margin-top:4px}
-.mc-option{
-  display:flex;align-items:center;gap:12px;padding:12px 16px;
-  background:var(--bg);border:1.5px solid var(--border);border-radius:10px;
-  cursor:pointer;transition:all .2s;
-}
+.mc-option{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s}
 .mc-option:hover{border-color:var(--indigo2);background:#eef2ff}
 .mc-option.selected{border-color:var(--indigo2);background:#eef2ff}
 .mc-option.correct{border-color:var(--green);background:var(--green-bg)}
 .mc-option.wrong{border-color:var(--red);background:var(--red-bg)}
-.mc-radio{
-  width:18px;height:18px;border-radius:50%;border:2px solid var(--border);
-  flex-shrink:0;transition:all .2s;display:flex;align-items:center;justify-content:center;
-}
+.mc-radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:all .2s;display:flex;align-items:center;justify-content:center}
 .mc-option.selected .mc-radio{border-color:var(--indigo2);background:var(--indigo2)}
 .mc-option.selected .mc-radio::after{content:'';width:6px;height:6px;border-radius:50%;background:white}
 .mc-label{font-size:14px;color:var(--dark)}
-
-/* Code editor */
-.code-editor{
-  width:100%;height:220px;background:#1e1e2e;color:#cdd6f4;
-  border:none;border-radius:10px;padding:16px;
-  font-family:'Fira Code','Courier New',monospace;font-size:13px;
-  line-height:1.7;resize:vertical;outline:none;
-  border:1px solid #2d2d3d;
-}
-.code-editor:focus{border-color:#4a4a7a;box-shadow:0 0 0 2px rgba(99,102,241,0.2)}
-.editor-label{font-size:13px;font-weight:600;color:var(--dark);margin-bottom:8px;margin-top:16px}
-
-/* Right panel */
-.r-title{font-size:14px;font-weight:700;color:var(--dark);margin-bottom:16px}
-.blank-inputs{display:flex;flex-direction:column;gap:14px}
-.blank-group{}
-.blank-label{font-size:13px;font-weight:600;color:var(--dark);margin-bottom:6px;display:block}
-.blank-input{
-  width:100%;padding:10px 14px;border:1.5px solid var(--border);
-  border-radius:8px;font-size:14px;color:var(--dark);
-  background:var(--white);outline:none;transition:all .2s;
-}
-.blank-input:focus{border-color:var(--indigo2);box-shadow:0 0 0 3px rgba(99,102,241,0.12)}
-.blank-input.prefilled{background:#f3f4f6;color:var(--muted)}
-
-.submit-ans-btn{
-  width:100%;padding:13px;margin-top:20px;
-  background:var(--indigo2);color:white;border:none;
-  border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;
-}
+.code-editor{width:100%;height:220px;background:#1e1e2e;color:#cdd6f4;border:none;border-radius:10px;padding:16px;font-family:'Fira Code','Courier New',monospace;font-size:13px;line-height:1.7;resize:vertical;outline:none;border:1px solid #2d2d3d}
+.submit-ans-btn{width:100%;padding:13px;margin-top:20px;background:var(--indigo2);color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
 .submit-ans-btn:hover{background:var(--indigo)}
-
-/* Custom Input area */
-.custom-input-area{
-  margin-top:16px;border:1px solid var(--border);border-radius:10px;overflow:hidden;
-}
-.custom-input-label{
-  font-size:13px;font-weight:600;color:var(--dark);padding:10px 14px;
-  background:#f9fafb;border-bottom:1px solid var(--border);
-}
-.custom-input-textarea{
-  width:100%;padding:12px 14px;border:none;font-size:14px;
-  color:var(--dark);font-family:inherit;resize:vertical;min-height:80px;
-  outline:none;background:var(--white);
-}
-.run-submit-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.btn-run{
-  padding:11px;background:#374151;color:white;border:none;
-  border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;
-}
-.btn-run:hover{background:#1f2937}
-.btn-submit-code{
-  padding:11px;background:var(--indigo2);color:white;border:none;
-  border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;
-}
-.btn-submit-code:hover{background:var(--indigo)}
-.output-box{
-  margin-top:12px;background:var(--white);border:1px solid var(--border);
-  border-radius:10px;padding:14px;
-}
-.output-label{font-size:13px;font-weight:600;color:var(--dark);margin-bottom:8px}
-.output-status{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.status-success{
-  padding:3px 10px;background:var(--green-bg);color:var(--green);
-  border-radius:6px;font-size:12px;font-weight:700;
-}
-.status-time{font-size:12px;color:var(--muted)}
-.output-result{font-family:monospace;font-size:14px;color:var(--dark)}
-
-/* ── RESULTS SCREEN ── */
 #screen-results{background:var(--bg)}
 .results-body{flex:1;padding:32px 24px;max-width:900px;margin:0 auto;width:100%}
-.results-back{
-  display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;
-  color:var(--dark);background:none;border:none;cursor:pointer;
-  margin-bottom:24px;transition:color .2s;letter-spacing:-0.2px;
-}
+.results-back{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--dark);background:none;border:none;cursor:pointer;margin-bottom:24px;transition:color .2s;letter-spacing:-0.2px}
 .results-back:hover{color:var(--indigo)}
 .results-card{background:var(--white);border-radius:var(--radius);padding:28px;border:1px solid var(--border);box-shadow:var(--shadow)}
 .results-quiz-name{font-size:17px;font-weight:700;color:var(--dark);margin-bottom:20px}
-.score-box{
-  background:#f9fafb;border-radius:10px;padding:24px;text-align:center;margin-bottom:20px;
-}
+.score-box{background:#f9fafb;border-radius:10px;padding:24px;text-align:center;margin-bottom:20px}
 .score-label{font-size:14px;color:var(--muted);margin-bottom:8px}
-.score-num{
-  font-size:clamp(36px,6vw,54px);font-weight:800;letter-spacing:-1px;
-  line-height:1;margin-bottom:6px;
-}
+.score-num{font-size:clamp(36px,6vw,54px);font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:6px}
 .score-pct{font-size:16px;color:var(--muted);font-weight:500;margin-bottom:16px}
 .score-bar-wrap{background:#e5e7eb;border-radius:99px;height:8px;overflow:hidden}
 .score-bar{height:100%;border-radius:99px;transition:width 1s ease}
-
-/* Answers review */
 .answers-list{margin-top:24px;display:flex;flex-direction:column;gap:12px}
-.answer-row{
-  background:var(--bg);border-radius:10px;padding:16px;border:1px solid var(--border);
-}
+.answer-row{background:var(--bg);border-radius:10px;padding:16px;border:1px solid var(--border)}
 .answer-q{font-size:13px;font-weight:600;color:var(--dark);margin-bottom:8px}
 .answer-detail{font-size:13px;color:var(--muted);display:flex;gap:16px;flex-wrap:wrap}
-.ans-correct{color:var(--green);font-weight:500}
-.ans-wrong{color:var(--red);font-weight:500}
-
-/* ── RESPONSIVE ── */
-@media(max-width:768px){
-  .quiz-layout{grid-template-columns:1fr}
-  .quiz-right{border-top:1px solid var(--border);border-right:none}
-  .quiz-grid{grid-template-columns:1fr}
-  .dash-body,.results-body{padding:20px 16px}
-  .quiz-left,.quiz-right{padding:20px 16px}
-  .nav{padding:0 16px}
-  .nav-user{display:none}
-}
+@media(max-width:768px){.quiz-grid{grid-template-columns:1fr}.dash-body,.results-body{padding:20px 16px}.nav{padding:0 16px}}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-<!-- ══════════════════════════════
-  SCREEN 1: LOGIN (username)
-══════════════════════════════ -->
 <div id="screen-login" class="screen active">
   <div class="login-box">
     <h1 class="login-title">Sign in to QuizCore</h1>
@@ -387,9 +147,6 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sy
   </div>
 </div>
 
-<!-- ══════════════════════════════
-  SCREEN 2: PASSWORD
-══════════════════════════════ -->
 <div id="screen-password" class="screen">
   <div class="login-box">
     <h1 class="login-title">Sign in to QuizCore</h1>
@@ -409,9 +166,6 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sy
   </div>
 </div>
 
-<!-- ══════════════════════════════
-  SCREEN 3: DASHBOARD
-══════════════════════════════ -->
 <div id="screen-dashboard" class="screen">
   <nav class="nav">
     <div class="nav-left">
@@ -430,18 +184,13 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sy
   </div>
 </div>
 
-<!-- ══════════════════════════════
-  SCREEN 4: QUIZ TAKING
-══════════════════════════════ -->
 <div id="screen-quiz" class="screen">
   <nav class="nav">
-    <div class="nav-left">
-      <div class="nav-logo">QuizCore</div>
-    </div>
+    <div class="nav-left"><div class="nav-logo">QuizCore</div></div>
     <div class="nav-right">
       <div class="nav-timer">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span id="timerDisplay">90:00</span>
+        <span id="timerDisplay">60:00</span>
       </div>
       <span class="nav-user" id="quizUser"></span>
     </div>
@@ -465,9 +214,6 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sy
   </div>
 </div>
 
-<!-- ══════════════════════════════
-  SCREEN 5: RESULTS
-══════════════════════════════ -->
 <div id="screen-results" class="screen">
   <nav class="nav">
     <div class="nav-left">
@@ -490,7 +236,6 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sy
 </div>
 
 <script>
-// ── DATA ─────────────────────────────────────────────
 const USERS = {
   '24B031583': { name: 'Абдулкарим Бекарыс Абдуллаулы', id: '24B031583', password: 'password123' },
   'student':   { name: 'Student User', id: 'student', password: '1234' },
@@ -519,62 +264,22 @@ const QUIZZES = [
           { text: '  <p>Email: {{ student.__BLANK2__.email }}</p>', blanks: [{n:2,pos:22}] },
           { text: '</div>', blanks: [] },
         ],
-        note: 'Note: student is declared as student = input.required<Student>();',
         blanks: ['Blank 1', 'Blank 2'],
         answers: ['()', '()'],
       },
       {
-        id: 'q1_2', type: 'fitb', title: 'Signal state management',
-        description: 'Complete the component using signals for reactive state.',
-        maxScore: 2,
-        code: [
-          { text: 'posts = __BLANK1__ <Post[]>([]);', blanks: [{n:1,pos:8}] },
-          { text: 'loading = __BLANK2__ (false);', blanks: [{n:2,pos:10}] },
-          { text: "error = __BLANK3__ ('');", blanks: [{n:3,pos:8}] },
-          { text: '', blanks: [] },
-          { text: 'ngOnInit() {', blanks: [] },
-          { text: '  this.loading.__BLANK4__(true);', blanks: [{n:4,pos:15}] },
-          { text: '  this.postService.getPosts().subscribe({', blanks: [] },
-          { text: '    next: (data) => {', blanks: [] },
-          { text: '      this.posts.__BLANK5__(data);', blanks: [{n:5,pos:17}] },
-          { text: '      this.loading.__BLANK6__(false);', blanks: [{n:6,pos:18}] },
-          { text: '    }', blanks: [] },
-          { text: '  });', blanks: [] },
-          { text: '}', blanks: [] },
-        ],
-        blanks: ['Blank 1','Blank 2','Blank 3','Blank 4','Blank 5','Blank 6'],
-        prefilled: { 3: 'check' },
-        answers: ['signal','signal','signal','set','set','set'],
-      },
-      {
-        id: 'q1_3', type: 'mc', title: 'Angular Change Detection',
+        id: 'q1_2', type: 'mc', title: 'Angular Change Detection',
         description: 'Which strategy reduces change detection cycles in Angular?',
         maxScore: 1,
-        options: [
-          'Default strategy',
-          'OnPush strategy',
-          'Manual strategy',
-          'Reactive strategy'
-        ],
+        options: ['Default strategy','OnPush strategy','Manual strategy','Reactive strategy'],
         correct: 1,
       },
       {
-        id: 'q1_4', type: 'mc', title: 'NgRx Store Usage',
+        id: 'q1_3', type: 'mc', title: 'NgRx Store Usage',
         description: 'What decorator is used to inject a service in Angular?',
         maxScore: 1,
         options: ['@Input()', '@Injectable()', '@Inject()', '@Service()'],
         correct: 1,
-      },
-      {
-        id: 'q1_5', type: 'code', title: 'Count Vowels',
-        description: 'Read a string from input and print the number of vowels (a, e, i, o, u) in it. The check is case-insensitive.',
-        lang: 'javascript', subtype: 'Standard I/O', maxScore: 3,
-        inputExample: 'Hello World',
-        outputExample: '3',
-        inputDesc: 'A single string.',
-        outputDesc: 'The count of vowels.',
-        timeLimit: 5000,
-        starterCode: `const input = require('fs').readFileSync('/dev/stdin', 'utf8').trim().split(" ");\nlet a=0;\nlet b=String(input);\nfor(let i of b.toLowerCase()){\n  if('aeoiu'.includes(i)){\n    a+=1;\n  }\n}\nconsole.log(a)`,
       },
     ]
   },
@@ -603,154 +308,459 @@ const QUIZZES = [
         options: ['var','let','const','function'],
         correct: 1,
       },
-      {
-        id: 'q2_3', type: 'fitb', title: 'HTML Semantic Elements',
-        description: 'Fill in the correct semantic HTML tags.',
-        maxScore: 2,
-        code: [
-          { text: '<__BLANK1__>', blanks: [{n:1,pos:1}] },
-          { text: '  <__BLANK2__>Navigation</__BLANK2__>', blanks: [{n:2,pos:3}] },
-          { text: '</__BLANK1__>', blanks: [{n:1,pos:2}] },
-        ],
-        blanks: ['Blank 1', 'Blank 2'],
-        answers: ['header', 'nav'],
-      },
-      {
-        id: 'q2_4', type: 'code', title: 'Reverse a String',
-        description: 'Read a string and print it reversed.',
-        lang: 'javascript', subtype: 'Standard I/O', maxScore: 2,
-        inputExample: 'Hello',
-        outputExample: 'olleH',
-        starterCode: `const input = require('fs').readFileSync('/dev/stdin','utf8').trim();\nconsole.log(input.split('').reverse().join(''))`,
-        inputDesc: 'A single string.',
-        outputDesc: 'The reversed string.',
-      },
     ]
   },
   {
     id: 'q3',
     title: 'Torekhan Tue 14-16 Web Dev Quiz 3',
-    description: '(no description)',
+    description: 'Python · Django · ORM · REST API · DRF — 40 questions',
     duration: 60,
-    totalPts: 30,
+    totalPts: 51,
     earnedPts: null,
     status: 'available',
     startedAt: null,
     label: 'Quiz 3',
     questions: [
+      // ── PYTHON BASICS (Q1-Q8) ──────────────────────────
       {
-        id: 'q3_1',
-        type: 'fitb',
-        title: 'Angular Component Decorator',
-        description: 'Complete the Angular component decorator with the correct properties.',
-        maxScore: 2,
-        code: [
-          { text: '@__BLANK1__({', blanks: [{n:1,pos:1}] },
-          { text: "  __BLANK2__: './app.component.html',", blanks: [{n:2,pos:2}] },
-          { text: "  styleUrl: './app.component.css'", blanks: [] },
-          { text: '})', blanks: [] },
-          { text: 'export class AppComponent {', blanks: [] },
-          { text: '  title = signal(\'QuizCore\');', blanks: [] },
-          { text: '}', blanks: [] },
-        ],
-        blanks: ['Blank 1', 'Blank 2'],
-        answers: ['Component', 'templateUrl'],
+        id:'q3_1', type:'mc',
+        title:'Python List vs Tuple',
+        description:'Which of the following is TRUE about tuples in Python?',
+        maxScore:1,
+        options:['Tuples are mutable','Tuples are defined with square brackets []','Tuples are immutable and cannot be changed after creation','Tuples cannot store strings'],
+        correct:2,
       },
       {
-        id: 'q3_2',
-        type: 'mc',
-        title: 'Angular Lifecycle Hook',
-        description: 'Which lifecycle hook is called once after the component is initialized?',
-        maxScore: 1,
-        options: [
-          'ngOnChanges()',
-          'ngOnInit()',
-          'ngAfterViewInit()',
-          'ngOnDestroy()'
-        ],
-        correct: 1,
+        id:'q3_2', type:'mc',
+        title:'Python Dictionary — Keys',
+        description:'Which method returns all keys of a Python dictionary?',
+        maxScore:1,
+        options:['.values()','.items()','.keys()','.all()'],
+        correct:2,
       },
       {
-        id: 'q3_3',
-        type: 'fitb',
-        title: 'Two-way Data Binding',
-        description: 'Complete the template to bind an input field using ngModel.',
-        maxScore: 2,
-        code: [
-          { text: '<input', blanks: [] },
-          { text: '  [(__BLANK1__)]="username"', blanks: [{n:1,pos:3}] },
-          { text: '  type="text"', blanks: [] },
-          { text: '  placeholder="Enter name"/>', blanks: [] },
-          { text: '', blanks: [] },
-          { text: '<p>Hello, {{ __BLANK2__ }}!</p>', blanks: [{n:2,pos:12}] },
+        id:'q3_3', type:'fitb',
+        title:'Python Class Definition',
+        description:'Complete the Python class with a proper __init__ method.',
+        maxScore:2,
+        code:[
+          {text:'class Animal:', blanks:[]},
+          {text:'    def __BLANK1__(self, name, species):', blanks:[{n:1,pos:8}]},
+          {text:'        self.__BLANK2__ = name', blanks:[{n:2,pos:13}]},
+          {text:'        self.species = species', blanks:[]},
+          {text:'', blanks:[]},
+          {text:'    def speak(self):', blanks:[]},
+          {text:'        __BLANK3__("I am " + self.name)', blanks:[{n:3,pos:8}]},
         ],
-        blanks: ['Blank 1', 'Blank 2'],
-        answers: ['ngModel', 'username'],
+        blanks:['Blank 1','Blank 2','Blank 3'],
+        answers:['__init__','name','print'],
       },
       {
-        id: 'q3_4',
-        type: 'mc',
-        title: 'Angular Pipe Usage',
-        description: 'Which pipe converts text to uppercase in Angular templates?',
-        maxScore: 1,
-        options: [
-          '{{ text | lower }}',
-          '{{ text | toUpper }}',
-          '{{ text | uppercase }}',
-          '{{ text | capitalize }}'
-        ],
-        correct: 2,
+        id:'q3_4', type:'mc',
+        title:'Python *args',
+        description:'What does *args allow in a Python function definition?',
+        maxScore:1,
+        options:['Pass keyword arguments only','Pass a variable number of positional arguments','Limit a function to exactly two arguments','Define default argument values'],
+        correct:1,
       },
       {
-        id: 'q3_5',
-        type: 'code',
-        title: 'Sum of Array',
-        description: 'Read N numbers from input and print their sum.',
-        lang: 'javascript',
-        subtype: 'Standard I/O',
-        timeLimit: 5000,
-        maxScore: 3,
-        inputDesc: 'First line: N (count). Second line: N space-separated numbers.',
-        outputDesc: 'A single number — the sum.',
-        inputExample: '5\n1 2 3 4 5',
-        outputExample: '15',
-        starterCode: `const lines = require('fs').readFileSync('/dev/stdin','utf8').trim().split('\n');
-const n = parseInt(lines[0]);
-const nums = lines[1].split(' ').map(Number);
-const sum = nums.reduce((a, b) => a + b, 0);
-console.log(sum);`,
+        id:'q3_5', type:'mc',
+        title:'Python List Comprehension Output',
+        description:'What is the output of:  [x * 2 for x in range(3)]',
+        maxScore:1,
+        options:['[1, 2, 3]','[0, 2, 4]','[2, 4, 6]','[0, 1, 2]'],
+        correct:1,
+      },
+      {
+        id:'q3_6', type:'mc',
+        title:'Python OOP Inheritance',
+        description:'In Python, how does a child class inherit from a parent class?',
+        maxScore:1,
+        options:['class Child extends Parent:','class Child(Parent):','class Child inherits Parent:','class Child: Parent'],
+        correct:1,
+      },
+      {
+        id:'q3_7', type:'fitb',
+        title:'Python Function with Default Parameter',
+        description:'Complete the function that greets a user; "World" is the default.',
+        maxScore:2,
+        code:[
+          {text:'def greet(__BLANK1__="World"):', blanks:[{n:1,pos:10}]},
+          {text:'    return "Hello, " + __BLANK2__', blanks:[{n:2,pos:19}]},
+          {text:'', blanks:[]},
+          {text:'print(greet("Alice"))   # Hello, Alice', blanks:[]},
+          {text:'print(__BLANK3__())     # Hello, World', blanks:[{n:3,pos:6}]},
+        ],
+        blanks:['Blank 1','Blank 2','Blank 3'],
+        answers:['name','name','greet'],
+      },
+      {
+        id:'q3_8', type:'mc',
+        title:'Python self Keyword',
+        description:'What does self refer to inside a Python class method?',
+        maxScore:1,
+        options:['The parent class','The class itself (static reference)','The current instance of the class','The module where the class is defined'],
+        correct:2,
+      },
+      // ── DJANGO FUNDAMENTALS (Q9-Q16) ──────────────────
+      {
+        id:'q3_9', type:'mc',
+        title:'Django INSTALLED_APPS',
+        description:"What is the purpose of INSTALLED_APPS in Django's settings.py?",
+        maxScore:1,
+        options:['It lists all Python packages on the system','It registers Django apps so the framework knows about them','It defines URL patterns for the project','It configures the database connection only'],
+        correct:1,
+      },
+      {
+        id:'q3_10', type:'fitb',
+        title:'Django URL Configuration',
+        description:'Complete the Django URL configuration to map a path to a view.',
+        maxScore:2,
+        code:[
+          {text:'from django.urls import __BLANK1__', blanks:[{n:1,pos:29}]},
+          {text:'from . import views', blanks:[]},
+          {text:'', blanks:[]},
+          {text:'urlpatterns = [', blanks:[]},
+          {text:"    __BLANK2__('books/', views.book_list, name='book-list'),", blanks:[{n:2,pos:4}]},
+          {text:']', blanks:[]},
+        ],
+        blanks:['Blank 1','Blank 2'],
+        answers:['path','path'],
+      },
+      {
+        id:'q3_11', type:'mc',
+        title:'Django — Start Development Server',
+        description:'Which command starts the Django development server?',
+        maxScore:1,
+        options:['python manage.py start','python manage.py runserver','python manage.py serve','django-admin startserver'],
+        correct:1,
+      },
+      {
+        id:'q3_12', type:'mc',
+        title:'Django wsgi.py Role',
+        description:'What is the role of wsgi.py in a Django project?',
+        maxScore:1,
+        options:['It defines database models','It stores secret keys and config','It is the entry point for WSGI-compatible web servers','It handles URL routing'],
+        correct:2,
+      },
+      {
+        id:'q3_13', type:'fitb',
+        title:'Django Function-Based View',
+        description:'Complete the Django view that returns a JSON response.',
+        maxScore:2,
+        code:[
+          {text:'from django.http import __BLANK1__', blanks:[{n:1,pos:29}]},
+          {text:'', blanks:[]},
+          {text:'def hello_view(__BLANK2__):', blanks:[{n:2,pos:16}]},
+          {text:'    data = {"message": "Hello, Django!"}', blanks:[]},
+          {text:'    return __BLANK3__(data)', blanks:[{n:3,pos:11}]},
+        ],
+        blanks:['Blank 1','Blank 2','Blank 3'],
+        answers:['JsonResponse','request','JsonResponse'],
+      },
+      {
+        id:'q3_14', type:'mc',
+        title:'Django Template For Loop',
+        description:'Which Django template tag is used to loop over a list?',
+        maxScore:1,
+        options:['{% loop item in items %}','{% each items as item %}','{% for item in items %}...{% endfor %}','{% iterate items %}'],
+        correct:2,
+      },
+      {
+        id:'q3_15', type:'mc',
+        title:'Create a Django App',
+        description:'Which command creates a new Django app called "blog"?',
+        maxScore:1,
+        options:['python manage.py newapp blog','django-admin createapp blog','python manage.py startapp blog','python manage.py makeapp blog'],
+        correct:2,
+      },
+      {
+        id:'q3_16', type:'fitb',
+        title:'Django Model Definition',
+        description:'Complete the Django model for a Book.',
+        maxScore:2,
+        code:[
+          {text:'from django.db import __BLANK1__', blanks:[{n:1,pos:27}]},
+          {text:'', blanks:[]},
+          {text:'class Book(__BLANK2__.Model):', blanks:[{n:2,pos:12}]},
+          {text:'    title = models.CharField(max_length=200)', blanks:[]},
+          {text:'    author = models.CharField(max_length=100)', blanks:[]},
+          {text:'    published = models.__BLANK3__(auto_now_add=True)', blanks:[{n:3,pos:22}]},
+        ],
+        blanks:['Blank 1','Blank 2','Blank 3'],
+        answers:['models','models','DateTimeField'],
+      },
+      // ── ORM BASICS (Q17-Q24) ───────────────────────────
+      {
+        id:'q3_17', type:'mc',
+        title:'ORM filter() vs get()',
+        description:'What is the key difference between filter() and get() in Django ORM?',
+        maxScore:1,
+        options:['filter() returns one object; get() returns a QuerySet','filter() returns a QuerySet; get() returns a single object (raises exception if not found)','Both return the same type','get() only works with primary keys'],
+        correct:1,
+      },
+      {
+        id:'q3_18', type:'fitb',
+        title:'ORM — Filter and Create',
+        description:'Complete the ORM queries to filter books and create a new one.',
+        maxScore:2,
+        code:[
+          {text:'# Get all books by a specific author', blanks:[]},
+          {text:'books = Book.objects.__BLANK1__(author="Tolstoy")', blanks:[{n:1,pos:22}]},
+          {text:'', blanks:[]},
+          {text:'# Create a new book record', blanks:[]},
+          {text:'new_book = Book.objects.__BLANK2__(', blanks:[{n:2,pos:23}]},
+          {text:'    title="War and Peace",', blanks:[]},
+          {text:'    author="Tolstoy"', blanks:[]},
+          {text:')', blanks:[]},
+        ],
+        blanks:['Blank 1','Blank 2'],
+        answers:['filter','create'],
+      },
+      {
+        id:'q3_19', type:'mc',
+        title:'ORM .all() Return Type',
+        description:'What does Book.objects.all() return?',
+        maxScore:1,
+        options:['A single Book object','A list of Book dictionaries','A QuerySet containing all Book records','The count of all Book records'],
+        correct:2,
+      },
+      {
+        id:'q3_20', type:'mc',
+        title:'ForeignKey Relationship',
+        description:'In Django, what relationship does ForeignKey represent?',
+        maxScore:1,
+        options:['One-to-one','Many-to-many','Many-to-one (e.g. many Books → one Author)','One-to-many'],
+        correct:2,
+      },
+      {
+        id:'q3_21', type:'mc',
+        title:'Django makemigrations',
+        description:'What does python manage.py makemigrations do?',
+        maxScore:1,
+        options:['Applies migration files to the database','Creates migration files based on model changes','Deletes all existing migrations','Connects Django to the database'],
+        correct:1,
+      },
+      {
+        id:'q3_22', type:'fitb',
+        title:'ORM — Get and Update',
+        description:'Complete the code to retrieve a book by ID and update its title.',
+        maxScore:2,
+        code:[
+          {text:'# Get a book by primary key', blanks:[]},
+          {text:'book = Book.objects.__BLANK1__(id=1)', blanks:[{n:1,pos:21}]},
+          {text:'', blanks:[]},
+          {text:'# Update the title and save', blanks:[]},
+          {text:'book.title = "New Title"', blanks:[]},
+          {text:'book.__BLANK2__()', blanks:[{n:2,pos:5}]},
+        ],
+        blanks:['Blank 1','Blank 2'],
+        answers:['get','save'],
+      },
+      {
+        id:'q3_23', type:'mc',
+        title:'ORM Delete Object',
+        description:'How do you delete a specific object in Django ORM?',
+        maxScore:1,
+        options:['Book.objects.remove(id=1)','book.delete()','Book.objects.destroy(id=1)','del Book.objects.get(id=1)'],
+        correct:1,
+      },
+      {
+        id:'q3_24', type:'mc',
+        title:'Django Admin Registration',
+        description:'How do you register a model so it appears in Django Admin?',
+        maxScore:1,
+        options:['admin.register(Book)','admin.site.add(Book)','admin.site.register(Book)','Book.admin.register()'],
+        correct:2,
+      },
+      // ── REST API CONCEPTS (Q25-Q32) ────────────────────
+      {
+        id:'q3_25', type:'mc',
+        title:'HTTP GET Purpose',
+        description:'What is the correct use of the HTTP GET method in a REST API?',
+        maxScore:1,
+        options:['Create a new resource','Delete a resource','Retrieve/read data without modifying anything','Replace an existing resource completely'],
+        correct:2,
+      },
+      {
+        id:'q3_26', type:'mc',
+        title:'POST vs PUT',
+        description:'What is the difference between POST and PUT in REST APIs?',
+        maxScore:1,
+        options:['POST retrieves data; PUT deletes it','POST creates a new resource; PUT updates/replaces an existing one','POST and PUT are identical','PUT creates; POST updates'],
+        correct:1,
+      },
+      {
+        id:'q3_27', type:'mc',
+        title:'HTTP 404 Status',
+        description:'What does HTTP status code 404 mean?',
+        maxScore:1,
+        options:['Internal server error','Resource created successfully','Resource not found','Unauthorized access'],
+        correct:2,
+      },
+      {
+        id:'q3_28', type:'mc',
+        title:'HTTP 201 Status',
+        description:'Which HTTP status code indicates a resource was successfully created?',
+        maxScore:1,
+        options:['200 OK','201 Created','204 No Content','400 Bad Request'],
+        correct:1,
+      },
+      {
+        id:'q3_29', type:'mc',
+        title:'HTTP DELETE Method',
+        description:'Which HTTP method and URL should be used to delete book with id=5?',
+        maxScore:1,
+        options:['GET /books/5/','POST /books/5/','PUT /books/5/','DELETE /books/5/'],
+        correct:3,
+      },
+      {
+        id:'q3_30', type:'mc',
+        title:'What does REST stand for?',
+        description:'REST is an architectural style for building APIs. What does the acronym mean?',
+        maxScore:1,
+        options:['Remote Execution System Transfer','Representational State Transfer','Relational Entity Service Transport','Request-Exchange State Technology'],
+        correct:1,
+      },
+      {
+        id:'q3_31', type:'mc',
+        title:'HTTP 200 Status',
+        description:'What does HTTP status code 200 mean?',
+        maxScore:1,
+        options:['Resource not found','Internal server error','Request was successful (OK)','Resource created'],
+        correct:2,
+      },
+      {
+        id:'q3_32', type:'fitb',
+        title:'RESTful HTTP Methods Mapping',
+        description:'Fill in the correct HTTP method for each REST operation.',
+        maxScore:2,
+        code:[
+          {text:'# List all books', blanks:[]},
+          {text:'__BLANK1__   /api/books/', blanks:[{n:1,pos:0}]},
+          {text:'', blanks:[]},
+          {text:'# Create a new book', blanks:[]},
+          {text:'__BLANK2__  /api/books/', blanks:[{n:2,pos:0}]},
+          {text:'', blanks:[]},
+          {text:'# Update book id=3', blanks:[]},
+          {text:'__BLANK3__   /api/books/3/', blanks:[{n:3,pos:0}]},
+          {text:'', blanks:[]},
+          {text:'# Delete book id=3', blanks:[]},
+          {text:'__BLANK4__  /api/books/3/', blanks:[{n:4,pos:0}]},
+        ],
+        blanks:['Blank 1','Blank 2','Blank 3','Blank 4'],
+        answers:['GET','POST','PUT','DELETE'],
+      },
+      // ── DJANGO REST FRAMEWORK (Q33-Q40) ───────────────
+      {
+        id:'q3_33', type:'mc',
+        title:'DRF ModelSerializer Advantage',
+        description:'What is the main advantage of ModelSerializer in DRF?',
+        maxScore:1,
+        options:['It generates HTML forms automatically','It auto-generates serializer fields from a Django model','It only works with POST requests','It connects directly to the database without models'],
+        correct:1,
+      },
+      {
+        id:'q3_34', type:'fitb',
+        title:'DRF Serializer Definition',
+        description:'Complete the DRF ModelSerializer for the Book model.',
+        maxScore:2,
+        code:[
+          {text:'from rest_framework import __BLANK1__', blanks:[{n:1,pos:27}]},
+          {text:'', blanks:[]},
+          {text:'class BookSerializer(__BLANK2__.ModelSerializer):', blanks:[{n:2,pos:21}]},
+          {text:'    class __BLANK3__:', blanks:[{n:3,pos:10}]},
+          {text:'        model = Book', blanks:[]},
+          {text:"        fields = '__all__'", blanks:[]},
+        ],
+        blanks:['Blank 1','Blank 2','Blank 3'],
+        answers:['serializers','serializers','Meta'],
+      },
+      {
+        id:'q3_35', type:'mc',
+        title:'DRF APIView Base Class',
+        description:'Which class do you inherit from to create a basic DRF API view?',
+        maxScore:1,
+        options:['django.views.View','rest_framework.views.APIView','rest_framework.generics.ListAPIView only','django.http.JsonView'],
+        correct:1,
+      },
+      {
+        id:'q3_36', type:'fitb',
+        title:'DRF APIView — GET Handler',
+        description:'Complete the DRF APIView that returns all books as JSON.',
+        maxScore:2,
+        code:[
+          {text:'from rest_framework.views import APIView', blanks:[]},
+          {text:'from rest_framework.response import __BLANK1__', blanks:[{n:1,pos:38}]},
+          {text:'from rest_framework import status', blanks:[]},
+          {text:'', blanks:[]},
+          {text:'class BookListView(APIView):', blanks:[]},
+          {text:'    def __BLANK2__(self, request):', blanks:[{n:2,pos:8}]},
+          {text:'        books = Book.objects.all()', blanks:[]},
+          {text:'        serializer = BookSerializer(books, many=__BLANK3__)', blanks:[{n:3,pos:46}]},
+          {text:'        return Response(serializer.data)', blanks:[]},
+        ],
+        blanks:['Blank 1','Blank 2','Blank 3'],
+        answers:['Response','get','True'],
+      },
+      {
+        id:'q3_37', type:'mc',
+        title:'DRF serializer.is_valid()',
+        description:'What does serializer.is_valid() do in DRF?',
+        maxScore:1,
+        options:['Saves the data directly to the database','Validates the input data against the serializer rules','Converts the model instance to JSON','Sends the HTTP response'],
+        correct:1,
+      },
+      {
+        id:'q3_38', type:'mc',
+        title:'DRF Response vs JsonResponse',
+        description:"Why use DRF's Response instead of Django's JsonResponse?",
+        maxScore:1,
+        options:['Response is faster at runtime','Response supports content negotiation (JSON, XML, etc.)','JsonResponse does not exist in Django','Response automatically saves data to the database'],
+        correct:1,
+      },
+      {
+        id:'q3_39', type:'mc',
+        title:'DRF Permission — Authenticated Only',
+        description:'Which DRF permission class restricts access to authenticated users only?',
+        maxScore:1,
+        options:['permissions.AllowAny','permissions.IsAuthenticated','authentication.BasicAuth','permissions.AdminOnly'],
+        correct:1,
+      },
+      {
+        id:'q3_40', type:'fitb',
+        title:'DRF POST Request Handler',
+        description:'Complete the DRF view method that creates a new book via POST.',
+        maxScore:2,
+        code:[
+          {text:'    def post(self, request):', blanks:[]},
+          {text:'        serializer = BookSerializer(__BLANK1__=request.data)', blanks:[{n:1,pos:33}]},
+          {text:'        if serializer.__BLANK2__():', blanks:[{n:2,pos:22}]},
+          {text:'            serializer.__BLANK3__()', blanks:[{n:3,pos:22}]},
+          {text:'            return Response(', blanks:[]},
+          {text:'                serializer.data,', blanks:[]},
+          {text:'                status=status.HTTP_201_CREATED', blanks:[]},
+          {text:'            )', blanks:[]},
+          {text:'        return Response(serializer.errors,', blanks:[]},
+          {text:'            status=status.HTTP_400_BAD_REQUEST)', blanks:[]},
+        ],
+        blanks:['Blank 1','Blank 2','Blank 3'],
+        answers:['data','is_valid','save'],
       },
     ]
   }
 ];
 
 // ── STATE ──────────────────────────────────────────
-let state = {
-  user: null,
-  currentQuiz: null,
-  currentQIdx: 0,
-  answers: {},
-  timer: null,
-  timeLeft: 0,
-  viewingResults: null,
-};
+let state = { user:null, currentQuiz:null, currentQIdx:0, answers:{}, timer:null, timeLeft:0 };
 
-// ── HELPERS ───────────────────────────────────────
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-'+id).classList.add('active');
 }
+function $(id){ return document.getElementById(id); }
+function ptsColor(e,t){ const p=e/t; return p>=0.8?'badge-pts-good':p>=0.5?'badge-pts-ok':'badge-pts-bad'; }
 
-function $(id) { return document.getElementById(id); }
-
-function ptsColor(earned, total) {
-  const pct = earned / total;
-  if (pct >= 0.8) return 'badge-pts-good';
-  if (pct >= 0.5) return 'badge-pts-ok';
-  return 'badge-pts-bad';
-}
-
-// ── AUTH ───────────────────────────────────────────
 function goToPassword() {
   const val = $('loginUsername').value.trim();
   if (!val) { $('loginError').classList.add('show'); return; }
@@ -761,34 +771,23 @@ function goToPassword() {
   showScreen('password');
   setTimeout(() => $('loginPassword').focus(), 100);
 }
-
-function goBack() {
-  showScreen('login');
-  setTimeout(() => $('loginUsername').focus(), 100);
-}
+function goBack() { showScreen('login'); setTimeout(()=>$('loginUsername').focus(),100); }
 
 function doLogin() {
   const id = $('loginUsername').value.trim();
   const pw = $('loginPassword').value;
   const user = USERS[id];
-  if (!user || user.password !== pw) {
-    $('passError').classList.add('show');
-    return;
-  }
+  if (!user || user.password !== pw) { $('passError').classList.add('show'); return; }
   $('passError').classList.remove('show');
   state.user = user;
   renderDashboard();
   showScreen('dashboard');
 }
-
 function logout() {
-  state = { user: null, currentQuiz: null, currentQIdx: 0, answers: {}, timer: null, timeLeft: 0 };
-  $('loginUsername').value = '';
-  $('loginPassword').value = '';
+  state = {user:null,currentQuiz:null,currentQIdx:0,answers:{},timer:null,timeLeft:0};
+  $('loginUsername').value=''; $('loginPassword').value='';
   showScreen('login');
 }
-
-// Enter key support
 document.addEventListener('keydown', e => {
   if (e.key !== 'Enter') return;
   const active = document.querySelector('.screen.active');
@@ -796,442 +795,195 @@ document.addEventListener('keydown', e => {
   if (active.id === 'screen-password') doLogin();
 });
 
-// ── DASHBOARD ─────────────────────────────────────
 function renderDashboard() {
   const u = state.user;
   $('dashUser').innerHTML = `${u.name} <span>(${u.id})</span>`;
-  const grid = $('quizGrid');
-  grid.innerHTML = QUIZZES.map(q => {
+  $('quizGrid').innerHTML = QUIZZES.map(q => {
     const fin = q.status === 'finished';
-    return `
-    <div class="quiz-card" onclick="openQuiz('${q.id}')">
+    return `<div class="quiz-card" onclick="openQuiz('${q.id}')">
       <div class="quiz-card-top">
-        <span class="badge ${fin ? 'badge-finished':'badge-available'}">${fin?'FINISHED':'AVAILABLE'}</span>
-        ${fin ? `<span class="badge ${ptsColor(q.earnedPts,q.totalPts)}">${q.earnedPts}/${q.totalPts} PTS</span>` : ''}
-        ${fin ? `<span class="quiz-started">STARTED: ${q.startedAt}</span>` : ''}
+        <span class="badge ${fin?'badge-finished':'badge-available'}">${fin?'FINISHED':'AVAILABLE'}</span>
+        ${fin?`<span class="badge ${ptsColor(q.earnedPts,q.totalPts)}">${q.earnedPts}/${q.totalPts} PTS</span>`:''}
+        ${fin?`<span class="quiz-started">STARTED: ${q.startedAt}</span>`:''}
       </div>
       <div class="quiz-name">${q.title}</div>
       <div class="quiz-desc">${q.description}</div>
       <div class="quiz-meta">
-        <div class="quiz-meta-item">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          ${q.duration} min
-        </div>
+        <div class="quiz-meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${q.duration} min</div>
         <div class="quiz-meta-item">${q.questions.length} questions</div>
       </div>
       <div class="quiz-actions">
-        ${fin 
-          ? `<button class="btn-label" onclick="event.stopPropagation();viewResults('${q.id}')">${q.label}</button>
-             <button class="btn-results" onclick="event.stopPropagation();viewResults('${q.id}')">Results</button>`
-          : `<button class="btn-start" onclick="event.stopPropagation();startQuiz('${q.id}')">Start Quiz →</button>`
+        ${fin
+          ?`<button class="btn-label" onclick="event.stopPropagation();viewResults('${q.id}')">${q.label}</button>
+            <button class="btn-results" onclick="event.stopPropagation();viewResults('${q.id}')">Results</button>`
+          :`<button class="btn-start" onclick="event.stopPropagation();startQuiz('${q.id}')">Start Quiz →</button>`
         }
       </div>
     </div>`;
   }).join('');
 }
 
-// ── QUIZ ──────────────────────────────────────────
 function openQuiz(qid) {
-  const quiz = QUIZZES.find(q => q.id === qid);
-  if (quiz.status === 'finished') { viewResults(qid); return; }
+  const quiz = QUIZZES.find(q=>q.id===qid);
+  if (quiz.status==='finished') { viewResults(qid); return; }
   startQuiz(qid);
 }
 
 function startQuiz(qid) {
-  const quiz = QUIZZES.find(q => q.id === qid);
-  if (!quiz.questions || quiz.questions.length === 0) {
-    alert('Вопросы ещё не добавлены в этот тест.');
-    return;
-  }
+  const quiz = QUIZZES.find(q=>q.id===qid);
   state.currentQuiz = quiz;
   state.currentQIdx = 0;
   state.answers = {};
   state.timeLeft = quiz.duration * 60;
-
   const u = state.user;
   $('quizUser').innerHTML = `${u.name} <span>(${u.id})</span>`;
-
-  // Build question selectors
-  const opts = quiz.questions.map((q, i) => `<option value="${i}">Question ${i+1}</option>`).join('');
-  const selNav = $('questionSelectNav');
-  if (selNav) selNav.innerHTML = opts;
-
+  const opts = quiz.questions.map((q,i)=>`<option value="${i}">Q${i+1}: ${q.title.substring(0,30)}${q.title.length>30?'...':''}</option>`).join('');
+  $('questionSelectNav').innerHTML = opts;
   renderQuestion();
   startTimer();
   showScreen('quiz');
 }
 
 function renderQuestion() {
-  const quiz = state.currentQuiz;
-  const q = quiz.questions[state.currentQIdx];
-  syncSelectors && syncSelectors();
+  const q = state.currentQuiz.questions[state.currentQIdx];
+  syncSelectors();
   renderQuestionCard(q);
   renderRightPanel(q);
 }
-
-function jumpToQuestion(idx) {
-  state.currentQIdx = parseInt(idx);
-  renderQuestion();
-}
-function prevQuestion() {
-  if (state.currentQIdx > 0) { state.currentQIdx--; renderQuestion(); }
-}
-function nextQuestion() {
-  const quiz = state.currentQuiz;
-  if (state.currentQIdx < quiz.questions.length - 1) { state.currentQIdx++; renderQuestion(); }
-}
-function syncSelectors() {
-  const selNav = $('questionSelectNav');
-  if (selNav) selNav.value = state.currentQIdx;
-  const prev = $('btnPrev'); if(prev) prev.disabled = state.currentQIdx === 0;
-  const next = $('btnNext'); if(next) next.disabled = state.currentQIdx === state.currentQuiz.questions.length - 1;
+function jumpToQuestion(idx){ state.currentQIdx=parseInt(idx); renderQuestion(); }
+function prevQuestion(){ if(state.currentQIdx>0){state.currentQIdx--;renderQuestion();} }
+function nextQuestion(){ if(state.currentQIdx<state.currentQuiz.questions.length-1){state.currentQIdx++;renderQuestion();} }
+function syncSelectors(){
+  const s=$('questionSelectNav'); if(s) s.value=state.currentQIdx;
+  const p=$('btnPrev'); if(p) p.disabled=state.currentQIdx===0;
+  const n=$('btnNext'); if(n) n.disabled=state.currentQIdx===state.currentQuiz.questions.length-1;
 }
 
 function renderQuestionCard(q) {
-  const typeMap = { fitb:'Fill in the Blanks', mc:'Multiple Choice', code:'Coding' };
-  const badgeMap = { fitb:'badge-fitb', mc:'badge-mc', code:'badge-code' };
-  let html = `
-    <div class="q-title">${q.title}</div>
+  const typeMap={fitb:'Fill in the Blanks',mc:'Multiple Choice',code:'Coding'};
+  const badgeMap={fitb:'badge-fitb',mc:'badge-mc',code:'badge-code'};
+  let html=`<div class="q-title">Q${state.currentQIdx+1}. ${q.title}</div>
     <div class="q-type-row">
       <span class="q-type-badge ${badgeMap[q.type]}">${typeMap[q.type]}</span>
-      ${q.subtype ? `<span class="q-type-badge badge-sio">${q.subtype}</span>` : ''}
-      <span class="q-max">Max score: ${q.maxScore}</span>
+      <span class="q-max">Max score: ${q.maxScore} pt${q.maxScore>1?'s':''}</span>
     </div>
-    <div class="q-description">${q.description}</div>
-  `;
+    <div class="q-description">${q.description}</div>`;
 
-  if (q.type === 'fitb') {
-    html += renderCodeBlock(q);
-    if (q.note) html += `<div class="code-note">${q.note.replace('student = input.required<Student>();','<code>student = input.required&lt;Student&gt;();</code>').replace('student is declared as','<span style="color:var(--red)">student</span> is declared as <span style="color:var(--red)">')+'</span>'.replace('</span>);</code>','</span>);<code>').replace('<code>','<code style="font-family:monospace;font-size:12px">')}</div>`;
-    if (q.note) html += `<div style="font-size:13px;color:var(--text);margin-top:12px">Note: <code style="font-family:monospace;color:var(--red)">student</code> is declared as <code style="font-family:monospace;color:var(--red)">student = input.required&lt;Student&gt;();</code></div>`;
+  if (q.type==='fitb') { html+=renderCodeBlock(q); }
+  if (q.type==='mc') {
+    const saved=state.answers[q.id];
+    html+=`<div class="mc-options">`+q.options.map((opt,i)=>
+      `<div class="mc-option ${saved===i?'selected':''}" onclick="selectMC('${q.id}',${i})">
+        <div class="mc-radio"></div>
+        <div class="mc-label">${opt}</div>
+      </div>`
+    ).join('')+'</div>';
   }
-
-  if (q.type === 'mc') {
-    const saved = state.answers[q.id];
-    html += `<div class="mc-options">` +
-      q.options.map((opt, i) => `
-        <div class="mc-option ${saved===i?'selected':''}" onclick="selectMC('${q.id}',${i})">
-          <div class="mc-radio"></div>
-          <div class="mc-label">${opt}</div>
-        </div>`
-      ).join('') + `</div>`;
-  }
-
-  if (q.type === 'code') {
-    html += `
-      <div style="margin-top:4px;font-size:14px;color:var(--text);line-height:1.8">
-        <div style="margin-bottom:8px"><strong>Input:</strong> ${q.inputDesc||'A single string.'}</div>
-        <div style="margin-bottom:16px"><strong>Output:</strong> ${q.outputDesc||'The count of vowels.'}</div>
-        <div style="margin-bottom:6px;font-weight:700">Example:</div>
-        <div style="margin-bottom:4px;font-weight:600;font-size:13px">Input:</div>
-        <div style="background:#1e1e2e;color:#cdd6f4;padding:14px 18px;border-radius:8px;font-family:monospace;font-size:14px;margin-bottom:12px">${q.inputExample}</div>
-        <div style="margin-bottom:4px;font-weight:600;font-size:13px">Output:</div>
-        <div style="background:#1e1e2e;color:#cdd6f4;padding:14px 18px;border-radius:8px;font-family:monospace;font-size:14px">${q.outputExample}</div>
-      </div>`;
-  }
-
   $('questionCard').innerHTML = html;
 }
 
 function renderCodeBlock(q) {
-  let html = '<div class="code-block">';
-  q.code.forEach((line, ln) => {
-    if (!line.text) { html += '<div class="code-line"><span class="code-ln">&nbsp;</span><span class="code-text">&nbsp;</span></div>'; return; }
-    let text = line.text
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    // replace __BLANKN__ with styled badge
-    text = text.replace(/__BLANK(\d+)__/g, (_, n) =>
-      `<span class="blank-highlight">blank ${n}</span>`
-    );
-    // syntax highlight keywords
-    text = text
-      .replace(/\b(const|let|var|function|class|return|if|for|of|new|this|true|false|null)\b/g, '<span class="kw">$1</span>')
-      .replace(/\b(ngOnInit|subscribe|getPosts|includes|toLowerCase|split|log|require|readFileSync|toString|String)\b/g, '<span class="fn">$1</span>')
-      .replace(/'([^']*)'/g, "<span class='str'>'$1'</span>")
-      .replace(/\/\/.*/g, '<span class="cm">$&</span>');
-    html += `<div class="code-line"><span class="code-ln">${ln+1}</span><span class="code-text">${text}</span></div>`;
+  let html='<div class="code-block">';
+  q.code.forEach((line,ln)=>{
+    if(!line.text){html+=`<div class="code-line"><span class="code-ln">&nbsp;</span><span class="code-text">&nbsp;</span></div>`;return;}
+    let text=line.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    text=text.replace(/__BLANK(\d+)__/g,(_,n)=>`<span class="blank-highlight">blank ${n}</span>`);
+    text=text
+      .replace(/\b(class|def|self|return|if|for|from|import|True|False|None|in|as)\b/g,'<span class="kw">$1</span>')
+      .replace(/(#[^\n]*)/g,'<span class="cm">$1</span>');
+    html+=`<div class="code-line"><span class="code-ln">${ln+1}</span><span class="code-text">${text}</span></div>`;
   });
-  html += '</div>';
-  return html;
+  return html+'</div>';
 }
 
 function renderRightPanel(q) {
-  const panel = $('quizRightPanel');
-
-
-  if (q.type === 'fitb') {
-    const saved = state.answers[q.id] || {};
-    let html = `<div style="font-size:14px;font-weight:700;color:var(--dark);margin-bottom:20px">Fill in the blanks:</div>`;
-    q.blanks.forEach((label, i) => {
-      const n = i + 1;
-      const isPrefilled = q.prefilled && q.prefilled[n];
-      const val = isPrefilled ? q.prefilled[n] : (saved[n] || '');
-      html += `<div style="margin-bottom:20px">
-        <div style="font-size:14px;font-weight:600;color:var(--dark);margin-bottom:8px">${label}</div>
-        <input
-          style="width:100%;padding:11px 14px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:14px;color:#1e2235;outline:none;background:${isPrefilled?'#f3f4f6':'white'};font-family:inherit;transition:border-color .2s"
-          ${isPrefilled?'readonly':''}
-          id="blank_${n}"
-          value="${val}"
-          placeholder="Enter answer for ${label.toLowerCase()}"
+  const panel=$('quizRightPanel');
+  if (q.type==='fitb') {
+    const saved=state.answers[q.id]||{};
+    let html=`<div style="font-size:14px;font-weight:700;color:var(--dark);margin-bottom:16px">Fill in the blanks:</div>`;
+    q.blanks.forEach((label,i)=>{
+      const n=i+1; const val=saved[n]||'';
+      html+=`<div style="margin-bottom:16px">
+        <div style="font-size:13px;font-weight:600;color:var(--dark);margin-bottom:6px">${label}</div>
+        <input style="width:100%;padding:10px 14px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:14px;color:#1e2235;outline:none;font-family:monospace;transition:border-color .2s"
+          id="blank_${n}" value="${val}" placeholder="Answer for ${label.toLowerCase()}"
           oninput="saveFITB('${q.id}',${n},this.value)"
           onfocus="this.style.borderColor='#6366f1'"
           onblur="this.style.borderColor='#e5e7eb'"/>
       </div>`;
     });
-    html += `<button onclick="submitQuestion()" class="submit-ans-btn">Submit Answers</button>`;
-    panel.innerHTML = html;
-    return;
+    html+=`<button onclick="submitQuestion()" class="submit-ans-btn">Submit & Next →</button>`;
+    panel.innerHTML=html; return;
   }
-
-  if (q.type === 'mc') {
-    panel.innerHTML = `
-      <div class="r-title">Choose one answer:</div>
-      <p style="font-size:13px;color:var(--muted);line-height:1.6">Select the best answer from the options on the left, then click Submit.</p>
-      <button class="submit-ans-btn" onclick="submitQuestion()">Submit Answer</button>`;
-  }
-
-  if (q.type === 'code') {
-    const saved = state.answers[q.id];
-    const code = saved?.code || q.starterCode;
-    panel.innerHTML = `
-      <div style="font-size:13px;font-weight:700;color:var(--dark);margin-bottom:8px">Code Editor</div>
-      <div style="background:#1e1e2e;border-radius:10px;overflow:hidden;border:1px solid #2d2d3d;margin-bottom:0">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:#161622;border-bottom:1px solid #2d2d3d">
-          <span style="font-size:11px;color:#6c7086;font-family:monospace">${q.lang||'javascript'}</span>
-          <span style="font-size:11px;color:#6c7086">Time limit: ${q.timeLimit||5000}ms</span>
-        </div>
-        <textarea class="code-editor" id="codeEditor" spellcheck="false" style="height:260px;border-radius:0;border:none">${code}</textarea>
-      </div>
-      <div style="margin-top:14px">
-        <div style="font-size:13px;font-weight:600;color:var(--dark);margin-bottom:8px">Custom Input</div>
-        <textarea id="customInput" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;resize:vertical;min-height:80px;outline:none;color:var(--dark)">${q.inputExample}</textarea>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
-        <button class="btn-run" onclick="runCode('${q.id}')" style="padding:12px;background:#374151;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">Run</button>
-        <button class="btn-submit-code" onclick="submitCode('${q.id}')" style="padding:12px;background:var(--indigo2);color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">Submit</button>
-      </div>
-      <div id="outputBox" style="display:none;margin-top:14px;background:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px">
-        <div style="font-size:13px;font-weight:600;color:var(--dark);margin-bottom:8px">Output</div>
-        <div id="outputInner"></div>
-      </div>`;
+  if (q.type==='mc') {
+    panel.innerHTML=`<div style="font-size:14px;font-weight:700;color:var(--dark);margin-bottom:12px">Choose one answer</div>
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px">Select the best answer from the options on the left.</p>
+      <button class="submit-ans-btn" onclick="submitQuestion()">Submit & Next →</button>`;
   }
 }
 
-function selectMC(qid, idx) {
-  state.answers[qid] = idx;
-  const q = state.currentQuiz.questions.find(q => q.id === qid);
+function selectMC(qid,idx){
+  state.answers[qid]=idx;
+  const q=state.currentQuiz.questions.find(q=>q.id===qid);
   renderQuestionCard(q);
 }
-
-function saveFITB(qid, n, val) {
-  if (!state.answers[qid]) state.answers[qid] = {};
-  state.answers[qid][n] = val;
+function saveFITB(qid,n,val){
+  if(!state.answers[qid]) state.answers[qid]={};
+  state.answers[qid][n]=val;
 }
-
-function submitQuestion() {
-  const quiz = state.currentQuiz;
-  if (state.currentQIdx < quiz.questions.length - 1) {
-    state.currentQIdx++;
-    renderQuestion();
-    window.scrollTo(0, 0);
-  } else {
-    finishQuiz();
-  }
+function submitQuestion(){
+  const quiz=state.currentQuiz;
+  if(state.currentQIdx<quiz.questions.length-1){ state.currentQIdx++; renderQuestion(); window.scrollTo(0,0); }
+  else { finishQuiz(); }
 }
+function finishQuiz(){ clearInterval(state.timer); viewResults(state.currentQuiz.id); }
+function backToDash(){ clearInterval(state.timer); renderDashboard(); showScreen('dashboard'); }
 
-function runCode(qid) {
-  const code = $('codeEditor').value;
-  const input = $('customInput').value;
-  if (!state.answers[qid]) state.answers[qid] = {};
-  state.answers[qid].code = code;
-  const box = $('outputBox');
-  box.style.display = 'block';
-  // Simulate run
-  const ms = Math.floor(Math.random()*50+10);
-  $('outputInner').innerHTML = `
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-      <span style="padding:2px 10px;background:var(--green-bg);color:var(--green);border-radius:6px;font-size:12px;font-weight:700">Success</span>
-      <span style="font-size:12px;color:var(--muted)">${ms}ms</span>
-    </div>
-    <div style="font-family:monospace;font-size:14px;color:var(--dark)">1</div>`;
-}
-
-function submitCode(qid) {
-  const code = $('codeEditor').value;
-  if (!state.answers[qid]) state.answers[qid] = {};
-  state.answers[qid].code = code;
-  state.answers[qid].submitted = true;
-  submitQuestion();
-}
-
-function finishQuiz() {
+function startTimer(){
   clearInterval(state.timer);
-  viewResults(state.currentQuiz.id);
-}
-
-function backToDash() {
-  clearInterval(state.timer);
-  renderDashboard();
-  showScreen('dashboard');
-}
-
-// ── TIMER ─────────────────────────────────────────
-function startTimer() {
-  clearInterval(state.timer);
-  state.timeLeft = state.currentQuiz.duration * 60;
+  state.timeLeft=state.currentQuiz.duration*60;
   updateTimer();
-  state.timer = setInterval(() => {
-    state.timeLeft--;
-    updateTimer();
-    if (state.timeLeft <= 0) { clearInterval(state.timer); finishQuiz(); }
-  }, 1000);
+  state.timer=setInterval(()=>{ state.timeLeft--; updateTimer(); if(state.timeLeft<=0){clearInterval(state.timer);finishQuiz();} },1000);
+}
+function updateTimer(){
+  const m=Math.floor(state.timeLeft/60).toString().padStart(2,'0');
+  const s=(state.timeLeft%60).toString().padStart(2,'0');
+  $('timerDisplay').textContent=`${m}:${s}`;
+  if(state.timeLeft<300) $('timerDisplay').style.color='var(--red)';
 }
 
-function updateTimer() {
-  const m = Math.floor(state.timeLeft / 60).toString().padStart(2,'0');
-  const s = (state.timeLeft % 60).toString().padStart(2,'0');
-  $('timerDisplay').textContent = `${m}:${s}`;
-  if (state.timeLeft < 300) $('timerDisplay').style.color = 'var(--red)';
-}
-
-// ── RESULTS ───────────────────────────────────────
 function viewResults(qid) {
-  const quiz = QUIZZES.find(q => q.id === qid);
-  const u = state.user;
-  $('resultsUser').innerHTML = u ? `${u.name} <span>(${u.id})</span>` : '';
-
-  const earned = quiz.earnedPts !== null ? quiz.earnedPts : Math.floor(quiz.totalPts * 0.7);
-  const total = quiz.totalPts;
-  const pct = Math.round(earned / total * 100);
-  const isGood = pct >= 80;
-  const color = pct >= 80 ? 'var(--green)' : pct >= 50 ? 'var(--orange)' : 'var(--red)';
-  const barColor = pct >= 80 ? '#16a34a' : pct >= 50 ? '#d97706' : '#dc2626';
-
-  let answersHtml = '<div class="answers-list">';
-  quiz.questions.forEach((q, i) => {
-    answersHtml += `
-      <div class="answer-row">
-        <div class="answer-q">Q${i+1}: ${q.title}</div>
-        <div class="answer-detail">
-          <span>Type: ${q.type === 'fitb' ? 'Fill in Blanks' : q.type === 'mc' ? 'Multiple Choice' : 'Coding'}</span>
-          <span>Max: ${q.maxScore} pts</span>
-        </div>
-      </div>`;
+  const quiz=QUIZZES.find(q=>q.id===qid);
+  const u=state.user;
+  $('resultsUser').innerHTML=u?`${u.name} <span>(${u.id})</span>`:'';
+  const earned=quiz.earnedPts!==null?quiz.earnedPts:Math.floor(quiz.totalPts*0.7);
+  const total=quiz.totalPts;
+  const pct=Math.round(earned/total*100);
+  const color=pct>=80?'var(--green)':pct>=50?'var(--orange)':'var(--red)';
+  const barColor=pct>=80?'#16a34a':pct>=50?'#d97706':'#dc2626';
+  let answersHtml='<div class="answers-list">';
+  quiz.questions.forEach((q,i)=>{
+    answersHtml+=`<div class="answer-row">
+      <div class="answer-q">Q${i+1}: ${q.title}</div>
+      <div class="answer-detail">
+        <span>Type: ${q.type==='fitb'?'Fill in Blanks':q.type==='mc'?'Multiple Choice':'Coding'}</span>
+        <span>Max: ${q.maxScore} pt${q.maxScore>1?'s':''}</span>
+      </div>
+    </div>`;
   });
-  answersHtml += '</div>';
-
-  $('resultsCard').innerHTML = `
+  answersHtml+='</div>';
+  $('resultsCard').innerHTML=`
     <div class="results-quiz-name">${quiz.title}</div>
     <div class="score-box">
       <div class="score-label">Your Score</div>
       <div class="score-num" style="color:${color}">${earned}/${total}</div>
       <div class="score-pct">${pct}%</div>
-      <div class="score-bar-wrap">
-        <div class="score-bar" style="width:${pct}%;background:${barColor}"></div>
-      </div>
-    </div>
-    ${answersHtml}
-  `;
-
+      <div class="score-bar-wrap"><div class="score-bar" style="width:${pct}%;background:${barColor}"></div></div>
+    </div>${answersHtml}`;
   showScreen('results');
 }
 
-// ── INIT ──────────────────────────────────────────
-
-// ── SUPABASE SETUP ────────────────────────────────
-// TODO: Replace with your Supabase project credentials
-const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
-const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
-
-let sb = null;
-try {
-  sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  console.log('Supabase connected');
-} catch(e) {
-  console.log('Supabase not configured yet - using local data');
-}
-
-// Supabase Auth: sign in with student ID as email
-async function sbLogin(studentId, password) {
-  if (!sb || SUPABASE_URL.includes('YOUR_PROJECT')) return null;
-  try {
-    const email = studentId + '@quizcore.kz'; // convention
-    const { data, error } = await sb.auth.signInWithPassword({ email, password });
-    if (error) throw error;
-    // Fetch student profile
-    const { data: profile } = await sb.from('students').select('*').eq('student_id', studentId).single();
-    return profile;
-  } catch(e) {
-    console.error('Supabase auth error:', e.message);
-    return null;
-  }
-}
-
-// Supabase: load quizzes for this student
-async function sbLoadQuizzes(studentId) {
-  if (!sb || SUPABASE_URL.includes('YOUR_PROJECT')) return null;
-  try {
-    const { data } = await sb.from('quizzes').select('*, quiz_attempts(*)').eq('is_active', true);
-    return data;
-  } catch(e) {
-    console.error('Supabase load error:', e.message);
-    return null;
-  }
-}
-
-// Supabase: save quiz attempt
-async function sbSaveAttempt(quizId, answers, score, total) {
-  if (!sb || SUPABASE_URL.includes('YOUR_PROJECT') || !state.user) return;
-  try {
-    await sb.from('quiz_attempts').upsert({
-      student_id: state.user.id,
-      quiz_id: quizId,
-      answers: JSON.stringify(answers),
-      score,
-      total,
-      completed_at: new Date().toISOString()
-    });
-  } catch(e) {
-    console.error('Supabase save error:', e.message);
-  }
-}
-
-// Override doLogin to try Supabase first, fallback to local
-const _doLoginOriginal = doLogin;
-window.doLogin = async function() {
-  const id = $('loginUsername').value.trim();
-  const pw = $('loginPassword').value;
-  
-  $('loginPassword').disabled = true;
-  document.querySelector('#screen-password .login-btn').textContent = 'Signing in...';
-  
-  // Try Supabase first
-  const sbUser = await sbLogin(id, pw);
-  
-  if (sbUser) {
-    state.user = { name: sbUser.full_name, id: sbUser.student_id, password: pw };
-    renderDashboard();
-    showScreen('dashboard');
-  } else {
-    // Fallback to local demo users
-    const user = USERS[id];
-    if (!user || user.password !== pw) {
-      $('passError').classList.add('show');
-    } else {
-      $('passError').classList.remove('show');
-      state.user = user;
-      renderDashboard();
-      showScreen('dashboard');
-    }
-  }
-  
-  $('loginPassword').disabled = false;
-  document.querySelector('#screen-password .login-btn').textContent = 'Sign in';
-}
-
 $('loginUsername').focus();
-console.log('%c QuizCore loaded. Supabase: ' + (SUPABASE_URL.includes('YOUR') ? 'not configured (using demo data)' : 'connected'), 'color:#6366f1;font-weight:bold');
 </script>
 </body>
 </html>
