@@ -761,7 +761,7 @@ async function saveEdit(){
   if(file)img=await uploadPhoto(file,'prog-edit','prog-wrap-edit')||img;
   const{error}=await sb.from('products').update({name,img,price,sizes}).eq('id',id);
   if(error){alert('Ошибка: '+error.message);return;}
-  const i=products.findIndex(x=>x.id===id);
+  const i=products.findIndex(x=>x.id==id);
   if(i!==-1)products[i]={...products[i],name,img,price,sizes};
   saveCache(CACHE_KEY_P,products);
   closeEditModal();renderProducts();renderDashboard();populateSaleProduct();
@@ -790,7 +790,7 @@ function onSaleProductChange(){
   ss.innerHTML='<option value="">— размер —</option>';
   document.getElementById('sale-stock').textContent='—';
   if(!pid)return;
-  const p=products.find(x=>x.id===pid);if(!p)return;
+  const p=products.find(x=>x.id==pid);if(!p)return;
   SIZES.forEach(s=>{const q=(p.sizes||{})[s]||0;if(q>0)ss.innerHTML+=`<option value="${s}">${s} — ${q} шт.</option>`;});
   onSaleSizeChange();
 }
@@ -798,7 +798,7 @@ function onSaleProductChange(){
 function onSaleSizeChange(){
   const pid=document.getElementById('sale-product').value,size=document.getElementById('sale-size').value;
   if(!pid||!size){document.getElementById('sale-stock').textContent='—';return;}
-  const p=products.find(x=>x.id===pid);if(!p)return;
+  const p=products.find(x=>x.id==pid);if(!p)return;
   document.getElementById('sale-stock').textContent=((p.sizes||{})[size]||0)+' шт.';
 }
 
@@ -809,7 +809,7 @@ function addToCart(){
   if(!pid){showAlert('alert-sale','Выберите товар','error');return;}
   if(!size){showAlert('alert-sale','Выберите размер','error');return;}
   if(qty<=0){showAlert('alert-sale','Укажите количество','error');return;}
-  const p=products.find(x=>x.id===pid);if(!p)return;
+  const p=products.find(x=>x.id==pid);if(!p)return;
   const avail=(p.sizes||{})[size]||0;
   const inCart=cart.filter(c=>c.productId===pid&&c.size===size).reduce((a,c)=>a+c.qty,0);
   if(qty+inCart>avail){showAlert('alert-sale','Недостаточно! В наличии: '+avail+' шт.','error');return;}
@@ -877,7 +877,7 @@ async function recordSale(){
   const groupId='grp_'+Date.now();
   const salesToInsert=[];
   for(const item of cart){
-    const pi=products.findIndex(x=>x.id===item.productId);if(pi===-1)continue;
+    const pi=products.findIndex(x=>x.id==item.productId);if(pi===-1)continue;
     const newSizes={...products[pi].sizes};
     newSizes[item.size]=(newSizes[item.size]||0)-item.qty;
     const{error:pe}=await sb.from('products').update({sizes:newSizes}).eq('id',item.productId);
@@ -956,9 +956,9 @@ function renderClients(){
 
 async function confirmReturn(saleId){
   if(!confirm('Оформить возврат? Товар вернётся на склад.'))return;
-  const s=sales.find(x=>x.id===saleId);if(!s)return;
+  const s=sales.find(x=>x.id==saleId);if(!s)return;
   if(s.is_return){alert('Уже возвращён.');return;}
-  const pi=products.findIndex(x=>x.id===s.product_id);
+  const pi=products.findIndex(x=>x.id==s.product_id);
   if(pi!==-1){
     const newSizes={...products[pi].sizes};
     newSizes[s.size]=(newSizes[s.size]||0)+s.qty;
@@ -968,7 +968,7 @@ async function confirmReturn(saleId){
   }
   const{error:se}=await sb.from('sales').update({is_return:true}).eq('id',saleId);
   if(se){alert('Ошибка: '+se.message);return;}
-  const si=sales.findIndex(x=>x.id===saleId);if(si!==-1)sales[si].is_return=true;
+  const si=sales.findIndex(x=>x.id==saleId);if(si!==-1)sales[si].is_return=true;
   saveCache(CACHE_KEY_P,products);saveCache(CACHE_KEY_S,sales);
   renderDashboard();renderHistory();renderProducts();populateSaleProduct();
   showAlert('history-alert','✓ Возврат оформлен!','success');
