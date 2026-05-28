@@ -728,7 +728,7 @@ function renderProducts(){
   grid.innerHTML=fl.map(p=>{
     const bdg=SIZES.map(s=>{const qty=(p.sizes||{})[s]||0;return`<span class="size-badge ${qty>0?'in':'out'}">${s}:${qty}</span>`;}).join('');
     const imgH=p.img?`<img src="${p.img}" alt="" onerror="this.style.display='none';">`:'<span style="font-size:11px;">Нет фото</span>';
-    return`<div class="product-card"><div class="product-img">${imgH}</div><div class="product-body"><div class="product-name">${p.name}</div><div class="product-price">${fmt(p.price)} ₸</div><div class="product-sizes">${bdg}</div><button onclick="openEdit('${p.id}')" style="margin-top:10px;width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:var(--text2);border-radius:8px;padding:7px;font-family:'Manrope',sans-serif;font-size:12px;font-weight:600;cursor:pointer;">✏️ Редактировать</button></div></div>`;
+    return`<div class="product-card" onclick="openEdit('${p.id}')"><div class="product-img">${imgH}</div><div class="product-body"><div class="product-name">${p.name}</div><div class="product-price">${fmt(p.price)} ₸</div><div class="product-sizes">${bdg}</div></div></div>`;
   }).join('');
 }
 
