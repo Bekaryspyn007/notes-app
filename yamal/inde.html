@@ -692,17 +692,14 @@ function recentHTML(list){
     </div>`).join('');
 }
 
-function closeModal(){const m=document.getElementById('modal-product');m.style.display='none';}
-function closeEditModal(){const m=document.getElementById('modal-edit');m.style.display='none';}
-
 function openAddProduct(){
   SIZES.forEach(s=>document.getElementById('sz-'+s).value=0);
   document.getElementById('p-name').value='';document.getElementById('p-price').value='';
   resetBox('box-add','p-photo');showAlert('alert-modal','','');
-  const modal=document.getElementById('modal-product');
-  document.body.appendChild(modal);
-  modal.style.display='flex';
+  document.getElementById('modal-product').classList.add('open');
 }
+function closeModal(){document.getElementById('modal-product').classList.remove('open');}
+function closeEditModal(){document.getElementById('modal-edit').classList.remove('open');}
 
 async function saveProduct(){
   const name=document.getElementById('p-name').value.trim();
@@ -750,9 +747,7 @@ function openEdit(id){
     box.querySelectorAll('.ph-icon,.ph-text,.ph-sub').forEach(el=>el.style.display='none');
   }
   document.getElementById('edit-sizes').innerHTML=SIZES.map(s=>`<div class="size-item"><span>${s}</span><input type="number" id="es-${s}" value="${(p.sizes||{})[s]||0}" min="0" inputmode="numeric"></div>`).join('');
-  const modal=document.getElementById('modal-edit');
-  document.body.appendChild(modal);
-  modal.style.display='flex';
+  document.getElementById('modal-edit').classList.add('open');
 }
 
 async function saveEdit(){
