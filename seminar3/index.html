@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VitalMesh — IoT Metabolic Syndrome Monitoring</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============ SIDEBAR (brand + navigation) ============ -->
+  <header class="sidebar" id="top">
+    <a href="#top" class="brand">
+      <img src="images/pulse-icon.svg" alt="" class="brand-icon">
+      <span class="brand-name">VitalMesh</span>
+    </a>
+    <p class="brand-tag">Metabolic syndrome monitoring</p>
+
+    <nav>
+      <ul>
+        <li><a href="#patient">Patient</a></li>
+        <li><a href="#alerts">Alerts</a></li>
+        <li><a href="#dashboard">Vitals</a></li>
+        <li><a href="#sensors">Sensors</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+
+    <p class="sidebar-foot">Session started 09:42</p>
+  </header>
+
+  <main>
+
+    <!-- ============ 1. PATIENT INFORMATION (moved first) ============ -->
+    <section id="patient" class="card-block patient">
+      <h2>Patient Information</h2>
+
+      <div class="patient-panel">
+
+        <table class="patient-table">
+          <tbody>
+            <tr><th>Name</th><td>Aidos Serikov</td></tr>
+            <tr><th>Patient ID</th><td>VM-20841</td></tr>
+            <tr><th>Age</th><td>52</td></tr>
+            <tr><th>Condition</th><td>Metabolic syndrome</td></tr>
+            <tr><th>Assigned physician</th><td>Dr. A. Bekova</td></tr>
+            <tr><th>Last check-in</th><td>Today, 09:42</td></tr>
+          </tbody>
+        </table>
+
+        <aside class="monitoring-status">
+          <p class="status-label">Monitoring status</p>
+          <p class="status-badge status-active">Active</p>
+          <p class="devices-line">Connected devices: 5 / 5</p>
+
+          <form class="patient-form" action="#">
+            <label for="note">Add clinician note</label>
+            <textarea id="note" name="note" rows="3" placeholder="e.g. review glucose trend at next visit"></textarea>
+            <button type="submit" class="btn btn-primary">Save note</button>
+          </form>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- ============ 2. ALERTS (moved up — most urgent info first) ============ -->
+    <section id="alerts" class="card-block alerts">
+      <h2>Alerts</h2>
+      <p class="section-lead">A short log of recent readings — normal and abnormal.</p>
+
+      <ul class="alert-log">
+        <li class="alert-entry alert-ok">
+          <span class="alert-dot"></span>
+          <div>
+            <p class="alert-title">Heart rate — 72 bpm <span class="alert-time">09:41</span></p>
+            <p>Within the target range of 60–100 bpm. No action needed.</p>
+          </div>
+        </li>
+        <li class="alert-entry alert-bad">
+          <span class="alert-dot"></span>
+          <div>
+            <p class="alert-title">Blood glucose — 210 mg/dL <span class="alert-time">08:15</span></p>
+            <p>Above the 180 mg/dL threshold. Attending physician notified automatically.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ============ 3. PATIENT DASHBOARD (5 vitals) ============ -->
+    <section id="dashboard" class="card-block dashboard">
+      <h2>Patient Dashboard</h2>
+      <p class="section-lead">Live values from the sensors currently attached to the patient.</p>
+
+      <div class="metric-grid">
+
+        <div class="metric-tile tile-normal">
+          <img src="images/icon-temperature.svg" alt="" class="metric-icon">
+          <p class="metric-label">Body Temperature</p>
+          <p class="metric-value">36.8<span class="metric-unit">°C</span></p>
+        </div>
+
+        <div class="metric-tile tile-normal">
+          <img src="images/icon-glucose.svg" alt="" class="metric-icon">
+          <p class="metric-label">Blood Glucose</p>
+          <p class="metric-value">118<span class="metric-unit">mg/dL</span></p>
+        </div>
+
+        <div class="metric-tile tile-warning">
+          <img src="images/icon-heart.svg" alt="" class="metric-icon">
+          <p class="metric-label">Heart Rate</p>
+          <p class="metric-value">96<span class="metric-unit">bpm</span></p>
+        </div>
+
+        <div class="metric-tile tile-warning">
+          <img src="images/icon-pressure.svg" alt="" class="metric-icon">
+          <p class="metric-label">Blood Pressure</p>
+          <p class="metric-value">128/84<span class="metric-unit">mmHg</span></p>
+        </div>
+
+        <div class="metric-tile tile-normal">
+          <img src="images/icon-ecg.svg" alt="" class="metric-icon">
+          <p class="metric-label">ECG Rhythm</p>
+          <p class="metric-value">Sinus<span class="metric-unit">rhythm</span></p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ 4. SENSOR CARDS (shown as a data table) ============ -->
+    <section id="sensors" class="card-block sensors">
+      <h2>Sensor Cards</h2>
+      <p class="section-lead">The physical devices behind each reading above.</p>
+
+      <table class="sensor-table">
+        <thead>
+          <tr>
+            <th>Sensor</th>
+            <th>Reading</th>
+            <th>Unit</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Skin Thermistor T-1</td>
+            <td>36.8</td>
+            <td>°C</td>
+            <td><span class="badge badge-normal">Normal</span></td>
+          </tr>
+          <tr>
+            <td>CGM Patch G-2</td>
+            <td>118</td>
+            <td>mg/dL</td>
+            <td><span class="badge badge-normal">Normal</span></td>
+          </tr>
+          <tr>
+            <td>PPG Wrist Sensor H-3</td>
+            <td>96</td>
+            <td>bpm</td>
+            <td><span class="badge badge-warning">Warning</span></td>
+          </tr>
+          <tr>
+            <td>Oscillometric Cuff P-4</td>
+            <td>128/84</td>
+            <td>mmHg</td>
+            <td><span class="badge badge-warning">Warning</span></td>
+          </tr>
+          <tr>
+            <td>3-Lead ECG Patch E-5</td>
+            <td>Sinus</td>
+            <td>rhythm</td>
+            <td><span class="badge badge-normal">Normal</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ============ 5. ABOUT (the general Introduction, kept for last) ============ -->
+    <section id="about" class="card-block about">
+      <h2>About VitalMesh</h2>
+      <p class="section-lead">VitalMesh links wearable and bedside IoT sensors to track the
+        vitals that matter most for metabolic syndrome and brings every reading
+        into one screen for patients and their care team — so the people caring
+        for a patient see what changed, not just numbers.</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col">
+        <p class="brand-name">VitalMesh</p>
+        <p>IoT monitoring for metabolic syndrome care.</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-heading">Contact</p>
+        <p>support@vitalmesh.example</p>
+        <p>+7 700 000 00 00</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-heading">System</p>
+        <p>Version 2.0 · Seminar #3 project</p>
+        <p>&copy; 2026 VitalMesh Health Systems</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

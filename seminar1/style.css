@@ -1,0 +1,97 @@
+```css
+/* General */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+}
+
+
+/* Header */
+
+header {
+    background-color: #222;
+    color: white;
+    text-align: center;
+    padding: 25px;
+}
+
+nav {
+    margin-top: 15px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 10px;
+}
+
+nav a:hover {
+    color: #4da6ff;
+}
+
+
+/* Sections */
+
+section {
+    background-color: white;
+    width: 80%;
+    margin: 25px auto;
+    padding: 25px;
+    border-radius: 10px;
+}
+
+
+/* Headings */
+
+h1 {
+    font-size: 40px;
+}
+
+h2 {
+    color: #2463a8;
+}
+
+h3 {
+    color: #444;
+}
+
+
+/* Photo */
+
+img {
+    border-radius: 50%;
+    display: block;
+    margin: 15px auto;
+}
+
+
+/* Lists */
+
+li {
+    margin: 10px;
+}
+
+
+/* Links */
+
+a {
+    color: #2463a8;
+}
+
+a:hover {
+    color: #ff6600;
+}
+
+
+/* Footer */
+
+footer {
+    background-color: #222;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+```
