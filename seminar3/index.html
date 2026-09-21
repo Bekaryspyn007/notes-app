@@ -3,19 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VitalMesh — IoT Metabolic Syndrome Monitoring</title>
+  <title>DenSaulyq — IoT Metabolic Syndrome Monitoring</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- ============ SIDEBAR (brand + navigation) ============ -->
   <header class="sidebar" id="top">
-    <a href="#top" class="brand">
+    <div class="brand">
       <img src="images/pulse-icon.svg" alt="" class="brand-icon">
-      <span class="brand-name">VitalMesh</span>
-    </a>
+      <h1 class="brand-name">DenSaulyq</h1>
+    </div>
     <p class="brand-tag">Metabolic syndrome monitoring</p>
 
     <nav>
@@ -33,7 +32,6 @@
 
   <main>
 
-    <!-- ============ 1. PATIENT INFORMATION (moved first) ============ -->
     <section id="patient" class="card-block patient">
       <h2>Patient Information</h2>
 
@@ -41,7 +39,7 @@
 
         <table class="patient-table">
           <tbody>
-            <tr><th>Name</th><td>Aidos Serikov</td></tr>
+            <tr><th>Name</th><td>Bekarys Abdulkarim</td></tr>
             <tr><th>Patient ID</th><td>VM-20841</td></tr>
             <tr><th>Age</th><td>52</td></tr>
             <tr><th>Condition</th><td>Metabolic syndrome</td></tr>
@@ -65,7 +63,6 @@
       </div>
     </section>
 
-    <!-- ============ 2. ALERTS (moved up — most urgent info first) ============ -->
     <section id="alerts" class="card-block alerts">
       <h2>Alerts</h2>
       <p class="section-lead">A short log of recent readings — normal and abnormal.</p>
@@ -88,7 +85,6 @@
       </ul>
     </section>
 
-    <!-- ============ 3. PATIENT DASHBOARD (5 vitals) ============ -->
     <section id="dashboard" class="card-block dashboard">
       <h2>Patient Dashboard</h2>
       <p class="section-lead">Live values from the sensors currently attached to the patient.</p>
@@ -128,7 +124,6 @@
       </div>
     </section>
 
-    <!-- ============ 4. SENSOR CARDS (shown as a data table) ============ -->
     <section id="sensors" class="card-block sensors">
       <h2>Sensor Cards</h2>
       <p class="section-lead">The physical devices behind each reading above.</p>
@@ -177,10 +172,9 @@
       </table>
     </section>
 
-    <!-- ============ 5. ABOUT (the general Introduction, kept for last) ============ -->
     <section id="about" class="card-block about">
-      <h2>About VitalMesh</h2>
-      <p class="section-lead">VitalMesh links wearable and bedside IoT sensors to track the
+      <h2>About DenSaulyq</h2>
+      <p class="section-lead">DenSaulyq links wearable and bedside IoT sensors to track the
         vitals that matter most for metabolic syndrome and brings every reading
         into one screen for patients and their care team — so the people caring
         for a patient see what changed, not just numbers.</p>
@@ -191,18 +185,18 @@
   <footer>
     <div class="footer-inner">
       <div class="footer-col">
-        <p class="brand-name">VitalMesh</p>
+        <p class="brand-name">DenSaulyq</p>
         <p>IoT monitoring for metabolic syndrome care.</p>
       </div>
       <div class="footer-col">
         <p class="footer-heading">Contact</p>
-        <p>support@vitalmesh.example</p>
-        <p>+7 700 000 00 00</p>
+        <p>support@DenSaulyq.com</p>
+        <p>+7 708 309 04 92</p>
       </div>
       <div class="footer-col">
         <p class="footer-heading">System</p>
         <p>Version 2.0 · Seminar #3 project</p>
-        <p>&copy; 2026 VitalMesh Health Systems</p>
+        <p>&copy; 2026 DenSaulyq Health Systems</p>
       </div>
     </div>
   </footer>
