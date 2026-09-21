@@ -1,20 +1,13 @@
-/* ==========================================================================
-   VitalMesh v2 — IoT Metabolic Syndrome Monitoring
-   Style concept: a paper patient chart, not a dark instrument panel —
-   warm paper background, index-card tiles with a coloured "tab" corner,
-   a left sidebar instead of a top navbar, sensor data as a real table.
-   ========================================================================== */
 
-/* ---- Design tokens ------------------------------------------------------ */
 :root {
-  --bg: #efe7d8;         /* warm paper background            */
-  --panel: #fffdf8;      /* index-card white                 */
-  --ink: #20261f;        /* near-black text                  */
-  --muted: #6b6558;      /* secondary warm-grey text          */
-  --line: #ddd3bd;       /* hairline borders on paper          */
-  --accent: #2f6f62;     /* deep clinical teal — "normal"      */
-  --warning: #b8722f;    /* warm amber — elevated              */
-  --critical: #a13d3d;   /* brick red — abnormal / alarm       */
+  --bg: #efe7d8;       
+  --panel: #fffdf8;     
+  --ink: #20261f;       
+  --muted: #6b6558;    
+  --line: #ddd3bd;      
+  --accent: #2f6f62;     
+  --warning: #b8722f;    
+  --critical: #a13d3d;   
 
   --font-head: "Space Grotesk", "Inter", sans-serif;
   --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
@@ -25,7 +18,6 @@
   --sidebar-width: 260px;
 }
 
-/* ---- Reset / base -------------------------------------------------------- */
 * {
   box-sizing: border-box;
 }
@@ -34,10 +26,8 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font: 15px/1.6 var(--font-body); /* shorthand: size/line-height/family */
+  font: 15px/1.6 var(--font-body); 
 
-  /* Whole-page layout lives here: a named CSS Grid with a sidebar column
-     and two stacked rows (main content, footer) on the right. */
   display: grid;
   grid-template-columns: var(--sidebar-width) 1fr;
   grid-template-rows: 1fr auto;
@@ -77,7 +67,6 @@ img {
   max-width: 62ch;
 }
 
-/* ---- Buttons -------------------------------------------------------------- */
 .btn {
   display: inline-block;
   border: 1px solid var(--accent);
@@ -93,7 +82,6 @@ img {
   color: #fffdf8;
 }
 
-/* hover effect #1: buttons invert and lift slightly */
 .btn-primary:hover {
   background: transparent;
   color: var(--accent);
@@ -105,7 +93,6 @@ img {
   outline-offset: 3px;
 }
 
-/* ---- Sidebar (this is the required "Header") ------------------------------ */
 .sidebar {
   grid-area: sidebar;
   background: var(--panel);
@@ -126,9 +113,8 @@ img {
 }
 
 .brand-icon {
-  width: 26px;
-  height: 26px;
-  color: var(--accent);
+  font-size: 1.5rem;
+  line-height: 1;
 }
 
 .brand-name {
@@ -151,7 +137,6 @@ nav ul {
   gap: 2px;
 }
 
-/* descendant selector: only links inside the sidebar nav list */
 nav ul li a {
   display: block;
   padding: 9px 12px;
@@ -162,14 +147,12 @@ nav ul li a {
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
-/* hover effect #2: nav item gets a soft fill and coloured left edge */
 nav ul li a:hover {
   background: rgba(47, 111, 98, 0.08);
   color: var(--ink);
   border-left-color: var(--accent);
 }
 
-/* pseudo-class: the first nav item (Patient) reads as the "current" one */
 nav ul li:first-child a {
   color: var(--accent);
   border-left-color: var(--accent);
@@ -181,13 +164,11 @@ nav ul li:first-child a {
   color: var(--muted);
 }
 
-/* ---- Main content area ----------------------------------------------------- */
 main {
   grid-area: main;
   padding: 40px 5vw;
 }
 
-/* Shared "index card" look used by every section block */
 .card-block {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -197,7 +178,6 @@ main {
   margin-bottom: 24px;
 }
 
-/* ---- Patient information --------------------------------------------------- */
 .patient-panel {
   display: flex;
   flex-wrap: wrap;
@@ -223,7 +203,6 @@ main {
   font-weight: 500;
 }
 
-/* pseudo-class: no border under the very last row */
 .patient-table tr:last-child th,
 .patient-table tr:last-child td {
   border-bottom: none;
@@ -279,7 +258,6 @@ main {
   border-color: var(--accent);
 }
 
-/* ---- Alerts, shown as a timeline log ---------------------------------------- */
 .alert-log {
   list-style: none;
   margin: 18px 0 0;
@@ -330,7 +308,6 @@ main {
   margin-left: 8px;
 }
 
-/* ---- Dashboard metric tiles -------------------------------------------------- */
 .metric-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
@@ -347,7 +324,6 @@ main {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* a small coloured "tab" cut into the top of each tile, like a paper index card */
 .metric-tile::before {
   content: "";
   position: absolute;
@@ -366,21 +342,15 @@ main {
   background: var(--warning);
 }
 
-/* hover effect #3: tiles lift with a soft shadow */
 .metric-tile:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow);
 }
 
 .metric-icon {
-  width: 22px;
-  height: 22px;
-  color: var(--accent);
+  display: block;
+  font-size: 1.3rem;
   margin-bottom: 10px;
-}
-
-.tile-warning .metric-icon {
-  color: var(--warning);
 }
 
 .metric-label {
@@ -401,7 +371,6 @@ main {
   margin-left: 5px;
 }
 
-/* ---- Sensor table -------------------------------------------------------- */
 .sensor-table {
   width: 100%;
   border-collapse: collapse;
@@ -421,12 +390,10 @@ main {
   font-weight: 600;
 }
 
-/* pseudo-class: zebra-striped rows for readability */
 .sensor-table tbody tr:nth-child(even) {
   background: var(--bg);
 }
 
-/* hover effect (bonus, table rows) */
 .sensor-table tbody tr:hover {
   background: rgba(47, 111, 98, 0.08);
 }
@@ -448,7 +415,6 @@ main {
   color: var(--warning);
 }
 
-/* ---- Footer -------------------------------------------------------------- */
 footer {
   grid-area: footer;
   background: var(--panel);
@@ -474,7 +440,6 @@ footer {
   margin-bottom: 8px !important;
 }
 
-/* ---- Mobile media query --------------------------------------------------- */
 @media (max-width: 760px) {
   body {
     grid-template-columns: 1fr;
