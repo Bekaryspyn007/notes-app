@@ -153,7 +153,11 @@ nav ul li a:hover {
   border-left-color: var(--accent);
 }
 
-nav ul li:first-child a {
+nav ul li a {
+  color: var(--muted);
+}
+
+nav ul li a:focus {
   color: var(--accent);
   border-left-color: var(--accent);
 }
@@ -484,4 +488,9 @@ footer {
     display: block;
     overflow-x: auto;
   }
+}
+.card-block:target {
+  border: 2px solid var(--accent);
+  box-shadow: 0 8px 25px rgba(47, 111, 98, 0.18);
+  background: #f7fff9;
 }

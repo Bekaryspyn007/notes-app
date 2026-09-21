@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DenSaulyq — IoT Metabolic Syndrome Monitoring</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header id="top">
+    <div class="header-inner">
+      <h1 class="logo">DenSaulyq</h1>
+      <nav>
+        <ul>
+          <li><a href="#patient">Patient</a></li>
+          <li><a href="#alerts">Alerts</a></li>
+          <li><a href="#dashboard">Vitals</a></li>
+          <li><a href="#sensors">Sensors</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section id="patient" class="container">
+      <h2>Patient Information</h2>
+
+      <table class="patient-table">
+        <tr><th>Name</th><td>Aidos Serikov</td></tr>
+        <tr><th>Patient ID</th><td>VM-20841</td></tr>
+        <tr><th>Age</th><td>52</td></tr>
+        <tr><th>Condition</th><td>Metabolic syndrome</td></tr>
+        <tr><th>Assigned physician</th><td>Dr. A. Bekova</td></tr>
+        <tr><th>Last check-in</th><td>Today, 09:42</td></tr>
+      </table>
+
+      <p><strong>Monitoring status:</strong> <span class="status-active">Active</span> — 5 / 5 devices connected</p>
+
+      <form class="note-form" action="#">
+        <label for="note">Add clinician note</label><br>
+        <textarea id="note" name="note" rows="3" placeholder="e.g. review glucose trend at next visit"></textarea><br>
+        <button type="submit" class="btn">Save note</button>
+      </form>
+    </section>
+
+    <section id="alerts" class="container">
+      <h2>Alerts</h2>
+      <p>Examples of a normal and an abnormal reading:</p>
+
+      <div class="alert-box alert-normal">
+        <strong>Normal reading:</strong> Heart rate 72 bpm — within the target range of 60–100 bpm.
+      </div>
+
+      <div class="alert-box alert-critical">
+        <strong>Abnormal reading:</strong> Blood glucose 210 mg/dL — above the 180 mg/dL threshold. Doctor notified.
+      </div>
+    </section>
+
+    <section id="dashboard" class="container">
+      <h2>Patient Dashboard</h2>
+      <p>Live values from the sensors currently attached to the patient.</p>
+
+      <div class="card-grid">
+
+        <div class="metric-card">
+          <span class="icon">🌡️</span>
+          <p class="label">Body Temperature</p>
+          <p class="value">36.8 °C</p>
+        </div>
+
+        <div class="metric-card">
+          <span class="icon">💧</span>
+          <p class="label">Blood Glucose</p>
+          <p class="value">118 mg/dL</p>
+        </div>
+
+        <div class="metric-card">
+          <span class="icon">❤️</span>
+          <p class="label">Heart Rate</p>
+          <p class="value">96 bpm</p>
+        </div>
+
+        <div class="metric-card">
+          <span class="icon">🩺</span>
+          <p class="label">Blood Pressure</p>
+          <p class="value">128/84 mmHg</p>
+        </div>
+
+        <div class="metric-card">
+          <span class="icon">📈</span>
+          <p class="label">ECG Rhythm</p>
+          <p class="value">Sinus rhythm</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="sensors" class="container">
+      <h2>Sensor Cards</h2>
+      <p>The physical devices behind each reading above.</p>
+
+      <table class="sensor-table">
+        <tr>
+          <th>Sensor</th>
+          <th>Reading</th>
+          <th>Unit</th>
+          <th>Status</th>
+        </tr>
+        <tr>
+          <td>Skin Thermistor T-1</td>
+          <td>36.8</td>
+          <td>°C</td>
+          <td><span class="badge badge-normal">Normal</span></td>
+        </tr>
+        <tr>
+          <td>CGM Patch G-2</td>
+          <td>118</td>
+          <td>mg/dL</td>
+          <td><span class="badge badge-normal">Normal</span></td>
+        </tr>
+        <tr>
+          <td>PPG Wrist Sensor H-3</td>
+          <td>96</td>
+          <td>bpm</td>
+          <td><span class="badge badge-warning">Warning</span></td>
+        </tr>
+        <tr>
+          <td>Oscillometric Cuff P-4</td>
+          <td>128/84</td>
+          <td>mmHg</td>
+          <td><span class="badge badge-warning">Warning</span></td>
+        </tr>
+        <tr>
+          <td>3-Lead ECG Patch E-5</td>
+          <td>Sinus</td>
+          <td>rhythm</td>
+          <td><span class="badge badge-normal">Normal</span></td>
+        </tr>
+      </table>
+    </section>
+
+    <section id="about" class="container">
+      <h2>About DenSaulyq</h2>
+      <p>DenSaulyq is an IoT healthcare system that connects wearable and bedside
+        sensors to track the vitals that matter most for metabolic syndrome —
+        temperature, glucose, heart rate, blood pressure and heart rhythm — and
+        shows every reading on one screen for patients and their care team.</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p><strong>DenSaulyq</strong> — IoT monitoring for metabolic syndrome care.</p>
+    <p>Contact: support@densaulyq.com · +7 708 309 04 92</p>
+    <p>&copy; 2026 DenSaulyq Health Systems</p>
+  </footer>
+
+</body>
+</html>
