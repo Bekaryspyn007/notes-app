@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="Ola Cafe — авторская грузинская кухня в Алматы. Меню, заказ и бронь стола онлайн."/>
+<meta name="theme-color" content="#f4f1eb"/>
+<title>Меню · Ola Cafe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="icon" href="../images/logo.svg"/>
+<link rel="stylesheet" href="../css/styles.css"/>
+<link rel="stylesheet" href="../css/pages.css"/>
+</head>
+<body data-root="../" data-page="menu">
+<div id="loader"></div>
+<div class="toast" id="toast"></div>
+<header id="top"></header>
+<main>
+<div class="page active"><div class="wrap"><div class="sec-head"><div class="eyebrow">Наше меню</div><h1 class="sec-title">Выбери <em>своё</em></h1></div>
+  <div class="filters">
+    <div class="search-wrap"><input class="search-input" id="searchInput" placeholder="Поиск по меню..." oninput="filterMenu()" aria-label="Поиск по меню"/>
+      <svg class="search-ico" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+    <div class="price-wrap"><select class="form-select price-sel" id="priceSel" onchange="filterMenu()" aria-label="Цена"><option value="">Любая цена</option><option value="lt">до 2 000 ₸</option><option value="mid">2 000 – 3 000 ₸</option><option value="gt">от 3 000 ₸</option></select></div>
+  </div>
+  <div class="cats" id="catTabs"></div>
+  <div class="menu-count" id="menuCount"></div>
+  <div class="menu-grid" id="menuGrid"></div>
+  <div class="empty" id="menuEmpty"><div class="empty-icon">🍽</div><div class="empty-text">Ничего не найдено</div></div>
+</div></div>
+</main>
+<footer class="site-footer" id="foot"></footer>
+<nav class="bnav" id="bnav"></nav>
+<script src="../js/config.js"></script><script src="../js/db.js"></script><script src="../js/validation.js"></script><script src="../js/auth.js"></script><script src="../js/layout.js"></script><script src="../js/client.js"></script><script src="../js/i18n.js"></script>
+</body>
+</html>

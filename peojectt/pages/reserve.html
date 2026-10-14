@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="Ola Cafe — авторская грузинская кухня в Алматы. Меню, заказ и бронь стола онлайн."/>
+<meta name="theme-color" content="#f4f1eb"/>
+<title>Бронь стола · Ola Cafe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="icon" href="../images/logo.svg"/>
+<link rel="stylesheet" href="../css/styles.css"/>
+<link rel="stylesheet" href="../css/pages.css"/>
+</head>
+<body data-root="../" data-page="reserve" data-auth="user">
+<div id="loader"></div>
+<div class="toast" id="toast"></div>
+<header id="top"></header>
+<main>
+<div class="page active"><div class="narrow"><div class="reserve-wrap">
+  <div class="sec-head" style="padding:0 0 24px"><div class="eyebrow">Онлайн бронь</div><h1 class="sec-title">Забронируй <em>стол</em></h1></div>
+  <div class="form-row">
+    <div class="form-sec"><label class="form-label" for="resName">Ваше имя</label><input class="form-input" id="resName" type="text" placeholder="Имя и фамилия"/></div>
+    <div class="form-sec"><label class="form-label" for="resPhone">Телефон</label><input class="form-input" id="resPhone" type="tel" placeholder="+7 777 000 00 00"/></div>
+  </div>
+  <div class="form-row">
+    <div class="form-sec"><label class="form-label" for="resDate">Дата</label><input class="form-input" id="resDate" type="date"/></div>
+    <div class="form-sec"><label class="form-label" for="resPeople">Кол-во гостей</label><input class="form-input" id="resPeople" type="number" min="1" max="50" value="2"/></div>
+  </div>
+  <div class="form-sec"><label class="form-label">Время</label><div class="time-grid" id="timeSlots"></div><input type="hidden" id="resTimeView"/></div>
+  <div class="form-sec"><label class="form-label" for="resTable">Предпочтительный стол (необязательно)</label><input class="form-input" id="resTable" type="text" placeholder="У окна, стол № 5..."/></div>
+  <div class="form-sec"><label class="form-label" for="resComment">Комментарий</label><textarea class="form-input" id="resComment" placeholder="Повод, особые пожелания..."></textarea></div>
+  <button class="btn btn-primary btn-full" id="submitResBtn" onclick="submitReservation()">Забронировать стол</button>
+  <div style="margin-top:16px;text-align:center;font-size:12px;color:var(--muted);line-height:1.7">Мы свяжемся для подтверждения<br/><a class="lnk" data-tel data-r="phone"></a></div>
+</div></div></div>
+</main>
+<footer class="site-footer" id="foot"></footer>
+<nav class="bnav" id="bnav"></nav>
+<script src="../js/config.js"></script><script src="../js/db.js"></script><script src="../js/validation.js"></script><script src="../js/auth.js"></script><script src="../js/layout.js"></script><script src="../js/client.js"></script><script src="../js/i18n.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="Ola Cafe — авторская грузинская кухня в Алматы. Меню, заказ и бронь стола онлайн."/>
+<meta name="theme-color" content="#f4f1eb"/>
+<title>Блюдо · Ola Cafe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="icon" href="../images/logo.svg"/>
+<link rel="stylesheet" href="../css/styles.css"/>
+<link rel="stylesheet" href="../css/pages.css"/>
+</head>
+<body data-root="../" data-page="dish">
+<div id="loader"></div>
+<div class="toast" id="toast"></div>
+<header id="top"></header>
+<main>
+<div class="page active"><div class="wrap">
+  <div class="dish-detail" id="dish"></div>
+  <div id="relatedWrap"><div class="sec-head"><div class="eyebrow">Вам понравится</div><h2 class="sec-title">Похожие <em>блюда</em></h2></div><div class="menu-grid" id="related"></div></div>
+</div></div>
+</main>
+<footer class="site-footer" id="foot"></footer>
+<nav class="bnav" id="bnav"></nav>
+<script src="../js/config.js"></script><script src="../js/db.js"></script><script src="../js/validation.js"></script><script src="../js/auth.js"></script><script src="../js/layout.js"></script><script src="../js/client.js"></script><script src="../js/i18n.js"></script>
+</body>
+</html>

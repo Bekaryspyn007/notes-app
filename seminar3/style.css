@@ -494,3 +494,23 @@ footer {
   box-shadow: 0 8px 25px rgba(47, 111, 98, 0.18);
   background: #f7fff9;
 }
+
+.alert-title {
+  position: relative;
+  display: inline-block;
+}
+
+.alert-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.alert-entry:hover .alert-title::after {
+  width: 100%;
+}

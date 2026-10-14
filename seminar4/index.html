@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DenSaulyq — IoT Metabolic Syndrome Monitoring</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="sidebar" id="top">
+    <div class="brand">
+      <span class="brand-icon" aria-hidden="true">💙</span>
+      <h1 class="brand-name">DenSaulyq</h1>
+    </div>
+    <p class="brand-tag">Metabolic syndrome monitoring</p>
+
+    <nav>
+      <ul>
+        <li><a href="#patient">Patient</a></li>
+        <li><a href="#alerts">Alerts</a></li>
+        <li><a href="#dashboard">Vitals</a></li>
+        <li><a href="#sensors">Sensors</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#howitworks">How It Works</a></li>
+        <li><a href="#media">Media</a></li>
+        <li><a href="#resources">Resources</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+
+    <p class="sidebar-foot">Session started 09:42</p>
+  </header>
+
+  <main>
+
+    <section id="patient" class="card-block patient">
+      <h2>Patient Information</h2>
+
+      <div class="patient-panel">
+
+        <table class="patient-table">
+          <tbody>
+            <tr><th>Name</th><td>Bekarys Abdulkarim</td></tr>
+            <tr><th>Patient ID</th><td>VM-20841</td></tr>
+            <tr><th>Age</th><td>52</td></tr>
+            <tr><th>Condition</th><td>Metabolic syndrome</td></tr>
+            <tr><th>Assigned physician</th><td>Dr. A. Bekova</td></tr>
+            <tr><th>Last check-in</th><td>Today, 09:42</td></tr>
+          </tbody>
+        </table>
+
+        <aside class="monitoring-status">
+          <p class="status-label">Monitoring status</p>
+          <p class="status-badge status-active">Active</p>
+          <p class="devices-line">Connected devices: 5 / 5</p>
+
+          <form class="patient-form" action="#">
+            <label for="note">Add clinician note</label>
+            <textarea id="note" name="note" rows="3" placeholder="e.g. review glucose trend at next visit"></textarea>
+            <button type="submit" class="btn btn-primary">Save note</button>
+          </form>
+        </aside>
+
+      </div>
+    </section>
+
+    <section id="alerts" class="card-block alerts">
+      <h2>Alerts</h2>
+      <p class="section-lead">A short log of recent readings — normal and abnormal.</p>
+
+      <ul class="alert-log">
+        <li class="alert-entry alert-ok">
+          <span class="alert-dot"></span>
+          <div>
+            <p class="alert-title">Heart rate — 72 bpm <span class="alert-time">09:41</span></p>
+            <p>Within the target range of 60–100 bpm. No action needed.</p>
+          </div>
+        </li>
+        <li class="alert-entry alert-bad">
+          <span class="alert-dot"></span>
+          <div>
+            <p class="alert-title">Blood glucose — 210 mg/dL <span class="alert-time">08:15</span></p>
+            <p>Above the 180 mg/dL threshold. Attending physician notified automatically.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section id="dashboard" class="card-block dashboard">
+      <h2>Patient Dashboard</h2>
+      <p class="section-lead">Live values from the sensors currently attached to the patient.</p>
+
+      <div class="metric-grid">
+
+        <div class="metric-tile tile-normal">
+          <span class="metric-icon" aria-hidden="true">🌡️</span>
+          <p class="metric-label">Body Temperature</p>
+          <p class="metric-value">36.8<span class="metric-unit">°C</span></p>
+        </div>
+
+        <div class="metric-tile tile-normal">
+          <span class="metric-icon" aria-hidden="true">💧</span>
+          <p class="metric-label">Blood Glucose</p>
+          <p class="metric-value">118<span class="metric-unit">mg/dL</span></p>
+        </div>
+
+        <div class="metric-tile tile-warning">
+          <span class="metric-icon" aria-hidden="true">❤️</span>
+          <p class="metric-label">Heart Rate</p>
+          <p class="metric-value">96<span class="metric-unit">bpm</span></p>
+        </div>
+
+        <div class="metric-tile tile-warning">
+          <span class="metric-icon" aria-hidden="true">🩺</span>
+          <p class="metric-label">Blood Pressure</p>
+          <p class="metric-value">128/84<span class="metric-unit">mmHg</span></p>
+        </div>
+
+        <div class="metric-tile tile-normal">
+          <span class="metric-icon" aria-hidden="true">📈</span>
+          <p class="metric-label">ECG Rhythm</p>
+          <p class="metric-value">Sinus<span class="metric-unit">rhythm</span></p>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="sensors" class="card-block sensors">
+      <h2>Sensor Cards</h2>
+      <p class="section-lead">The physical devices behind each reading above.</p>
+
+      <table class="sensor-table">
+        <thead>
+          <tr>
+            <th>Sensor</th>
+            <th>Reading</th>
+            <th>Unit</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Skin Thermistor T-1</td>
+            <td>36.8</td>
+            <td>°C</td>
+            <td><span class="badge badge-normal">Normal</span></td>
+          </tr>
+          <tr>
+            <td>CGM Patch G-2</td>
+            <td>118</td>
+            <td>mg/dL</td>
+            <td><span class="badge badge-normal">Normal</span></td>
+          </tr>
+          <tr>
+            <td>PPG Wrist Sensor H-3</td>
+            <td>96</td>
+            <td>bpm</td>
+            <td><span class="badge badge-warning">Warning</span></td>
+          </tr>
+          <tr>
+            <td>Oscillometric Cuff P-4</td>
+            <td>128/84</td>
+            <td>mmHg</td>
+            <td><span class="badge badge-warning">Warning</span></td>
+          </tr>
+          <tr>
+            <td>3-Lead ECG Patch E-5</td>
+            <td>Sinus</td>
+            <td>rhythm</td>
+            <td><span class="badge badge-normal">Normal</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- ===== SEMINAR 4: photo gallery of the same sensors ===== -->
+      <h3 class="gallery-title">Sensor Gallery</h3>
+      <div class="gallery">
+
+        <!-- image #1 — wrapped in a position:relative box so the "LIVE" badge
+             can sit on top of it with position:absolute (relative + absolute combo) -->
+        <figure class="gallery-item gallery-item--live">
+          <img src="materials/cgm.png"
+               alt="Continuous glucose monitor patch on skin" width="220" height="160">
+          <span class="live-badge">LIVE</span>
+          <figcaption>CGM Patch G-2 — continuous glucose sensor</figcaption>
+        </figure>
+
+        <!-- image #2 — has a visible border -->
+        <figure class="gallery-item gallery-item--bordered">
+          <img src="materials/ecg.png"
+               alt="Adhesive 3-lead ECG patch" width="220" height="160">
+          <figcaption>3-Lead ECG Patch E-5 — heart rhythm sensor</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="materials/ppg.png"
+               alt="Wrist-worn pulse oximeter sensor" width="220" height="160">
+          <figcaption>PPG Wrist Sensor H-3 — heart rate &amp; SpO2</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="materials/bp.png"
+               alt="Automatic oscillometric blood pressure cuff" width="220" height="160">
+          <figcaption>Oscillometric Cuff P-4 — blood pressure</figcaption>
+        </figure>
+
+      </div>
+    </section>
+
+    <!-- ===== SEMINAR 4: required text content ===== -->
+    <section id="education" class="card-block education">
+      <h2>Metabolic Syndrome &amp; IoT Monitoring</h2>
+
+      <!-- floated image + text wrap demo -->
+      <figure class="float-img-wrap">
+        <img class="float-img"
+             src="materials/hub.png"
+             alt="IoT gateway hub that collects data from wearable sensors" width="220" height="160">
+        <figcaption>IoT hub — pairs with every sensor over Bluetooth</figcaption>
+      </figure>
+
+      <h3>What is metabolic syndrome?</h3>
+      <p>Metabolic syndrome is a cluster of conditions — high blood pressure, high blood
+        sugar, excess abdominal fat and abnormal cholesterol — that occur together and
+        raise the risk of heart disease, stroke and type 2 diabetes. Because most of
+        these conditions have no obvious symptoms on their own, patients often need
+        regular measurement rather than a single test to catch the pattern early.</p>
+
+      <h3>IoT-based patient monitoring</h3>
+      <p>An IoT monitoring system replaces occasional clinic visits with small wearable
+        or bedside sensors that measure a patient's vitals continuously and send the
+        readings to a doctor automatically. This is especially useful for metabolic
+        syndrome, where the important warning signs — a slow rise in glucose, a change
+        in resting heart rate — only show up over days or weeks, not in a single
+        appointment.</p>
+
+      <h3>Monitored physiological parameters</h3>
+      <ul>
+        <li>Blood glucose level</li>
+        <li>Heart rate and ECG rhythm</li>
+        <li>Blood pressure (systolic / diastolic)</li>
+        <li>Body temperature</li>
+        <li>Blood oxygen saturation (SpO2)</li>
+      </ul>
+
+      <h3>Medical sensors and devices</h3>
+      <p>The dashboard above is fed by five device types: a continuous glucose monitor
+        (CGM) patch, a photoplethysmography (PPG) wrist sensor for heart rate and SpO2,
+        an oscillometric blood pressure cuff, a skin thermistor, and an adhesive 3-lead
+        ECG patch. Each device pairs with the patient's IoT hub over Bluetooth Low
+        Energy.</p>
+
+      <!-- required "image inside an information block" -->
+      <div class="info-block">
+        <figure class="info-block-figure">
+          <img src="materials/cloud.png"
+               alt="Cloud server icon representing the data storage backend" width="220" height="160">
+          <figcaption>Cloud server</figcaption>
+        </figure>
+        <div>
+          <h3>Data transmission</h3>
+          <p>Each sensor sends small, encrypted readings over Bluetooth to the patient's
+            IoT hub, which forwards them over Wi-Fi or the mobile network to a cloud
+            server. The server timestamps and stores every reading, checks it against
+            the patient's normal range, and pushes an alert to the care team the moment
+            a value crosses a threshold — as seen in the Alerts section above.</p>
+        </div>
+      </div>
+
+      <h3>Benefits of continuous monitoring</h3>
+      <p>Continuous monitoring catches dangerous trends — like the glucose spike flagged
+        in the Alerts section — hours or days before a scheduled appointment would.
+        It also reduces unnecessary clinic visits for stable patients, gives doctors a
+        full history instead of a single snapshot, and lets patients manage a chronic
+        condition from home with confidence that a real problem will still be caught
+        quickly.</p>
+    </section>
+
+    <!-- ===== SEMINAR 4: IoT chain diagram ===== -->
+    <section id="howitworks" class="card-block howitworks">
+      <h2>How the IoT Monitoring System Works</h2>
+      <p class="section-lead">The path one reading takes from the patient's body to the doctor's screen.</p>
+
+      <div class="flow">
+        <div class="flow-step">
+          <span class="flow-icon" aria-hidden="true">🩹</span>
+          <p class="flow-title">Sensors</p>
+          <p>Wearable patches and cuffs measure glucose, heart rate, pressure and temperature.</p>
+        </div>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+
+        <div class="flow-step">
+          <span class="flow-icon" aria-hidden="true">📡</span>
+          <p class="flow-title">IoT Device</p>
+          <p>A bedside hub collects readings from every sensor over Bluetooth.</p>
+        </div>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+
+        <div class="flow-step">
+          <span class="flow-icon" aria-hidden="true">🔄</span>
+          <p class="flow-title">Data Transmission</p>
+          <p>The hub sends encrypted readings over Wi-Fi or mobile network.</p>
+        </div>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+
+        <div class="flow-step">
+          <span class="flow-icon" aria-hidden="true">☁️</span>
+          <p class="flow-title">Cloud / Server</p>
+          <p>Readings are stored, timestamped and checked against safe ranges.</p>
+        </div>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+
+        <div class="flow-step">
+          <span class="flow-icon" aria-hidden="true">🧑‍⚕️</span>
+          <p class="flow-title">Doctor / Patient</p>
+          <p>Both see the dashboard live and get notified the moment something is abnormal.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEMINAR 4: audio + video ===== -->
+    <section id="media" class="card-block media">
+      <h2>Media</h2>
+      <p class="section-lead">Sample media a device or clinician would use during a check-up.</p>
+
+      <div class="media-grid">
+        <div>
+          <p class="media-label">Device connection chime (demo audio)</p>
+          <audio controls src="materials/sound.mp3">
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+
+        <div>
+          <p class="media-label">Explainer clip (demo video)</p>
+          <video controls width="320" height="180"
+                 src="materials/video.mp4">
+            Your browser does not support the video element.
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEMINAR 4: links + map ===== -->
+    <section id="resources" class="card-block resources">
+      <h2>Resources</h2>
+      <ul class="resource-list">
+        <li>
+          <a href="https://www.mayoclinic.org/diseases-conditions/metabolic-syndrome/symptoms-causes/syc-20351916"
+             target="_blank" rel="noopener">Mayo Clinic — Metabolic syndrome overview ↗</a>
+        </li>
+        <li>
+          <a href="https://www.who.int/news-room/fact-sheets/detail/diabetes" target="_blank" rel="noopener">
+            WHO — Diabetes fact sheet ↗</a>
+        </li>
+        <li>
+          <a href="https://www.google.com/maps/search/medical+center+Almaty" target="_blank" rel="noopener">
+            View the assigned medical center on Google Maps ↗</a>
+        </li>
+      </ul>
+    </section>
+
+    <section id="about" class="card-block about">
+      <h2>About DenSaulyq</h2>
+      <p class="section-lead">DenSaulyq links wearable and bedside IoT sensors to track the
+        vitals that matter most for metabolic syndrome and brings every reading
+        into one screen for patients and their care team — so the people caring
+        for a patient see what changed, not just numbers.</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col">
+        <p class="brand-name">DenSaulyq</p>
+        <p>IoT monitoring for metabolic syndrome care.</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-heading">Contact</p>
+        <p>support@DenSaulyq.com</p>
+        <p>+7 708 309 04 92</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-heading">System</p>
+        <p>Version 2.1 · Seminar #4 project</p>
+        <p>&copy; 2026 DenSaulyq Health Systems</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

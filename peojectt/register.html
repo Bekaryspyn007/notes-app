@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="Ola Cafe — авторская грузинская кухня в Алматы. Меню, заказ и бронь стола онлайн."/>
+<meta name="theme-color" content="#f4f1eb"/>
+<title>Регистрация · Ola Cafe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="icon" href="images/logo.svg"/>
+<link rel="stylesheet" href="css/styles.css"/>
+<link rel="stylesheet" href="css/pages.css"/>
+</head>
+<body data-root="" data-page="register">
+<div id="loader"></div>
+<div class="toast" id="toast"></div>
+<header id="top"></header>
+<main>
+<div class="page active"><div class="auth-wrap"><form id="regForm" class="auth-card" novalidate>
+  <h1 class="sec-title">Создать <em>аккаунт</em></h1><p class="auth-sub">Это займёт меньше минуты.</p>
+  <div class="form-row"><div class="form-sec"><label class="form-label" for="regFirst">Имя</label><input class="form-input" id="regFirst" type="text" autocomplete="given-name"/></div><div class="form-sec"><label class="form-label" for="regLast">Фамилия</label><input class="form-input" id="regLast" type="text" autocomplete="family-name"/></div></div>
+  <div class="form-sec"><label class="form-label" for="regEmail">Email</label><input class="form-input" id="regEmail" type="email" placeholder="name@mail.com" autocomplete="username"/></div>
+  <div class="form-sec"><label class="form-label" for="regPass">Пароль (минимум 6 символов)</label><input class="form-input" id="regPass" type="password" autocomplete="new-password"/></div>
+  <div class="form-sec"><label class="form-label" for="regConfirm">Повторите пароль</label><input class="form-input" id="regConfirm" type="password" autocomplete="new-password"/></div>
+  <div class="form-row"><div class="form-sec"><label class="form-label" for="regPhone">Телефон (необязательно)</label><input class="form-input" id="regPhone" type="tel" placeholder="+7 777 000 00 00"/></div><div class="form-sec"><label class="form-label" for="regDob">Дата рождения (необязательно)</label><input class="form-input" id="regDob" type="date"/></div></div>
+  <button class="btn btn-primary btn-full" type="submit">Зарегистрироваться</button>
+  <p class="auth-links">Уже есть аккаунт? <a class="lnk" href="login.html">Войти</a></p>
+</form></div></div>
+</main>
+<footer class="site-footer" id="foot"></footer>
+<nav class="bnav" id="bnav"></nav>
+<script src="js/config.js"></script><script src="js/db.js"></script><script src="js/validation.js"></script><script src="js/auth.js"></script><script src="js/layout.js"></script><script src="js/client.js"></script><script src="js/i18n.js"></script>
+</body>
+</html>

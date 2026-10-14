@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="Ola Cafe — авторская грузинская кухня в Алматы. Меню, заказ и бронь стола онлайн."/>
+<meta name="theme-color" content="#f4f1eb"/>
+<title>Главная · Ola Cafe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="icon" href="images/logo.svg"/>
+<link rel="stylesheet" href="css/styles.css"/>
+<link rel="stylesheet" href="css/pages.css"/>
+</head>
+<body data-root="" data-page="home">
+<div id="loader"></div>
+<div class="toast" id="toast"></div>
+<header id="top"></header>
+<main>
+<div class="page active">
+  <section class="hero">
+    <div class="hero-bg" id="heroBg"></div><div class="hero-grad"></div><div class="hero-stripe"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Авторская кухня · Алматы</div>
+      <h1 class="hero-name"><span data-r="name">Ola Cafe</span><em data-r="tagline">когда любовь становится вкусом</em></h1>
+      <p class="hero-sub"><span id="hello"></span>С любовью.<br/>Рецепты, которые передаются из поколения в поколение.</p>
+      <div class="hero-cta"><a class="btn btn-primary" href="pages/menu.html">Открыть меню</a><a class="btn btn-outline" href="pages/reserve.html">Забронировать стол</a></div>
+    </div>
+  </section>
+  <div class="geo-divider" style="margin-top:30px"><span>✦</span></div>
+  <section class="home-sec"><div class="wrap"><div class="chip-row">
+    <a class="chip-card" href="pages/menu.html"><div class="ci">🫕</div><div class="ct">Горячие блюда</div><div class="cd">Хачапури, хинкали, шашлык</div></a>
+    <a class="chip-card" href="pages/menu.html"><div class="ci">🍷</div><div class="ct">Грузинские вина</div><div class="cd">Саперави и другие</div></a>
+    <a class="chip-card" href="pages/reserve.html"><div class="ci">📅</div><div class="ct">Бронь столика</div><div class="cd">Выберите дату и время</div></a>
+    <a class="chip-card" href="pages/cart.html"><div class="ci">💳</div><div class="ct">Заказ и оплата</div><div class="cd">Kaspi, Halyk, наличные</div></a>
+  </div></div></section>
+  <section class="home-sec"><div class="wrap">
+    <div class="sec-head"><div class="eyebrow">Любимое гостей</div><h2 class="sec-title">Популярные <em>блюда</em></h2></div>
+    <div class="menu-grid" id="popular"></div>
+    <div class="center"><a class="btn btn-primary" href="pages/menu.html">Всё меню</a></div>
+  </div></section>
+  <section class="home-sec" style="padding-top:44px"><div class="wrap">
+    <div class="sec-head"><div class="eyebrow">Просто и быстро</div><h2 class="sec-title">Как это <em>работает</em></h2></div>
+    <div class="steps">
+      <div class="step-card"><b>1</b><h3>Войдите в аккаунт</h3><p>Зарегистрируйтесь за минуту — и заказы с бронями всегда под рукой.</p></div>
+      <div class="step-card"><b>2</b><h3>Выберите блюда</h3><p>Добавьте любимое в корзину или забронируйте стол на нужное время.</p></div>
+      <div class="step-card"><b>3</b><h3>Получите подтверждение</h3><p>Номер заказа или брони придёт сразу, а история — в личном кабинете.</p></div>
+    </div>
+    <div class="cta-band"><h2>Проголодались?</h2><p>Столики на выходные разбирают быстро — забронируйте свой сейчас.</p><a class="btn" href="pages/reserve.html">Забронировать стол</a></div>
+  </div></section>
+</div>
+</main>
+<footer class="site-footer" id="foot"></footer>
+<nav class="bnav" id="bnav"></nav>
+<script src="js/config.js"></script><script src="js/db.js"></script><script src="js/validation.js"></script><script src="js/auth.js"></script><script src="js/layout.js"></script><script src="js/client.js"></script><script src="js/i18n.js"></script>
+</body>
+</html>
