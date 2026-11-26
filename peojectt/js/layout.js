@@ -1,12 +1,9 @@
-/**
- * layout.js — общая «рамка» сайта: верхняя панель (логотип, меню, пользователь),
- * нижняя навигация для телефона (стиль Ola Cafe) и футер. Строится один раз для всех страниц.
- */
+
 (function () {
   if (STOP) return;
   const u = me(), P = document.body.dataset.page || '', R = CONFIG.restaurant;
   const cartN = LS.get('ola_cart', []).reduce((s, c) => s + c.qty, 0);
-  // какая вкладка подсвечена на каждой странице
+
   const act = k => (({ dish: 'menu', order: 'cart', payment: 'cart', confirm: 'cart' })[P] || P) === k ? 'active' : '';
 
   const L = [['index.html', 'Главная', 'home'], ['pages/menu.html', 'Меню', 'menu'], ['pages/reserve.html', 'Бронь', 'reserve'], ['pages/about.html', 'О нас', 'about']];

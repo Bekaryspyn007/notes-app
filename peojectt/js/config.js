@@ -1,7 +1,4 @@
-/**
- * config.js — настройки сайта Ola Cafe
- * Здесь меняется название, контакты, список официантов, способы оплаты и Telegram.
- */
+
 const CONFIG = {
   restaurant: {
     name:      'Ola Cafe',
@@ -10,7 +7,7 @@ const CONFIG = {
     email:     'hello@olacafe.kz',
     address:   'Алматы, пр. Абая 12',
     hours:     'Ежедневно 11:00 – 23:00',
-    heroImage: '',            // необязательно: путь к фото, например 'images/hero.jpg'
+    heroImage: '',            
   },
   waiters: ['Нино', 'Давид', 'Тамара', 'Георгий', 'Мариам', 'Леван'],
   payments: [
@@ -18,7 +15,5 @@ const CONFIG = {
     { name: 'Halyk Bank',             icon: '🟢', color: '#2b9e5b', link: 'https://halykbank.kz' },
     { name: 'Наличными официанту',    icon: '💵', color: '#c9a87c', link: '' },
   ],
-  // Уведомления в Telegram (необязательно). Вставьте токен бота и chat id —
-  // и каждый новый заказ или бронь придёт в чат. Пока пусто — ничего не отправляется.
   telegram: { token: '', chatId: '' },
 };

@@ -1,10 +1,4 @@
-/**
- * db.js — «база данных» сайта. Всё хранится в localStorage браузера.
- * (В исходном Ola Cafe это была Supabase — здесь она заменена на браузер.)
- *
- * Таблицы: users, menu, orders, reservations, returns.
- * Ключ в localStorage: 'ola_' + имя таблицы.
- */
+
 const LS = {
   get(k, d) { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } },
   set(k, v) { localStorage.setItem(k, JSON.stringify(v)); },
@@ -26,7 +20,6 @@ const DB = {
   remove: (t, id) => DB.save(t, DB.all(t).filter(r => r.id != id)),
 };
 
-/* Общие справочники */
 const CATS = [
   { key: 'all', label: 'Все' }, { key: 'dishes', label: 'Блюда' }, { key: 'drinks', label: 'Напитки' },
   { key: 'desserts', label: 'Десерты' }, { key: 'combo', label: 'Комбо' }, { key: 'seasonal', label: 'Сезонное' },
@@ -34,7 +27,6 @@ const CATS = [
 const ORDER_STATUS = { new: 'Принят', cooking: 'Готовится', ready: 'Готов', served: 'Подан', cancelled: 'Отменён' };
 const RES_STATUS   = { new: 'Новая', confirmed: 'Подтверждена', cancelled: 'Отменена' };
 
-/* Стартовые данные (создаются один раз при первом открытии сайта) */
 (function seed() {
   if (LS.get('ola_seed') === 2) return;
   const M = [

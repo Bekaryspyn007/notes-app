@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DenimSau</title>
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+<header>
+  <span class="logo">♥ DenimSau</span>
+  <nav id="nav">
+    <a href="#home">Home</a>
+    <a href="#dashboard">Dashboard</a>
+    <a href="#workouts">Workouts &amp; Nutrition</a>
+    <a href="#assistant">AI Assistant</a>
+    <a href="#about">About</a>
+  </nav>
+  <select id="langSelect" aria-label="Language">
+    <option value="en">EN</option>
+    <option value="ru">RU</option>
+    <option value="kk">KZ</option>
+  </select>
+  <button id="themeBtn" aria-label="Toggle theme">◐ Theme</button>
+</header>
+
+<main>
+
+  <!-- ================= HOME ================= -->
+  <section class="page" id="home">
+    <div class="hero">
+      <div>
+        <h1>Your AI-powered fitness companion</h1>
+        <p>Track habits, understand trends, train with a built-in timer, plan meals and chat with an assistant. Everything runs on simulated, educational data.</p>
+        <a class="btn" href="#dashboard">Open dashboard</a>
+        <a class="btn outline" href="#workouts">Start a workout</a>
+        <a class="btn outline" href="#assistant">Chat</a>
+      </div>
+      <img id="heroImg" alt="Runner at night, AI-generated illustration" style="width:100%; border-radius:16px; display:block">
+    </div>
+
+    <div class="grid" style="margin-top:14px" id="kpi"></div>
+
+    <h2>How it works</h2>
+    <div class="grid">
+      <div class="card"><h3>1 · Enter data</h3><p class="muted">Profile, weight, water, sleep and steps.</p></div>
+      <div class="card"><h3>2 · Agent analyses</h3><p class="muted">Statistics, health score and plain-language insights.</p></div>
+      <div class="card"><h3>3 · Act</h3><p class="muted">Follow a plan, use the timer, ask the chatbot.</p></div>
+    </div>
+
+    <h2>Concept illustrations</h2>
+    <p class="muted">AI-generated illustrations for the four pillars of a healthy routine.</p>
+    <div class="grid" id="gallery"></div>
+
+    <h2>Analysis</h2>
+    <div class="card">
+      <p>The WHO recommends at least 150 minutes of moderate activity per week for adults, yet many people have no simple way to see how their habits compare. Numbers such as steps, sleep and water are easy to log but hard to interpret.</p>
+      <p><b>Analysis.</b> Rule-based statistics make trends visible and reproducible. A language model then explains them in friendly words, which improves understanding without replacing the numbers.</p>
+      <p><b>Conclusion.</b> DenimSau combines both approaches with clear safety limits: it informs and motivates, it never diagnoses.</p>
+    </div>
+    <div class="note">⚠️ Educational project. Data is simulated or typed by you. AI output is informational and not a substitute for professional medical advice.</div>
+  </section>
+
+  <!-- ================= DASHBOARD ================= -->
+  <section class="page" id="dashboard">
+    <h1>Health dashboard</h1>
+    <div class="note">Simulated demo data. Not medical information.</div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Profile</h3>
+        <label>Height (cm)<input id="height" type="number" value="175"></label>
+        <label>Weight (kg)<input id="weight" type="number" value="72"></label>
+        <label>Age<input id="age" type="number" value="21"></label>
+        <label>Sex (for calorie formula)
+          <select id="sex"><option value="m">Male</option><option value="f">Female</option></select>
+        </label>
+        <label>Activity level
+          <select id="activity">
+            <option value="1.2">Sedentary</option>
+            <option value="1.375" selected>Light</option>
+            <option value="1.55">Moderate</option>
+            <option value="1.725">Very active</option>
+          </select>
+        </label>
+        <label>Step goal per day<input id="stepGoal" type="number" value="8000"></label>
+        <button class="btn" id="calcBtn">Calculate &amp; analyse</button>
+      </div>
+
+      <div class="card">
+        <h3>BMI</h3>
+        <div class="big" id="bmi">–</div>
+        <div id="bmiText" class="muted"></div>
+        <h3 style="margin-top:14px">Daily energy (estimate)</h3>
+        <div class="big" id="kcal">–</div>
+        <div class="muted">kcal/day to maintain weight (Mifflin-St Jeor). A rough estimate only.</div>
+      </div>
+
+      <div class="card" style="text-align:center">
+        <h3>Health score (demo)</h3>
+        <svg viewBox="0 0 120 120" width="150">
+          <circle cx="60" cy="60" r="48" fill="none" stroke="var(--border)" stroke-width="12"/>
+          <circle id="ring" cx="60" cy="60" r="48" fill="none" stroke="var(--accent)" stroke-width="12"
+                  stroke-linecap="round" stroke-dasharray="302" stroke-dashoffset="302" transform="rotate(-90 60 60)"/>
+          <text id="scoreText" x="60" y="68" text-anchor="middle" style="font-size:28px; font-weight:800; fill:var(--text)">0</text>
+        </svg>
+        <div class="muted">Mix of steps, sleep, water and BMI. Not a medical score.</div>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:14px">
+      <div class="card">
+        <h3>💧 Water today</h3>
+        <div class="water" id="water"></div>
+        <div class="muted" id="waterText"></div>
+      </div>
+      <div class="card">
+        <h3>Log weight</h3>
+        <label>Weight (kg)<input id="newWeight" type="number" step="0.1"></label>
+        <button class="btn" id="addWeightBtn">Add entry</button>
+        <div class="muted">Entries are saved in this browser.</div>
+      </div>
+      <div class="card">
+        <h3>Log last night's sleep</h3>
+        <label>Hours<input id="newSleep" type="number" step="0.5" min="0" max="16"></label>
+        <button class="btn" id="addSleepBtn">Add entry</button>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:14px">
+      <div class="card"><h3>Steps this week (simulated)</h3><svg id="stepsChart" viewBox="0 0 320 170" width="100%"></svg></div>
+      <div class="card"><h3>Sleep hours</h3><svg id="sleepChart" viewBox="0 0 320 170" width="100%"></svg></div>
+      <div class="card"><h3>Weight trend (kg)</h3><svg id="weightChart" viewBox="0 0 320 170" width="100%"></svg></div>
+    </div>
+
+    <h2>🤖 AI agent insights</h2>
+    <div class="card">
+      <div id="stats" class="grid"></div>
+      <ul id="insights"></ul>
+      <button class="btn outline" id="aiBtn">Get AI explanation</button>
+      <div id="aiOutput" class="muted" style="white-space:pre-wrap; margin-top:8px"></div>
+    </div>
+  </section>
+
+  <!-- ================= WORKOUTS ================= -->
+  <section class="page" id="workouts">
+    <h1>Workouts &amp; nutrition</h1>
+    <div class="tabs" id="workoutTabs"></div>
+    <div class="card" id="workoutBody"></div>
+
+    <h2>📅 Weekly plan</h2>
+    <div class="card">
+      <div class="grid">
+        <label>Level
+          <select id="planLevel"><option value="b">Beginner</option><option value="i">Intermediate</option></select>
+        </label>
+        <label>Goal
+          <select id="planGoal"><option value="g">General fitness</option><option value="f">Fat loss</option><option value="s">Strength</option></select>
+        </label>
+        <label>Days per week
+          <select id="planDays"><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option></select>
+        </label>
+        <label>Session length
+          <select id="planMinutes"><option value="20">20 min</option><option value="30" selected>30 min</option><option value="45">45 min</option></select>
+        </label>
+      </div>
+      <button class="btn" id="planBtn">Build my week</button>
+      <button class="btn outline" id="printBtn">Print / save as PDF</button>
+      <div id="planOutput"></div>
+      <div class="muted" id="planProgress"></div>
+      <div class="muted">Educational guidance, not medical advice. Stop if you feel pain or dizziness.</div>
+    </div>
+
+    <h2>🎬 Workout videos</h2>
+    <div class="grid" id="videos"></div>
+
+    <h2>⏱ Interval timer</h2>
+    <div class="card" style="text-align:center">
+      <div class="big" id="timerDisplay" style="font-size:54px">00:30</div>
+      <div id="timerLabel" class="muted">Ready: 30 s work / 10 s rest</div>
+      <button class="btn" id="timerStart">Start</button>
+      <button class="btn outline" id="timerReset">Reset</button>
+    </div>
+
+    <h2>Guided breathing animation</h2>
+    <div class="card" style="text-align:center">
+      <svg viewBox="0 0 200 130" width="240">
+        <circle class="breath" cx="100" cy="65" r="30" fill="var(--accent)" opacity=".55"/>
+        <circle cx="100" cy="65" r="14" fill="var(--accent2)"/>
+      </svg>
+      <p class="muted">Breathe in as the circle grows, out as it shrinks. A calm cool-down.</p>
+    </div>
+
+    <h2>🍽 Meal planner</h2>
+    <div class="card">
+      <label>Goal
+        <select id="mealGoal">
+          <option value="0">Maintain</option>
+          <option value="-250">Gentle fat loss</option>
+          <option value="250">Gentle muscle gain</option>
+        </select>
+      </label>
+      <label>Style
+        <select id="mealStyle"><option>Balanced</option><option>Vegetarian</option></select>
+      </label>
+      <button class="btn" id="mealBtn">Generate day plan</button>
+      <div id="mealOutput" style="margin-top:10px"></div>
+    </div>
+    <div class="note">General information only. Consult a doctor or dietitian before major diet changes or if you have a health condition.</div>
+  </section>
+
+  <!-- ================= ASSISTANT ================= -->
+  <section class="page" id="assistant">
+    <h1>AI fitness assistant</h1>
+    <div class="note">Ask about exercise, nutrition and habits. No diagnoses; for medical issues see a professional.</div>
+    <div id="chat" aria-live="polite"></div>
+    <div class="tabs" style="margin-top:10px" id="chips"></div>
+    <div class="row">
+      <input id="question" placeholder="Type a question…" autocomplete="off">
+      <button class="btn" id="sendBtn">Send</button>
+    </div>
+    <p class="muted" id="modeText"></p>
+
+    <h2>🎵 Background music</h2>
+    <div class="card">
+      <p class="muted" id="musicText"></p>
+      <audio id="bgm" preload="none"></audio>
+      <canvas id="visualizer" width="600" height="70"></canvas>
+      <button class="btn" id="playBtn">▶ Play</button>
+      <label style="display:inline-block">Volume
+        <input id="volume" type="range" min="0" max="1" step=".05" value=".4" style="width:140px">
+      </label>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section class="page" id="about">
+    <h1>About the project</h1>
+    <div class="grid">
+      <div class="card"><h3>Purpose</h3><p class="muted">AI-powered multimedia website for the ICT final examination: personal health and fitness assistant.</p></div>
+      <div class="card"><h3>Technologies</h3><p class="muted">HTML, CSS, JavaScript, inline SVG charts, Canvas, Web Audio API, Claude through the page runtime.</p></div>
+      <div class="card"><h3>Safety</h3><p class="muted">Simulated data, no diagnoses, no extreme advice, clear disclaimers.</p></div>
+    </div>
+
+    <h2>Seven required components</h2>
+    <div class="card" id="checklist"></div>
+
+    <h2>Development timeline</h2>
+    <div class="timeline"><b>1. Planning</b><div class="muted">Requirements, pages, design system.</div></div>
+    <div class="timeline"><b>2. Build</b><div class="muted">Pages, charts, agent, chatbot, audio.</div></div>
+    <div class="timeline"><b>3. Testing</b><div class="muted">Interactions, responsiveness, safety wording.</div></div>
+    <div class="timeline"><b>4. Documentation</b><div class="muted">Report and presentation.</div></div>
+
+    <h2>Author</h2>
+    <div class="card"><p>Author: Kemalqyzy Madina, Allabergen Serik · Supervisor: Mirkasimova Tolqyn</p></div>
+  </section>
+</main>
+
+<footer> Kemalqyzy Madina, Allabergen Serik · Information and Communication Technologies (ICT) · Narxoz University, [Tourism] © 2026</footer>
+
+
+<script src="js/translations.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

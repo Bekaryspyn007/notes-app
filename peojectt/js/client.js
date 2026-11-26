@@ -1,7 +1,4 @@
-/**
- * client.js — логика гостя: меню · карточка блюда · корзина · заказ · оплата · бронь · подтверждение.
- * (Перенесено из Ola Cafe; вместо Supabase используется DB из db.js.)
- */
+
 let menu = DB.all('menu'), cart = LS.get('ola_cart', []), curCat = 'all', curSearch = '', curPrice = '', selTime = '';
 
 const TIME_SLOTS = ['11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30','22:00'];
@@ -9,7 +6,6 @@ const catLabel = k => (CATS.find(c => c.key === k) || {}).label || k;
 const visibleMenu = () => menu.filter(d => d.visible !== false);
 const param = k => new URLSearchParams(location.search).get(k);
 
-/* ── Корзина ── */
 function saveCart() { LS.set('ola_cart', cart); updateBadge(); }
 function updateBadge() {
   const n = cart.reduce((s, c) => s + c.qty, 0);
@@ -32,7 +28,6 @@ function updateDishComment(id, val) { const c = cart.find(c => c.id === id); if 
 function clearCart() { cart = []; saveCart(); renderCart(); }
 function refreshCards() { if ($('menuGrid')) renderMenu(); if ($('popular')) renderHome(); }
 
-/* ── Карточка блюда (стиль Ola Cafe) ── */
 function dishCard(d) {
   const inCart = cart.find(c => c.id === d.id);
   const pic = d.photo_url ? `<img class="dish-img" src="${esc(d.photo_url)}" alt="${esc(d.name)}" loading="lazy"/>` : `<div class="dish-placeholder">${d.emoji || '🍽'}</div>`;
@@ -50,12 +45,10 @@ function dishCard(d) {
     </div></article>`;
 }
 
-/* ── Главная ── */
 function renderHome() {
   $('popular').innerHTML = visibleMenu().filter(d => d.hit).slice(0, 4).map(dishCard).join('');
 }
 
-/* ── Меню: поиск + категория + цена ── */
 const priceOk = p => !curPrice || (curPrice === 'lt' && p < 2000) || (curPrice === 'mid' && p >= 2000 && p <= 3000) || (curPrice === 'gt' && p > 3000);
 function renderMenu() {
   $('catTabs').innerHTML = CATS.map(c => `<button class="cat-btn ${curCat === c.key ? 'active' : ''}" onclick="setCat('${c.key}')">${c.label}</button>`).join('');
@@ -69,7 +62,6 @@ function renderMenu() {
 function setCat(k) { curCat = k; renderMenu(); }
 function filterMenu() { curSearch = $('searchInput').value; curPrice = $('priceSel').value; renderMenu(); }
 
-/* ── Страница блюда ── */
 function renderDish() {
   const d = menu.find(x => x.id == param('id'));
   if (!d) { $('dish').innerHTML = '<div class="info-box">Блюдо не найдено. <a class="lnk" href="menu.html">Вернуться в меню</a></div>'; return; }
@@ -86,10 +78,9 @@ function renderDish() {
   $('relatedWrap').classList.toggle('hidden', !rel.length);
 }
 
-/* ── Корзина ── */
 function renderCart() {
   const wrap = $('cartContent'), clearBtn = $('clearCartBtn');
-  cart = cart.filter(c => menu.some(m => m.id === c.id));   // убрать удалённые блюда
+  cart = cart.filter(c => menu.some(m => m.id === c.id));   
   if (!cart.length) {
     clearBtn.style.display = 'none';
     wrap.innerHTML = `<div class="cart-empty"><div style="font-size:56px;opacity:.18">🛒</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--muted)">Корзина пуста</div><div style="font-size:13px;color:var(--muted);opacity:.8;margin-top:5px">Добавьте что-нибудь из меню</div><a class="btn btn-primary" style="margin-top:18px" href="menu.html">Открыть меню</a></div>`;
@@ -109,7 +100,6 @@ function renderCart() {
     <a class="btn btn-primary btn-full" href="order.html">Оформить заказ →</a><a class="btn btn-ghost" style="display:flex" href="menu.html">← Продолжить выбор</a>`;
 }
 
-/* ── Оформление заказа ── */
 function renderOrderPage() {
   cart = cart.filter(c => menu.some(m => m.id === c.id));
   const el = $('orderSummary');
@@ -126,7 +116,6 @@ function selectWaiter(name, el) {
   el.classList.add('active'); $('waiterSelect').value = name; V.clear($('waiterSelect'));
 }
 
-/* ── Telegram (необязательно: работает, если заполнен CONFIG.telegram) ── */
 async function sendTelegram(text) {
   const { token, chatId } = CONFIG.telegram;
   if (!token || !chatId) return;
@@ -156,7 +145,6 @@ async function submitOrder() {
   location.href = `confirmation.html?type=order&id=${o.id}`;
 }
 
-/* ── Бронь ── */
 function initReserve() {
   const u = me(), inp = $('resDate');
   $('resName').value = u.first + ' ' + u.last; $('resPhone').value = u.phone || '';
@@ -190,7 +178,7 @@ async function submitReservation() {
   location.href = `confirmation.html?type=reservation&id=${r.id}`;
 }
 
-/* ── Подтверждение ── */
+
 function renderConfirmation() {
   const type = param('type'), isOrder = type === 'order', rec = DB.find(isOrder ? 'orders' : 'reservations', param('id')), u = me();
   if (!rec || (rec.userId !== u.id && u.role !== 'admin')) { $('conf').innerHTML = '<div class="info-box">Запись не найдена. <a class="lnk" href="../profile.html">Мой кабинет</a></div>'; return; }
@@ -205,7 +193,6 @@ function renderConfirmation() {
     <a class="lnk center-lnk" href="../index.html">На главную</a>`;
 }
 
-/* ── Оплата ── */
 function renderPayment() {
   const o = DB.find('orders', param('id')), u = me();
   if (!o || (o.userId !== u.id && u.role !== 'admin')) { $('payBox').innerHTML = '<div class="info-box">Заказ не найден. <a class="lnk" href="../profile.html">Мой кабинет</a></div>'; return; }
@@ -215,7 +202,6 @@ function renderPayment() {
     : `<div class="pay-method-btn" style="--pay-color:${p.color}"><div class="pay-method-icon">${p.icon}</div><div class="pay-method-name">${esc(p.name)}</div><div class="pay-method-arrow">✓</div></div>`).join('');
 }
 
-/* ── Запуск ── */
 function init() {
   const R = CONFIG.restaurant;
   document.querySelectorAll('[data-r]').forEach(el => el.textContent = R[el.dataset.r]);

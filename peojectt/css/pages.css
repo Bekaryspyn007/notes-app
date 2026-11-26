@@ -1,8 +1,4 @@
-/* ════════════════════════════════════════
-   pages.css — дополнения к styles.css (Ola Cafe)
-   Всё, чего не было в одностраничной версии: верхняя панель, футер,
-   десктопная раскладка, формы входа, профиль, страница блюда, подтверждение.
-   ════════════════════════════════════════ */
+
 :root{--muted:#7a7268}
 body{display:flex;flex-direction:column;padding-bottom:68px}
 main{flex:1}
@@ -13,7 +9,6 @@ main{flex:1}
 .lnk:hover{color:var(--sage2)}
 .center-lnk{display:block;text-align:center;margin-top:16px;font-size:13px}
 
-/* ── Верхняя панель ── */
 .topbar{position:sticky;top:0;z-index:600;background:rgba(250,248,244,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);box-shadow:var(--shadow)}
 .topbar-in{max-width:1140px;margin:0 auto;height:62px;padding:0 16px;display:flex;align-items:center;gap:18px}
 .brand{font-family:'Cormorant Garamond',serif;font-size:27px;font-weight:600;letter-spacing:-.5px;color:var(--text);display:flex;align-items:center;gap:8px;white-space:pre}
@@ -36,7 +31,6 @@ main{flex:1}
 .tnav.open a{padding:13px 16px;font-size:12px}
 .tnav .only-m{display:inline-flex}
 
-/* ── Футер ── */
 .site-footer{background:#2c2c2c;color:rgba(255,255,255,.62);margin-top:40px}
 .foot-in{max-width:1140px;margin:0 auto;padding:46px 20px 22px}
 .foot-grid{display:grid;grid-template-columns:1fr;gap:28px}
@@ -49,7 +43,6 @@ main{flex:1}
 .foot-bottom+.foot-bottom{border:0;margin-top:0;padding-top:4px}
 .flinks{display:flex;gap:18px;flex-wrap:wrap}.site-footer .flinks a{display:inline;margin:0}
 
-/* ── Главная ── */
 .hero{min-height:calc(100dvh - 130px);background:radial-gradient(circle at 82% 14%,rgba(156,184,156,.3),transparent 48%),radial-gradient(circle at 0 100%,rgba(196,120,90,.28),transparent 55%),#26342a}
 .hero-bg{background-image:url(../images/hero.jpg)}
 .hero-sub{color:rgba(255,255,255,.7)}
@@ -76,7 +69,6 @@ main{flex:1}
 .cta-band p{color:rgba(255,255,255,.85);margin-bottom:20px;font-size:14px}
 .cta-band .btn{background:#fff;color:#2f4a2f}
 
-/* ── Меню ── */
 .filters{display:flex;flex-direction:column;gap:0}
 .filters .search-wrap{flex:1}
 .price-wrap{padding:0 16px 14px}
@@ -87,7 +79,6 @@ main{flex:1}
 .dish-add{cursor:pointer}
 .dish-desc{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 
-/* ── Страница блюда ── */
 .dish-detail{display:grid;grid-template-columns:1fr;gap:22px;padding:22px 16px 10px}
 .dish-photo{aspect-ratio:4/3;background:var(--sage-pale);border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:120px;overflow:hidden;box-shadow:var(--shadow2);border:1px solid var(--border)}
 .dish-photo img{width:100%;height:100%;object-fit:cover}
@@ -100,7 +91,6 @@ main{flex:1}
 .btn-line{border:1.5px solid var(--border2);color:var(--sage);background:transparent}.btn-line:hover{background:var(--sage-pale)}
 .sec-head.flat{padding:28px 16px 14px}
 
-/* ── Корзина / заказ / бронь ── */
 .btn-full{text-decoration:none}
 .waiter-select-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}
 .waiter-btn{padding:10px 6px;font-size:13px;border-radius:var(--r3)}
@@ -110,14 +100,12 @@ main{flex:1}
 .invalid{border-color:var(--err)!important;box-shadow:0 0 0 3px rgba(184,90,74,.1)!important}
 .reserve-wrap,.order-wrap,.cart-wrap{padding-bottom:30px}
 
-/* ── Оплата (из index.html Ola Cafe) ── */
 .pay-methods-wrap{padding:0 0 20px}
 .pay-method-btn{display:flex;align-items:center;gap:14px;width:100%;padding:16px 18px;margin-bottom:10px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);color:var(--text);transition:all .2s;position:relative;overflow:hidden}
 a.pay-method-btn:hover{box-shadow:var(--shadow2);transform:translateY(-2px)}
 .pay-method-btn::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--pay-color,var(--sage))}
 .pay-method-icon{font-size:28px;flex-shrink:0}.pay-method-name{flex:1;font-size:15px;font-weight:600}.pay-method-arrow{color:var(--muted);font-size:18px}
 
-/* ── Вход / регистрация ── */
 .auth-wrap{padding:34px 16px 50px}
 .auth-card{max-width:480px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow2);padding:30px 24px}
 .auth-card .sec-title{text-align:center;margin-bottom:6px}
@@ -125,7 +113,6 @@ a.pay-method-btn:hover{box-shadow:var(--shadow2);transform:translateY(-2px)}
 .auth-links{text-align:center;font-size:13px;color:var(--muted);margin-top:16px}
 .demo-note{margin-top:18px;font-size:11px;color:var(--muted);text-align:center;line-height:1.7;border-top:1px dashed var(--border2);padding-top:14px}
 
-/* ── Профиль ── */
 .profile-grid{display:grid;grid-template-columns:1fr;gap:20px;padding:22px 16px 10px}
 .p-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);padding:26px 20px;text-align:center}
 .p-avatar{width:92px;height:92px;border-radius:50%;background:var(--sage);color:#fff;display:flex;align-items:center;justify-content:center;font:600 36px 'Cormorant Garamond',serif;margin:0 auto 14px;box-shadow:0 0 0 6px var(--sage-light)}
@@ -144,7 +131,6 @@ th{background:var(--surface);font-size:10px;letter-spacing:2px;text-transform:up
 tr:last-child td{border-bottom:0}
 td a{color:var(--sage);font-weight:600}
 
-/* ── Подтверждение ── */
 .conf-wrap{max-width:520px;margin:34px auto 20px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow2);padding:34px 24px}
 .conf-ok{width:74px;height:74px;border-radius:50%;background:var(--sage);color:#fff;font-size:36px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 0 0 8px var(--sage-light)}
 .conf-sub{text-align:center;color:var(--muted);font-size:14px;margin-top:8px}
@@ -152,7 +138,6 @@ td a{color:var(--sage);font-weight:600}
 .conf-list dt{color:var(--muted);font-size:13px}.conf-list dd{text-align:right;font-weight:600;font-size:14px}
 .conf-wrap .btn{text-decoration:none}.conf-wrap .btn-ghost{display:flex}
 
-/* ── О нас / документы ── */
 .about-story{padding:22px 20px 6px;text-align:center}
 .about-story p{max-width:600px;margin:10px auto;color:var(--text2);line-height:1.85;font-size:15px}
 .contact-wrap{padding-bottom:30px}
@@ -160,7 +145,6 @@ td a{color:var(--sage);font-weight:600}
 .doc-card h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;margin:18px 0 6px}
 .doc-card h3:first-child{margin-top:0}.doc-card p{font-size:14px;color:var(--text2);line-height:1.8}
 
-/* ── Админка (дополнения) ── */
 .status-select{padding:6px 28px 6px 12px;border-radius:100px;border:1.5px solid var(--border2);font-size:11px;font-weight:600;background:var(--card) url("data:image/svg+xml,%3Csvg viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a8278' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 10px center/9px;color:var(--text2);cursor:pointer}
 .status-select.status-cooking{color:var(--terracotta)}.status-select.status-ready{color:var(--ok)}.status-select.status-cancelled{color:var(--err)}
 .order-guest{font-size:11px;color:var(--muted);margin-left:6px}

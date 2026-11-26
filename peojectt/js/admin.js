@@ -1,8 +1,4 @@
-/**
- * admin.js — панель администратора Ola Cafe.
- * Обзор · Заказы (смена статуса) · Меню (CRUD) · Брони · Пользователи · Возвраты · Официанты.
- * Доступ — только для пользователей с ролью admin (см. guard в auth.js).
- */
+
 const TABS = ['overview', 'orders', 'menu', 'reservations', 'users', 'returns', 'waiters'];
 let menu = DB.all('menu');
 
@@ -16,14 +12,12 @@ function switchTab(tab) {
   ({ overview: loadOverview, orders: loadOrders, menu: loadMenuAdmin, reservations: loadReservations, users: loadUsers, returns: loadReturns, waiters: loadWaiters })[tab]();
 }
 
-/* ── Обзор ── */
 function loadOverview() {
   const O = DB.all('orders'), today = O.filter(o => o.daily_date === dayStr() && o.status !== 'cancelled');
   const card = (n, l) => `<div class="stat-card"><div class="stat-num">${n}</div><div class="stat-label">${l}</div></div>`;
   $('overviewWrap').innerHTML = `<div class="stats-grid stats3">${card(DB.all('users').length, 'Пользователей')}${card(DB.all('menu').length, 'Блюд в меню')}${card(O.length, 'Заказов')}${card(DB.all('reservations').length, 'Броней')}${card(DB.all('reservations').filter(r => r.status === 'new').length, 'Новых броней')}${card(money(today.reduce((s, o) => s + o.total, 0)), 'Выручка сегодня')}</div>`;
 }
 
-/* ── Заказы по дням + смена статуса ── */
 function loadOrders() {
   const data = DB.all('orders').sort((a, b) => b.id - a.id), wrap = $('ordersWrap');
   if (!data.length) { wrap.innerHTML = emptyHTML('Заказов пока нет'); return; }
@@ -48,7 +42,6 @@ function loadOrders() {
 }
 function setOrderStatus(id, status) { DB.update('orders', id, { status }); toast('Статус обновлён: ' + ORDER_STATUS[status], 'ok'); loadOrders(); }
 
-/* ── Официанты ── */
 function loadWaiters() {
   const data = DB.all('orders').filter(o => o.status !== 'cancelled'), wrap = $('waitersWrap');
   if (!data.length) { wrap.innerHTML = emptyHTML('Заказов пока нет'); return; }
@@ -56,7 +49,6 @@ function loadWaiters() {
   wrap.innerHTML = Object.entries(totals).sort((a, b) => b[1] - a[1]).map(([name, sum], i) => `<div class="waiter-card"><div style="display:flex;align-items:center;gap:12px"><div class="waiter-rank">${i + 1}</div><div><div class="waiter-name">${esc(name)}</div><div style="font-size:11px;color:var(--muted)">Всё время</div></div></div><div class="waiter-total">${money(sum)}</div></div>`).join('');
 }
 
-/* ── Возвраты ── */
 function openReturnModal(orderId, tableNum, orderTotal) {
   $('returnOrderId').value = orderId; $('returnTableNum').value = tableNum; $('returnMaxAmt').value = orderTotal;
   ['returnAmount', 'returnReason', 'returnItems'].forEach(i => { $(i).value = ''; V.clear($(i)); });
@@ -79,7 +71,6 @@ function loadReturns() {
   wrap.innerHTML = data.map(r => `<div class="return-card"><div class="order-card-head"><div class="order-card-num">Возврат #${r.id}</div><div class="return-amount">−${money(r.amount)}</div></div><div style="font-size:12px;color:var(--muted);line-height:1.8"><div>Стол: <strong style="color:var(--text)">${esc(r.table_num || '—')}</strong></div><div>Причина: <strong style="color:var(--text)">${esc(r.reason)}</strong></div><div>${new Date(r.created_at).toLocaleString('ru')}</div></div></div>`).join('');
 }
 
-/* ── Меню: создание, чтение, изменение, удаление (CRUD) ── */
 function loadMenuAdmin() { menu = DB.all('menu'); renderMenuAdmin(); }
 function renderMenuAdmin() {
   const list = $('menuList');
@@ -110,7 +101,6 @@ function onPhotoSelected(input) {
   if (!input.files[0]) return;
   $('photoPreview').src = URL.createObjectURL(input.files[0]); $('photoPreview').classList.add('show'); $('photoUploadContent').style.display = 'none';
 }
-/* фото сжимается и сохраняется прямо в браузере (data URL) */
 function readImage(file) {
   return new Promise((res, rej) => {
     const r = new FileReader();
@@ -138,7 +128,6 @@ async function saveDish() {
   finally { btn.disabled = false; btn.textContent = 'Сохранить'; }
 }
 
-/* ── Брони ── */
 function loadReservations() {
   const data = DB.all('reservations').sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time)), wrap = $('reservationsWrap');
   if (!data.length) { wrap.innerHTML = emptyHTML('Броней пока нет'); return; }
@@ -150,7 +139,6 @@ function loadReservations() {
 function setResStatus(id, status) { DB.update('reservations', id, { status }); toast(status === 'confirmed' ? 'Бронь подтверждена' : 'Бронь отменена', status === 'confirmed' ? 'ok' : ''); loadReservations(); }
 function deleteRes(id) { if (!confirm('Удалить бронь?')) return; DB.remove('reservations', id); loadReservations(); }
 
-/* ── Пользователи ── */
 function loadUsers() {
   const users = DB.all('users'), O = DB.all('orders'), R = DB.all('reservations');
   $('usersWrap').innerHTML = `<div class="tw"><table><tr><th>Имя</th><th>Email</th><th>Телефон</th><th>Роль</th><th>Заказов</th><th>Броней</th><th></th></tr>${users.map(u => `<tr><td>${esc(u.first + ' ' + u.last)}</td><td>${esc(u.email)}</td><td>${esc(u.phone || '—')}</td><td>${u.role === 'admin' ? 'админ' : 'гость'}</td><td>${O.filter(o => o.userId === u.id).length}</td><td>${R.filter(r => r.userId === u.id).length}</td><td>${u.id !== me().id ? `<button class="act act-edit" onclick="toggleRole(${u.id})">${u.role === 'admin' ? 'Сделать гостем' : 'Сделать админом'}</button> <button class="act act-del" onclick="deleteUser(${u.id})">Удалить</button>` : '(вы)'}</td></tr>`).join('')}</table></div>`;
@@ -158,7 +146,6 @@ function loadUsers() {
 function toggleRole(id) { const u = DB.find('users', id); DB.update('users', id, { role: u.role === 'admin' ? 'user' : 'admin' }); loadUsers(); }
 function deleteUser(id) { if (!confirm('Удалить пользователя?')) return; DB.remove('users', id); toast('Пользователь удалён'); loadUsers(); }
 
-/* ── Модальные окна ── */
 function openModal(id) { $(id).classList.add('open'); document.body.style.overflow = 'hidden'; }
 function closeModal(id) { $(id).classList.remove('open'); document.body.style.overflow = ''; }
 function handleBg(e, id) { if (e.target === $(id)) closeModal(id); }

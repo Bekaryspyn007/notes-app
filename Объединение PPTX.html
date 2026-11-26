@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Объединение PPTX</title>
+<style>
+:root{--bg:#f6f5f1;--card:#fff;--tx:#1d1d1b;--mut:#6b6a64;--bd:#d9d7cf;--ac:#c2410c;--acx:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171716;--card:#222220;--tx:#efeee8;--mut:#a09f97;--bd:#3a3a36;--ac:#fb923c;--acx:#1a1000;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#171716;--card:#222220;--tx:#efeee8;--mut:#a09f97;--bd:#3a3a36;--ac:#fb923c;--acx:#1a1000;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:32px 16px}
+h1{font-size:26px;margin:0 0 4px}
+p.s{color:var(--mut);margin:0 0 24px}
+.drop{display:block;background:var(--card);border:2px dashed var(--bd);border-radius:14px;padding:22px;margin-bottom:14px;cursor:pointer;text-align:center;transition:border-color .15s}
+.drop:hover,.drop.on{border-color:var(--ac)}
+.drop b{display:block;margin-bottom:2px}
+.drop span{color:var(--mut);font-size:14px;word-break:break-all}
+.drop.ok span{color:var(--tx)}
+input[type=file]{display:none}
+button{width:100%;padding:14px;border:0;border-radius:12px;background:var(--ac);color:var(--acx);font:600 16px inherit;font-family:inherit;cursor:pointer}
+button:disabled{opacity:.4;cursor:not-allowed}
+#log{margin-top:16px;font-size:14px;color:var(--mut);white-space:pre-wrap}
+#log.err{color:#dc2626}
+a.dl{display:block;margin-top:14px;text-align:center;padding:14px;border-radius:12px;border:2px solid var(--ac);color:var(--ac);font-weight:600;text-decoration:none}
+.note{margin-top:28px;font-size:13px;color:var(--mut)}
+</style>
+</head>
+<body>
+<main>
+<h1>Объединение PPTX</h1>
+<p class="s">Слайды второго файла добавятся в конец первого. Всё работает в браузере, файлы никуда не отправляются.</p>
+
+<label class="drop" id="d1"><b>Файл 1 (идёт первым)</b><span>Нажми или перетащи .pptx</span><input type="file" accept=".pptx"></label>
+<label class="drop" id="d2"><b>Файл 2 (добавится в конец)</b><span>Нажми или перетащи .pptx</span><input type="file" accept=".pptx"></label>
+<button id="go" disabled>Объединить</button>
+<div id="log"></div>
+<div id="out"></div>
+<p class="note">Оформление слайдов каждого файла сохраняется (свои мастера и макеты). Заметки докладчика и комментарии второго файла не переносятся. Размер слайда берётся из первого файла.</p>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+const RNS='http://schemas.openxmlformats.org/officeDocument/2006/relationships',
+      PNS='http://schemas.openxmlformats.org/presentationml/2006/main',
+      T=RNS+'/';
+const parse=s=>new DOMParser().parseFromString(s,'application/xml');
+const ser=d=>new XMLSerializer().serializeToString(d);
+const relsPath=p=>{const i=p.lastIndexOf('/');return p.slice(0,i)+'/_rels/'+p.slice(i+1)+'.rels'};
+const ren=p=>p.replace(/(\.[^./]+)$/,'_m$1');
+const norm=(base,t)=>{
+  if(t.startsWith('/'))return t.slice(1);
+  const parts=base.split('/');parts.pop();
+  for(const s of t.split('/')){if(s==='..')parts.pop();else if(s!=='.')parts.push(s)}
+  return parts.join('/');
+};
+const rd=async(z,p)=>{const f=z.file(p);return f?await f.async('string'):null};
+
+async function merge(bufA,bufB){
+  const A=await JSZip.loadAsync(bufA),B=await JSZip.loadAsync(bufB);
+
+  // порядок слайдов файла B
+  const bp=parse(await rd(B,'ppt/presentation.xml'));
+  const bpr=parse(await rd(B,'ppt/_rels/presentation.xml.rels'));
+  const bRel={};
+  for(const r of bpr.getElementsByTagName('Relationship'))bRel[r.getAttribute('Id')]=r;
+  const slides=[];
+  for(const e of bp.getElementsByTagNameNS(PNS,'sldId')){
+    slides.push(norm('ppt/presentation.xml',bRel[e.getAttributeNS(RNS,'id')].getAttribute('Target')));
+  }
+  if(!slides.length)throw new Error('Во втором файле нет слайдов');
+
+  // все части, достижимые из слайдов (кроме заметок и комментариев)
+  const skip=/\/(notesSlide|comments|notesMaster|handoutMaster)$/;
+  const seen=new Set(),q=[...slides];
+  while(q.length){
+    const p=q.shift();
+    if(seen.has(p)||!B.file(p))continue;
+    seen.add(p);
+    const rx=await rd(B,relsPath(p));
+    if(!rx)continue;
+    for(const r of parse(rx).getElementsByTagName('Relationship')){
+      if(r.getAttribute('TargetMode')==='External'||skip.test(r.getAttribute('Type')))continue;
+      q.push(norm(p,r.getAttribute('Target')));
+    }
+  }
+  const map={};
+  for(const p of seen)map[p]=ren(p);
+
+  // content types
+  const bct=parse(await rd(B,'[Content_Types].xml')),bDef={},bOv={};
+  for(const e of bct.getElementsByTagName('Default'))bDef[e.getAttribute('Extension').toLowerCase()]=e.getAttribute('ContentType');
+  for(const e of bct.getElementsByTagName('Override'))bOv[e.getAttribute('PartName')]=e.getAttribute('ContentType');
+  const act=parse(await rd(A,'[Content_Types].xml')),root=act.documentElement;
+  const aDef=new Set([...act.getElementsByTagName('Default')].map(e=>e.getAttribute('Extension').toLowerCase()));
+  const addCT=(tag,attrs)=>{const e=act.createElementNS(root.namespaceURI,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);root.appendChild(e)};
+
+  // свободные id для мастеров и макетов
+  const apx=await rd(A,'ppt/presentation.xml');
+  let maxId=2147483647;
+  for(const m of apx.matchAll(/<p:sldMasterId\b[^>]*?\sid="(\d+)"/g))maxId=Math.max(maxId,+m[1]);
+  for(const n of Object.keys(A.files)){
+    if(/^ppt\/slideMasters\/[^/]+\.xml$/.test(n)){
+      for(const m of (await rd(A,n)).matchAll(/<p:sldLayoutId\b[^>]*?\sid="(\d+)"/g))maxId=Math.max(maxId,+m[1]);
+    }
+  }
+  const nid=()=>++maxId;
+
+  // копирование частей
+  for(const p of seen){
+    if(/^ppt\/slideMasters\/[^/]+\.xml$/.test(p)){
+      const s=(await rd(B,p)).replace(/(<p:sldLayoutId\b[^>]*?\sid=")\d+(")/g,(_,a,b)=>a+nid()+b);
+      A.file(map[p],s);
+    }else A.file(map[p],await B.file(p).async('uint8array'));
+
+    const ov=bOv['/'+p];
+    if(ov)addCT('Override',{PartName:'/'+map[p],ContentType:ov});
+    else{
+      const ext=p.split('.').pop().toLowerCase();
+      if(!aDef.has(ext)&&bDef[ext]){addCT('Default',{Extension:ext,ContentType:bDef[ext]});aDef.add(ext)}
+    }
+    const rx=await rd(B,relsPath(p));
+    if(rx){
+      const d=parse(rx);
+      for(const r of [...d.getElementsByTagName('Relationship')]){
+        if(r.getAttribute('TargetMode')==='External')continue;
+        const t=norm(p,r.getAttribute('Target'));
+        if(!map[t])r.remove();else r.setAttribute('Target','/'+map[t]);
+      }
+      A.file(relsPath(map[p]),ser(d));
+    }
+  }
+  A.file('[Content_Types].xml',ser(act));
+
+  // presentation.xml и его связи
+  const ar=parse(await rd(A,'ppt/_rels/presentation.xml.rels'));
+  let maxR=0;
+  for(const r of ar.getElementsByTagName('Relationship'))maxR=Math.max(maxR,+r.getAttribute('Id').replace(/\D/g,'')||0);
+  const addRel=(type,target)=>{
+    const id='rId'+(++maxR),e=ar.createElementNS(ar.documentElement.namespaceURI,'Relationship');
+    e.setAttribute('Id',id);e.setAttribute('Type',T+type);e.setAttribute('Target','/'+target);
+    ar.documentElement.appendChild(e);return id;
+  };
+  const ap=parse(apx);
+  const mLst=ap.getElementsByTagNameNS(PNS,'sldMasterIdLst')[0];
+  for(const p of seen){
+    if(/^ppt\/slideMasters\/[^/]+\.xml$/.test(p)){
+      const e=ap.createElementNS(PNS,'p:sldMasterId');
+      e.setAttribute('id',nid());
+      e.setAttributeNS(RNS,'r:id',addRel('slideMaster',map[p]));
+      mLst.appendChild(e);
+    }
+  }
+  let sLst=ap.getElementsByTagNameNS(PNS,'sldIdLst')[0];
+  if(!sLst){
+    sLst=ap.createElementNS(PNS,'p:sldIdLst');
+    let ref=mLst;
+    for(const n of ['notesMasterIdLst','handoutMasterIdLst']){const x=ap.getElementsByTagNameNS(PNS,n)[0];if(x)ref=x}
+    ref.parentNode.insertBefore(sLst,ref.nextSibling);
+  }
+  let maxS=255;
+  for(const e of ap.getElementsByTagNameNS(PNS,'sldId'))maxS=Math.max(maxS,+e.getAttribute('id'));
+  const before=ap.getElementsByTagNameNS(PNS,'sldId').length;
+  for(const p of slides){
+    const e=ap.createElementNS(PNS,'p:sldId');
+    e.setAttribute('id',++maxS);
+    e.setAttributeNS(RNS,'r:id',addRel('slide',map[p]));
+    sLst.appendChild(e);
+  }
+  A.file('ppt/presentation.xml',ser(ap));
+  A.file('ppt/_rels/presentation.xml.rels',ser(ar));
+
+  const blob=await A.generateAsync({type:'blob',compression:'DEFLATE',mimeType:'application/vnd.openxmlformats-officedocument.presentationml.presentation'});
+  return{blob,total:before+slides.length};
+}
+
+// UI
+const files=[null,null],log=document.getElementById('log'),go=document.getElementById('go'),out=document.getElementById('out');
+['d1','d2'].forEach((id,i)=>{
+  const el=document.getElementById(id),inp=el.querySelector('input'),sp=el.querySelector('span');
+  const set=f=>{
+    if(!f)return;
+    if(!/\.pptx$/i.test(f.name)){log.className='err';log.textContent='Нужен файл .pptx';return}
+    files[i]=f;sp.textContent=f.name;el.classList.add('ok');log.className='';log.textContent='';out.innerHTML='';
+    go.disabled=!(files[0]&&files[1]);
+  };
+  inp.onchange=()=>set(inp.files[0]);
+  el.ondragover=e=>{e.preventDefault();el.classList.add('on')};
+  el.ondragleave=()=>el.classList.remove('on');
+  el.ondrop=e=>{e.preventDefault();el.classList.remove('on');set(e.dataTransfer.files[0])};
+});
+go.onclick=async()=>{
+  go.disabled=true;out.innerHTML='';log.className='';log.textContent='Объединяю…';
+  try{
+    const[a,b]=await Promise.all(files.map(f=>f.arrayBuffer()));
+    const{blob,total}=await merge(a,b);
+    const url=URL.createObjectURL(blob),name=files[0].name.replace(/\.pptx$/i,'')+'_merged.pptx';
+    log.textContent='Готово: '+total+' слайдов в итоговой презентации.';
+    out.innerHTML='<a class="dl" href="'+url+'" download="'+name.replace(/"/g,'')+'">Скачать '+name.replace(/[<>&"]/g,'')+'</a>';
+  }catch(e){log.className='err';log.textContent='Ошибка: '+e.message}
+  go.disabled=false;
+};
+</script>
+</body>
+</html>

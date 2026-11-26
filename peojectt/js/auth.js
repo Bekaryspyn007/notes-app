@@ -1,21 +1,16 @@
-/**
- * auth.js — сессия, защита страниц, регистрация, вход, личный кабинет.
- * Пользователи лежат в localStorage (таблица users), текущий пользователь — ключ ola_session.
- */
+
 const ROOT = document.body.dataset.root || '';
-let STOP = false;   // true, если страницу закрыли и идёт перенаправление
+let STOP = false;  
 
 const me = () => DB.find('users', LS.get('ola_session'));
 function logout() { localStorage.removeItem('ola_session'); location.href = ROOT + 'index.html'; }
 
-/* Защита страниц: data-auth="user" — только для вошедших, data-auth="admin" — только для админа */
 (function guard() {
   const need = document.body.dataset.auth, u = me();
   if (need && !u) { STOP = true; sessionStorage.setItem('ola_next', location.href); location.href = ROOT + 'login.html'; }
   else if (need === 'admin' && u.role !== 'admin') { STOP = true; location.href = ROOT + 'index.html'; }
 })();
 
-/* ---------- Регистрация ---------- */
 const regForm = $('regForm');
 if (regForm) regForm.addEventListener('submit', e => {
   e.preventDefault();
@@ -34,7 +29,6 @@ if (regForm) regForm.addEventListener('submit', e => {
   location.href = 'login.html?reg=1';
 });
 
-/* ---------- Вход ---------- */
 const logForm = $('logForm');
 if (logForm) {
   if (location.search.includes('reg=1')) $('note').innerHTML = '<div class="info-box green">Аккаунт создан! Теперь войдите.</div>';
@@ -52,7 +46,6 @@ if (logForm) {
   });
 }
 
-/* ---------- Личный кабинет ---------- */
 if ($('pInfo') && !STOP) {
   const cancelRes = id => {
     if (!confirm('Отменить бронь?')) return;
