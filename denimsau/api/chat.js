@@ -1,10 +1,3 @@
-// Серверная функция для Vercel (файл api/chat.js -> адрес /api/chat).
-// Сайт присылает сюда сообщения, мы спрашиваем Claude и возвращаем ответ.
-// Два варианта ИИ (выбирается по тому, какой ключ добавлен в Vercel):
-//   GEMINI_API_KEY    -> Google Gemini (есть бесплатный тариф, карта не нужна)
-//   ANTHROPIC_API_KEY -> Claude (платный)
-// Если добавлены оба, используется Gemini.
-// Vercel -> Settings -> Environment Variables. После добавления нужен Redeploy.
 
 const BASE_PROMPT =
   "You are DenimSau, a friendly educational fitness assistant. " +
@@ -15,7 +8,10 @@ const BASE_PROMPT =
 
 const LANGS = { en: "English", ru: "Russian", kk: "Kazakh" };
 const CLAUDE_MODEL = process.env.ANTHROPIC_MODEL || "claude-haiku-5-5";
-const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-flash-latest";
+// Если первая модель перегружена, пробуем следующие. Свою можно задать в GEMINI_MODEL.
+const GEMINI_MODELS = [process.env.GEMINI_MODEL, "gemini-flash-latest", "gemini-flash-lite-latest"]
+  .filter((m, i, arr) => m && arr.indexOf(m) === i);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
 const MAX_MESSAGES = 8;     // сколько последних сообщений принимаем
 const MAX_CHARS = 4000;     // максимальная длина одного сообщения
 
@@ -65,18 +61,25 @@ module.exports = async function handler(req, res) {
   try {
     let response;
     if (useGemini) {
-      response = await fetch(
-        "https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(GEMINI_MODEL) + ":generateContent",
-        {
-          method: "POST",
-          headers: { "content-type": "application/json", "x-goog-api-key": process.env.GEMINI_API_KEY },
-          body: JSON.stringify({
-            systemInstruction: { parts: [{ text: system }] },
-            contents: messages.map(m => ({ role: m.role === "assistant" ? "model" : "user", parts: [{ text: m.content }] })),
-            generationConfig: { maxOutputTokens: 1000 }
-          })
-        }
-      );
+      const payload = JSON.stringify({
+        systemInstruction: { parts: [{ text: system }] },
+        contents: messages.map(m => ({ role: m.role === "assistant" ? "model" : "user", parts: [{ text: m.content }] })),
+        generationConfig: { maxOutputTokens: 1000 }
+      });
+      // перебираем модели; при перегрузке (503/500) или лимите (429) делаем паузу и идём дальше
+      for (let i = 0; i < GEMINI_MODELS.length; i++) {
+        response = await fetch(
+          "https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(GEMINI_MODELS[i]) + ":generateContent",
+          {
+            method: "POST",
+            headers: { "content-type": "application/json", "x-goog-api-key": process.env.GEMINI_API_KEY },
+            body: payload
+          }
+        );
+        const retryable = [404, 429, 500, 503].includes(response.status);
+        if (response.ok || !retryable) break;
+        if (i < GEMINI_MODELS.length - 1) await sleep(800);
+      }
     } else {
       response = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
