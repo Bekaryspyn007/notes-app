@@ -285,5 +285,11 @@ const D = {
   "Home: hero and illustration gallery": ["Главная: баннер и галерея", "Басты бет: баннер және галерея"],
   "Workouts: video slots and breathing animation": ["Тренировки: видео и анимация дыхания", "Жаттығу: бейне және тыныс анимациясы"],
   "AI Assistant: your track, Play/Pause, volume": ["ИИ-ассистент: ваш трек, пауза, громкость", "ЖИ-көмекші: сіздің трек, үзіліс, дыбыс"],
-  "[Author full name] · Information and Communication Technologies (ICT) · Narxoz University, [faculty] · Specialty: [specialty] · © 2026": ["[ФИО автора] · Информационно-коммуникационные технологии (ИКТ) · Университет Нархоз, [факультет] · Специальность: [специальность] · © 2026", "[Автордың аты-жөні] · Ақпараттық-коммуникациялық технологиялар (АКТ) · Нархоз университеті, [факультет] · Мамандық: [мамандық] · © 2026"]
+  "[Author full name] · Information and Communication Technologies (ICT) · Narxoz University, [faculty] · Specialty: [specialty] · © 2026": ["[ФИО автора] · Информационно-коммуникационные технологии (ИКТ) · Университет Нархоз, [факультет] · Специальность: [специальность] · © 2026", "[Автордың аты-жөні] · Ақпараттық-коммуникациялық технологиялар (АКТ) · Нархоз университеті, [факультет] · Мамандық: [мамандық] · © 2026"],
+  // ---------- добавлено ----------
+  "Source": ["Источник", "Дереккөз"],
+  "own footage": ["собственная съёмка", "өз түсірілімі"],
+  "AI is unavailable right now, so this is an offline answer.": ["ИИ сейчас недоступен, поэтому это офлайн-ответ.", "ЖИ қазір қолжетімсіз, сондықтан бұл офлайн жауап."],
+  "Author: Kemalqyzy Madina, Allabergen Serik · Supervisor: Mirkasimova Tolqyn": ["Авторы: Kemalqyzy Madina, Allabergen Serik · Научный руководитель: Mirkasimova Tolqyn", "Авторлар: Kemalqyzy Madina, Allabergen Serik · Жетекші: Mirkasimova Tolqyn"],
+  "Kemalqyzy Madina, Allabergen Serik · Information and Communication Technologies (ICT) · Narxoz University, [Tourism] © 2026": ["Kemalqyzy Madina, Allabergen Serik · Информационно-коммуникационные технологии (ИКТ) · Университет Нархоз, [Tourism] © 2026", "Kemalqyzy Madina, Allabergen Serik · Ақпараттық-коммуникациялық технологиялар (АКТ) · Нархоз университеті, [Tourism] © 2026"]
 };

@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="DenimSau: AI-powered fitness and health assistant (educational project).">
+<meta name="theme-color" content="#0b1220">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%99%A5%3C/text%3E%3C/svg%3E">
 <title>DenimSau</title>
 
 <link rel="stylesheet" href="css/style.css">
@@ -38,7 +42,7 @@
         <a class="btn outline" href="#workouts">Start a workout</a>
         <a class="btn outline" href="#assistant">Chat</a>
       </div>
-      <img id="heroImg" alt="Runner at night, AI-generated illustration" style="width:100%; border-radius:16px; display:block">
+      <img id="heroImg" alt="Runner at night, AI-generated illustration" width="768" height="512" style="width:100%; height:auto; border-radius:16px; display:block">
     </div>
 
     <div class="grid" style="margin-top:14px" id="kpi"></div>
@@ -218,7 +222,7 @@
     <div id="chat" aria-live="polite"></div>
     <div class="tabs" style="margin-top:10px" id="chips"></div>
     <div class="row">
-      <input id="question" placeholder="Type a question…" autocomplete="off">
+      <input id="question" placeholder="Type a question…" autocomplete="off" enterkeyhint="send" aria-label="Question">
       <button class="btn" id="sendBtn">Send</button>
     </div>
     <p class="muted" id="modeText"></p>
@@ -226,7 +230,7 @@
     <h2>🎵 Background music</h2>
     <div class="card">
       <p class="muted" id="musicText"></p>
-      <audio id="bgm" preload="none"></audio>
+      <audio id="bgm" preload="none" playsinline></audio>
       <canvas id="visualizer" width="600" height="70"></canvas>
       <button class="btn" id="playBtn">▶ Play</button>
       <label style="display:inline-block">Volume

@@ -9,9 +9,9 @@ const IMGS = ["images/move.jpg", "images/eat.jpg", "images/rest.jpg", "images/hy
 const MEDIA = {
   music: "audio/vioce.mp3",
   videos: [
-    { title: "Squats",         src: "video/p1.mp4", credit: "собственная съёмка" },
-    { title: "Push-ups",       src: "video/p2.mp4", credit: "собственная съёмка" },
-    { title: "Plank and core", src: "video/p3.mp4", credit: "собственная съёмка" }
+    { title: "Squats",         src: "video/p1.mp4", credit: "own footage" },
+    { title: "Push-ups",       src: "video/p2.mp4", credit: "own footage" },
+    { title: "Plank and core", src: "video/p3.mp4", credit: "own footage" }
   ]
 };
 
@@ -107,7 +107,9 @@ function showPageFromHash() {
 
   PAGES.forEach(name => $(name).classList.toggle("active", name === page));
   document.querySelectorAll("#nav a").forEach(link => {
-    link.classList.toggle("active", link.getAttribute("href") === "#" + page);
+    const active = link.getAttribute("href") === "#" + page;
+    link.classList.toggle("active", active);
+    if (active && link.scrollIntoView) link.scrollIntoView({ inline: "center", block: "nearest" });
   });
   scrollTo(0, 0);
 }
@@ -352,17 +354,27 @@ function showMode() {
     : "Mode: offline rule-based answers (AI not available in this view).");
 }
 
-// ИИ работает через наш сервер на Vercel (папка api/)
-if (location.protocol === "https:") {
+// ИИ работает через наш сервер на Vercel (папка api/).
+// Если сайт открыт как файл (file://), сервера нет, и работают офлайн-ответы.
+if (location.protocol === "https:" || location.protocol === "http:") {
   sample = async (input, options = {}) => {
     const messages = typeof input === "string" ? [{ role: "user", content: input }] : input;
-    const response = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages })
-    });
-    if (!response.ok) throw new Error("AI server error");
-    const data = await response.json();
+    let response;
+    try {
+      response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages, lang })
+      });
+    } catch (e) {
+      throw new Error("No connection to /api/chat");
+    }
+    let data = {};
+    try { data = await response.json(); } catch (e) {}
+    if (!response.ok || !data.text) {
+      const reason = data.detail || data.error || ("HTTP " + response.status);
+      throw new Error(reason);
+    }
     if (options.onText) options.onText({ text: data.text });
     return { text: data.text };
   };
@@ -376,12 +388,12 @@ $("aiBtn").onclick = async () => {
   }
   out.textContent = t("Thinking…");
   try {
-    const prompt = systemPrompt() +
-      "\nExplain these simulated stats to a beginner in 3 short bullets plus one practical tip:\n" +
+    const prompt =
+      "Explain these simulated stats to a beginner in 3 short bullets plus one practical tip:\n" +
       JSON.stringify(latestFacts);
     await sample(prompt, { onText: chunk => out.textContent = chunk.text });
   } catch (e) {
-    out.textContent = t("AI unavailable right now.");
+    out.textContent = t("AI unavailable right now.") + " (" + e.message + ")";
   }
 };
 
@@ -655,9 +667,13 @@ function offlineAnswer(question) {
   return t("I can help with workouts, nutrition, sleep and habits. Try one of the suggestions above.");
 }
 
+let chatBusy = false;
+
 async function sendMessage() {
   const question = $("question").value.trim();
-  if (!question) return;
+  if (!question || chatBusy) return;
+  chatBusy = true;
+  $("sendBtn").disabled = true;
 
   $("question").value = "";
   addMessage(question, "user");
@@ -668,32 +684,27 @@ async function sendMessage() {
 
   if (sample) {
     try {
-      // отправляем последние 6 сообщений как контекст
-      const context = history.slice(-6).map(m => m.role + ": " + m.content).join("\n");
-      const result = await sample(
-        [{ role: "user", content: systemPrompt() + "\n\nConversation so far:\n" + context }],
-        {
-          cache: false,
-          onText: chunk => {
-            botBubble.textContent = chunk.text;
-            $("chat").scrollTop = 1e9;
-          }
-        }
-      );
+      // отправляем последние сообщения как настоящий диалог
+      const result = await sample(history.slice(-6));
       answer = result.text;
+      showMode();
     } catch (e) {
-      answer = offlineAnswer(question);
+      answer = offlineAnswer(question) + "\n\n(" + t("AI is unavailable right now, so this is an offline answer.") + ")";
+      $("modeText").textContent = "AI error: " + e.message;
     }
   } else {
     answer = offlineAnswer(question);
   }
 
   botBubble.textContent = answer;
+  $("chat").scrollTop = 1e9;
   history.push({ role: "assistant", content: answer });
+  chatBusy = false;
+  $("sendBtn").disabled = false;
 }
 
 $("sendBtn").onclick = sendMessage;
-$("question").onkeydown = e => { if (e.key === "Enter") sendMessage(); };
+$("question").onkeydown = e => { if (e.key === "Enter" && !e.isComposing) sendMessage(); };
 
 
 // =====================================================================
@@ -711,11 +722,12 @@ function videoSlotHtml(video, i) {
         <input type="file" accept="video/*" data-i="${i}">
       </div></div>`;
   }
-  const credit = video.credit ? `<div class="muted">Source: ${video.credit}</div>` : "";
-  return `<div class="card"><h3>${video.title}</h3>${content}${credit}</div>`;
+  const credit = video.credit ? `<div class="muted">${t("Source")}: ${t(video.credit)}</div>` : "";
+  return `<div class="card"><h3>${t(video.title)}</h3>${content}${credit}</div>`;
 }
 
-$("videos").innerHTML = MEDIA.videos.map(videoSlotHtml).join("");
+function renderVideos() { $("videos").innerHTML = MEDIA.videos.map(videoSlotHtml).join(""); }
+renderVideos();
 
 $("videos").onchange = e => {
   const i = e.target.dataset.i;
@@ -774,14 +786,18 @@ function ambientTick() {
 function drawVisualizer() {
   const canvas = $("visualizer");
   const ctx2d = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio || 1;
+  const w = Math.round(canvas.clientWidth * dpr), h0 = Math.round(canvas.clientHeight * dpr);
+  if (canvas.width !== w || canvas.height !== h0) { canvas.width = w; canvas.height = h0; }
   const data = new Uint8Array(analyser.frequencyBinCount);
   analyser.getByteFrequencyData(data);
 
   ctx2d.clearRect(0, 0, canvas.width, canvas.height);
   ctx2d.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim();
-  for (let i = 0; i < 48; i++) {
+  const bars = 48, slot = canvas.width / bars;
+  for (let i = 0; i < bars; i++) {
     const h = data[i * 2] / 255 * canvas.height;
-    ctx2d.fillRect(i * 12.5, canvas.height - h, 9, h);
+    ctx2d.fillRect(i * slot, canvas.height - h, slot * 0.72, h);
   }
   animationFrame = requestAnimationFrame(drawVisualizer);
 }
@@ -879,6 +895,7 @@ function renderAll() {
   showMode();
   showMusicText();
   renderPlan();
+  renderVideos();
   $("playBtn").textContent = isPlaying ? "⏸ " + t("Pause") : "▶ " + t("Play");
   translatePage();
 }
